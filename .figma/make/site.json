@@ -1,0 +1,11 @@
+{
+  "title": "DentCare",
+  "description": "DentCare is a comprehensive dental management platform for clinicians and administrative staff, streamlining patient records, appointments, and treatment plans.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
