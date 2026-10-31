@@ -131,6 +131,41 @@ function readExtra(): Patient[] {
  *  opened like any other record. */
 export const patients: Patient[] = [...basePatients, ...readExtra()]
 
+export async function refreshPatients() {
+  if (!isSupabaseConfigured) return
+  try {
+    const { data } = await supabase.from("patients").select("*")
+    if (!Array.isArray(data) || data.length === 0) return
+    const mapped: Patient[] = data.map((row: any) => ({
+      slug: row.slug,
+      id: row.id,
+      name: row.name,
+      fullName: row.full_name,
+      initials: row.initials ?? initialsOf(row.name),
+      dob: row.dob,
+      age: row.age ?? 0,
+      gender: row.gender,
+      clinician: row.clinician,
+      lastVisit: row.last_visit ?? "Not recorded",
+      nextAppointment: row.next_appointment ?? "None booked",
+      status: row.status ?? "Active",
+      address: row.address ?? "",
+      email: row.email ?? "",
+      phone: row.phone ?? "",
+      nhsNumber: row.nhs_number ?? "Not recorded",
+      registeredOn: row.registered_on ?? "08 Oct 2026",
+      registeredBy: row.registered_by ?? "Fady Morkos",
+      allergies: row.allergies ?? [],
+      populated: row.populated ?? false,
+    }))
+    // mutate in place so existing references stay valid
+    patients.length = 0
+    patients.push(...mapped)
+  } catch {
+    /* keep local data */
+  }
+}
+
 export function registerPatient(input: {
   name: string
   dob: string
@@ -201,6 +236,37 @@ export function findPatient(slug?: string): Patient | undefined {
 
 export function findPatientByName(name: string) {
   return patients.find((p) => p.name === name)
+}
+
+export function updatePatient(
+  slug: string,
+  updates: Partial<Pick<Patient, "name" | "fullName" | "phone" | "email" | "address" | "status" | "clinician">>,
+) {
+  const patient = patients.find((p) => p.slug === slug)
+  if (!patient) return
+  Object.assign(patient, updates)
+  if (updates.name) patient.initials = initialsOf(updates.name)
+  if (updates.name) patient.slug = slugOf(updates.name)
+  localStorage.setItem(
+    EXTRA_KEY,
+    JSON.stringify(patients.slice(basePatients.length)),
+  )
+  if (isSupabaseConfigured) {
+    supabase
+      .from("patients")
+      .update({
+        name: patient.name,
+        full_name: patient.fullName,
+        phone: patient.phone,
+        email: patient.email,
+        address: patient.address,
+        status: patient.status,
+        clinician: patient.clinician,
+      })
+      .eq("slug", slug)
+      .then(() => undefined)
+      .catch(() => undefined)
+  }
 }
 
 /** "1995-05-19" from a date input to the register's display format. */

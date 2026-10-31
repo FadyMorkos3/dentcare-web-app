@@ -79,6 +79,7 @@ import {
   registerPatient,
   getSelectedSlug,
   setSelectedSlug,
+  updatePatient,
   type Patient,
 } from "./app/patients"
 
@@ -903,6 +904,28 @@ export function PatientOverview({ portal = false }: { portal?: boolean }) {
   const routePatient = usePatientContext()
   const patient = portal ? portalPatient : routePatient
   const [saved, setSaved] = useState(false)
+  const [editing, setEditing] = useState(false)
+  const [draft, setDraft] = useState({
+    name: patient?.name ?? "",
+    phone: patient?.phone ?? "",
+    email: patient?.email ?? "",
+    address: patient?.address ?? "",
+    clinician: patient?.clinician ?? "Dr Mohamed Tareq",
+    status: (patient?.status ?? "Active") as "Active" | "Inactive",
+  })
+
+  useEffect(() => {
+    if (patient) {
+      setDraft({
+        name: patient.name,
+        phone: patient.phone,
+        email: patient.email,
+        address: patient.address,
+        clinician: patient.clinician,
+        status: patient.status,
+      })
+    }
+  }, [patient])
 
   if (!patient) {
     return <NoPatientSelected purpose="overview" />
@@ -919,16 +942,87 @@ export function PatientOverview({ portal = false }: { portal?: boolean }) {
         }
         action={
           !portal && (
-            <Button variant="secondary" onClick={() => setSaved(true)}>
-              Edit patient
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setEditing((v) => !v)
+                setSaved(false)
+              }}
+            >
+              {editing ? "Cancel" : "Edit patient"}
             </Button>
           )
         }
       />
       {saved && (
-        <Notice tone="success">
-          Patient details review opened. Save workflow is enabled in this demo.
-        </Notice>
+        <Notice tone="success">Patient details saved.</Notice>
+      )}
+      {editing && (
+        <Card>
+          <SectionHead title="Edit patient details" />
+          <div className="form-grid">
+            <Field
+              label="Full name *"
+              value={draft.name}
+              onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+            />
+            <Field
+              label="Phone"
+              value={draft.phone}
+              onChange={(e) => setDraft((d) => ({ ...d, phone: e.target.value }))}
+            />
+            <Field
+              label="Email"
+              type="email"
+              value={draft.email}
+              onChange={(e) => setDraft((d) => ({ ...d, email: e.target.value }))}
+            />
+            <Field
+              label="Address"
+              value={draft.address}
+              onChange={(e) => setDraft((d) => ({ ...d, address: e.target.value }))}
+            />
+            <SelectField
+              label="Clinician"
+              value={draft.clinician}
+              onChange={(e) => setDraft((d) => ({ ...d, clinician: e.target.value }))}
+            >
+              <option>Dr Mohamed Tareq</option>
+            </SelectField>
+            <SelectField
+              label="Status"
+              value={draft.status}
+              onChange={(e) =>
+                setDraft((d) => ({ ...d, status: e.target.value as "Active" | "Inactive" }))
+              }
+            >
+              <option>Active</option>
+              <option>Inactive</option>
+            </SelectField>
+          </div>
+          <div className="form-actions">
+            <Button variant="ghost" onClick={() => setEditing(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                updatePatient(patient.slug, {
+                  name: draft.name.trim() || patient.name,
+                  fullName: draft.name.trim() || patient.fullName,
+                  phone: draft.phone.trim() || patient.phone,
+                  email: draft.email.trim() || patient.email,
+                  address: draft.address.trim() || patient.address,
+                  clinician: draft.clinician,
+                  status: draft.status,
+                })
+                setEditing(false)
+                setSaved(true)
+              }}
+            >
+              <Check size={16} /> Save changes
+            </Button>
+          </div>
+        </Card>
       )}
       <PatientHeader
         patient={patient}
