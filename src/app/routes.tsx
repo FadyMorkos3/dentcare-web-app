@@ -11,6 +11,7 @@ import {
   CreateTreatmentPlan,
   Dashboard,
   DentalChart,
+  Landing,
   Imaging,
   Login,
   ManageAppointment,
@@ -46,7 +47,8 @@ export const router = createBrowserRouter([
     path: "/",
     Component: AppShell,
     children: [
-      { index: true, element: <Navigate to="/login" replace /> },
+      { index: true, Component: Landing },
+      { path: "landing", Component: Landing },
       { path: "dashboard", Component: Dashboard },
       { path: "patients", Component: Patients },
       { path: "patients/register", Component: RegisterPatient },

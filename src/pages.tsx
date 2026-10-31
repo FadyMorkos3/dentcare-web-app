@@ -4869,6 +4869,155 @@ export function Prescriptions() {
   )
 }
 
+export function Landing() {
+  const navigate = useNavigate()
+  return (
+    <>
+      <div className="landing">
+        <header className="landing-nav">
+          <div className="brand large">
+            <LoginToothIcon />
+            <strong>DentCare</strong>
+          </div>
+          <nav className="landing-nav-links">
+            <a href="#features">Features</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+          </nav>
+          <Button onClick={() => navigate("/login")}>
+            Sign in <ArrowRight size={16} />
+          </Button>
+        </header>
+
+        <section className="landing-hero">
+          <div className="landing-hero-copy">
+            <span className="eyebrow">A connected clinical workspace</span>
+            <h1>
+              Better records.
+              <br />
+              Better dental care.
+            </h1>
+            <p>
+              Patient history, treatment planning, imaging and billing — together
+              in one clear, secure workspace for your whole practice.
+            </p>
+            <div className="landing-hero-actions">
+              <Button onClick={() => navigate("/login")}>
+                Get started <ArrowRight size={17} />
+              </Button>
+              <Button variant="secondary" onClick={() => navigate("/login")}>
+                Book a demo
+              </Button>
+            </div>
+          </div>
+          <div className="landing-hero-art">
+            <HeroTooth />
+          </div>
+        </section>
+
+        <section id="features" className="landing-section">
+          <PageTitle
+            title="Everything your practice needs"
+            subtitle="Built for clinicians, reception and patients."
+          />
+          <div className="landing-features">
+            {[
+              {
+                icon: Users,
+                title: "Patient records",
+                text: "Complete digital patient files with history, allergies and demographics.",
+              },
+              {
+                icon: Stethoscope,
+                title: "Dental charting",
+                text: "Interactive odontogram with per-tooth findings, saved per patient.",
+              },
+              {
+                icon: ClipboardCheck,
+                title: "Treatment plans",
+                text: "Build, price and track treatment plans with consent status.",
+              },
+              {
+                icon: ImageIcon,
+                title: "Imaging",
+                text: "Store and review x-rays with zoom and annotation tools.",
+              },
+              {
+                icon: CalendarDays,
+                title: "Appointments",
+                text: "Book, check in and manage the daily schedule.",
+              },
+              {
+                icon: CircleDollarSign,
+                title: "Billing",
+                text: "Invoices, payments and receipts in one place.",
+              },
+              {
+                icon: FileText,
+                title: "Prescriptions",
+                text: "Issue and download prescriptions with dosage and frequency.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Secure access",
+                text: "Role-based access for dentists, reception, admins and patients.",
+              },
+            ].map((f) => (
+              <Card key={f.title} className="landing-feature">
+                <span className="stat-icon blue">
+                  <f.icon size={20} />
+                </span>
+                <h2>{f.title}</h2>
+                <p className="body-copy">{f.text}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section id="services" className="landing-section">
+          <PageTitle
+            title="Services we support"
+            subtitle="Comprehensive dental care workflows."
+          />
+          <div className="landing-services">
+            {[
+              "General dentistry",
+              "Restorative care",
+              "Endodontics",
+              "Periodontics",
+              "Hygiene & prevention",
+              "Imaging & diagnostics",
+            ].map((s) => (
+              <div key={s} className="landing-service">
+                <Check size={16} /> <span>{s}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="about" className="landing-section landing-cta">
+          <Card className="empty-state">
+            <ShieldCheck size={36} />
+            <h2>Ready to transform your practice?</h2>
+            <p>
+              Sign in to explore the DentCare workspace. Demo accounts are
+              available on the login screen.
+            </p>
+            <Button onClick={() => navigate("/login")}>
+              Sign in to DentCare <ArrowRight size={17} />
+            </Button>
+          </Card>
+        </section>
+
+        <footer className="landing-footer">
+          <span>DentCare © 2026</span>
+          <span>Privacy · Terms of use</span>
+        </footer>
+      </div>
+    </>
+  )
+}
+
 export function SimplePage({
   title,
   backTo = "/dashboard",
