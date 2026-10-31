@@ -390,15 +390,35 @@ export function Login() {
       : email.includes("ahmed")
         ? "patient"
         : "dentist"
+  const [authError, setAuthError] = useState("")
   function logIn() {
-    localStorage.setItem("dentcare-role", role)
-    navigate(
-      role === "patient"
-        ? "/my/appointments"
-        : role === "admin"
-          ? "/admin/users"
-          : "/dashboard",
-    )
+    setAuthError("")
+    const finish = () => {
+      localStorage.setItem("dentcare-role", role)
+      navigate(
+        role === "patient"
+          ? "/my/appointments"
+          : role === "admin"
+            ? "/admin/users"
+            : "/dashboard",
+      )
+    }
+    if (isSupabaseConfigured) {
+      supabase.auth
+        .signInWithPassword(email, password)
+        .then(({ error }: { error: any }) => {
+          if (error) {
+            setAuthError(error.message || "Sign in failed.")
+            return
+          }
+          finish()
+        })
+        .catch((err: any) => {
+          setAuthError(err?.message || "Sign in failed.")
+        })
+    } else {
+      finish()
+    }
   }
   const demos = [
     ["Dentist", "mohamed.tareq@practice.example"],
@@ -549,6 +569,7 @@ export function Login() {
               Forgot password?
             </button>
           </div>
+          {authError && <Notice tone="danger">{authError}</Notice>}
           <Button type="submit" className="wide">
             Log in <ArrowRight size={17} />
           </Button>

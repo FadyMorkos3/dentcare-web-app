@@ -25,6 +25,7 @@ import {
   X,
 } from "lucide-react"
 import { useTheme } from "../app/theme"
+import { isSupabaseConfigured, supabase } from "../lib/supabase"
 import { patients } from "../app/patients"
 import {
   ADMIN_DATA_EVENT,
@@ -232,6 +233,14 @@ export function AppShell() {
   const navigate = useNavigate()
   const location = useLocation()
   const { isDark, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    const session = supabase.auth.getSession()
+    if (!session && location.pathname !== "/login") {
+      navigate("/login")
+    }
+  }, [location.pathname])
   const [role, setRole] = useState<Role>(
     () => localStorage.getItem("dentcare-role") as Role || "dentist",
   )
@@ -378,6 +387,9 @@ export function AppShell() {
 
   function signOut() {
     localStorage.removeItem("dentcare-role")
+    if (isSupabaseConfigured) {
+      supabase.auth.signOut().catch(() => undefined)
+    }
     navigate("/login")
   }
 

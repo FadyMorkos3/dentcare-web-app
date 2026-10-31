@@ -162,6 +162,40 @@ create policy "Authenticated read prescriptions"
 create policy "Authenticated write prescriptions"
   on public.prescriptions for all to authenticated using (true) with check (true);
 
+create table if not exists public.treatment_plans (
+  id text primary key,
+  patient_slug text not null references public.patients (slug) on delete cascade,
+  title text not null,
+  total numeric,
+  status text not null default 'Draft',
+  data jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.invoices (
+  id text primary key,
+  patient_slug text not null references public.patients (slug) on delete cascade,
+  amount numeric not null,
+  status text not null default 'Unpaid',
+  reference text,
+  data jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+alter table public.treatment_plans enable row level security;
+alter table public.invoices enable row level security;
+
+create policy "Authenticated read treatment_plans"
+  on public.treatment_plans for select to authenticated using (true);
+create policy "Authenticated write treatment_plans"
+  on public.treatment_plans for all to authenticated using (true) with check (true);
+
+create policy "Authenticated read invoices"
+  on public.invoices for select to authenticated using (true);
+create policy "Authenticated write invoices"
+  on public.invoices for all to authenticated using (true) with check (true);
+
 -- Helpful updated_at trigger:
 
 create or replace function public.touch_updated_at()
