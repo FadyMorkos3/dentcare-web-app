@@ -87,6 +87,10 @@ body {
   margin: 0; min-width: 320px; background: var(--canvas);
   font-size: 15px; line-height: 1.5;
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  background-image:
+    radial-gradient(1200px 600px at 10% -10%, rgba(42,109,181,.06), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(35,137,101,.04), transparent 60%);
+  background-attachment: fixed;
 }
 button, input, select, textarea { font: inherit }
 button, a { transition: .16s ease }
