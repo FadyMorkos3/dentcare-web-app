@@ -8,6 +8,7 @@ import {
   formatToothLabel,
   getOdontogramSummary,
   getSelectedTeeth,
+  getStatusChart,
   getToothStateSummary,
   importStatus,
   onStateChange,
@@ -1106,25 +1107,71 @@ export function DentalChart({ portal = false }: { portal?: boolean }) {
     if (!patient) {
       return
     }
+    let cancelled = false
     // disablePersistence flushes the previous patient's debounced save before
     // the engine is reseeded for the next file.
     disablePersistence()
-    importStatus(patient.populated ? mayaSeed : emptySeed)
-    // enablePersistence restores this patient's own saved case when one exists,
-    // so charting done in the demo survives a refresh. Call after mount.
-    // A patient viewing their own file gets no persistence at all: nothing they
-    // tap on the chart can be written back to the record.
-    if (!portal) {
-      enablePersistence({ key: `dentcare-chart-${patient.slug}` })
+
+    async function seed() {
+      let seedData: any = patient!.populated ? mayaSeed : emptySeed
+      if (isSupabaseConfigured && !portal) {
+        try {
+          const { data } = await supabase
+            .from("dental_charts")
+            .select("chart_data")
+            .eq("patient_slug", patient!.slug)
+            .single()
+          if (!cancelled && data && (data as any).chart_data) {
+            seedData = (data as any).chart_data
+          }
+        } catch {
+          /* fall back to seed */
+        }
+      }
+      if (cancelled) return
+      importStatus(seedData)
+      // enablePersistence restores this patient's own saved case when one exists,
+      // so charting done in the demo survives a refresh. Call after mount.
+      // A patient viewing their own file gets no persistence at all: nothing they
+      // tap on the chart can be written back to the record.
+      if (!portal) {
+        enablePersistence({ key: `dentcare-chart-${patient!.slug}` })
+      }
+      setToothAnatomy("measured")
+      // Inline perio has no bounded height inside our card, so its own scroll
+      // containers never engage and the grid unrolls for thousands of px.
+      setPerioViewMode("popup")
     }
-    setToothAnatomy("measured")
-    // Inline perio has no bounded height inside our card, so its own scroll
-    // containers never engage and the grid unrolls for thousands of px.
-    setPerioViewMode("popup")
+    seed()
+
+    // Persist chart changes to Supabase (debounced) when configured.
+    let saveTimer: ReturnType<typeof setTimeout> | null = null
+    const persist = () => {
+      if (portal || !isSupabaseConfigured || !patient) return
+      if (saveTimer) clearTimeout(saveTimer)
+      saveTimer = setTimeout(() => {
+        const chart = getStatusChart()
+        supabase
+          .from("dental_charts")
+          .upsert({
+            patient_slug: patient!.slug,
+            chart_data: chart,
+            updated_at: new Date().toISOString(),
+          })
+          .then(() => undefined)
+          .catch(() => undefined)
+      }, 800)
+    }
+
     // Engine state lives in a module singleton, so the panel re-reads it on
     // every notification rather than mirroring it into React state.
-    const unsubscribe = onStateChange(() => setRevision((r) => r + 1))
+    const unsubscribe = onStateChange(() => {
+      setRevision((r) => r + 1)
+      persist()
+    })
     return () => {
+      cancelled = true
+      if (saveTimer) clearTimeout(saveTimer)
       unsubscribe()
       disablePersistence()
     }
@@ -1322,7 +1369,49 @@ export function ClinicalNotes({ portal = false }: { portal?: boolean }) {
   if (!patient) {
     return <NoPatientSelected purpose="clinical notes" />
   }
-  const notes = patient.populated ? mayaNotes : []
+  const [extraNotes, setExtraNotes] = useState<ClinicalNote[]>(() => {
+    try {
+      return JSON.parse(
+        localStorage.getItem(`dentcare-notes-${patient!.slug}`) ?? "[]",
+      ) as ClinicalNote[]
+    } catch {
+      return []
+    }
+  })
+  const [noteForm, setNoteForm] = useState({
+    title: "",
+    findings: "",
+    plan: "",
+    tag: "Active problem",
+    tone: "blue" as ClinicalNote["tone"],
+  })
+  const [noteSaved, setNoteSaved] = useState(false)
+  const notes = [...extraNotes, ...(patient.populated ? mayaNotes : [])]
+
+  function saveNote() {
+    if (!noteForm.title.trim() || !noteForm.findings.trim()) return
+    const next: ClinicalNote = {
+      date: new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+      clinician: patient!.clinician,
+      title: noteForm.title.trim(),
+      tag: noteForm.tag,
+      tone: noteForm.tone,
+      findings: noteForm.findings.trim(),
+      plan: noteForm.plan.trim() || "No plan recorded.",
+    }
+    const updated = [next, ...extraNotes]
+    setExtraNotes(updated)
+    localStorage.setItem(
+      `dentcare-notes-${patient!.slug}`,
+      JSON.stringify(updated),
+    )
+    setNoteForm({ title: "", findings: "", plan: "", tag: "Active problem", tone: "blue" })
+    setNoteSaved(true)
+  }
   return (
     <>
       <PageTitle
@@ -1361,6 +1450,49 @@ export function ClinicalNotes({ portal = false }: { portal?: boolean }) {
               title="Note history"
               action={`${notes.length} entries`}
             />
+            {!portal && (
+              <div className="note-form" style={{ marginBottom: 16 }}>
+                {noteSaved && (
+                  <Notice tone="success">Note recorded.</Notice>
+                )}
+                <Field
+                  label="Title *"
+                  value={noteForm.title}
+                  onChange={(e) =>
+                    setNoteForm((f) => ({ ...f, title: e.target.value }))
+                  }
+                  placeholder="e.g. Routine examination"
+                />
+                <label className="field">
+                  <span>Clinical findings *</span>
+                  <textarea
+                    value={noteForm.findings}
+                    onChange={(e) =>
+                      setNoteForm((f) => ({ ...f, findings: e.target.value }))
+                    }
+                    placeholder="Describe what you examined and found."
+                  />
+                </label>
+                <label className="field">
+                  <span>Plan</span>
+                  <textarea
+                    value={noteForm.plan}
+                    onChange={(e) =>
+                      setNoteForm((f) => ({ ...f, plan: e.target.value }))
+                    }
+                    placeholder="Treatment plan."
+                  />
+                </label>
+                <div className="form-actions">
+                  <Button
+                    disabled={!noteForm.title.trim() || !noteForm.findings.trim()}
+                    onClick={saveNote}
+                  >
+                    <Check size={16} /> Record note
+                  </Button>
+                </div>
+              </div>
+            )}
             <div className="note-list">
               {notes.map((note) => (
                 <article className="note-entry" key={`${note.date}-${note.title}`}>
@@ -2093,219 +2225,168 @@ function addMinutes(start: string, mins: number) {
 
 export function Appointments() {
   const navigate = useNavigate()
-  const [selected, setSelected] = useState("Ahmed Ali")
-  const [selectedView, setSelectedView] = useState<"Day" | "Week" | "Month">(
-    "Day",
-  )
-  const [clinicianFilter, setClinicianFilter] = useState("All clinicians")
-  const [checkedIn, setCheckedIn] = useState(false)
-  const clinicianOptions = ["All clinicians", ...clinicians.map((c) => c.name)]
-  const shownClinicians =
-    clinicianFilter === "All clinicians"
-      ? clinicians
-      : clinicians.filter((c) => c.name === clinicianFilter)
+  const [items, setItems] = useState<
+    { id: string; patientName: string; clinician: string; date: string; time: string; reason: string; status: string }[]
+  >(() => {
+    try {
+      return JSON.parse(localStorage.getItem("dentcare-appointments") ?? "[]")
+    } catch {
+      return []
+    }
+  })
+  const [booking, setBooking] = useState({
+    patientName: "",
+    clinician: "Dr Mohamed Tareq",
+    date: new Date().toISOString().slice(0, 10),
+    time: "09:00",
+    reason: "Examination",
+  })
+  const [notice, setNotice] = useState(false)
 
-  const slot =
-    todaysAppointments.find((a) => a.patientName === selected) ??
-    todaysAppointments[0]
-  if (!slot) {
-    return (
-      <>
-        <PageTitle
-          title="Appointments"
-          subtitle="Appointments / No appointments scheduled"
-        />
-        <Card>
-          <Notice tone="info">
-            No appointments are scheduled for today. Bookings created in the
-            practice will appear here.
-          </Notice>
-        </Card>
-      </>
-    )
+  function persist(next: typeof items) {
+    setItems(next)
+    localStorage.setItem("dentcare-appointments", JSON.stringify(next))
   }
-  const slotPatient = findPatientByName(slot.patientName)
-  const slotParts = slot.detail.split(" · ")
-  const slotStatus = slotParts.at(-1) ?? "Scheduled"
-  const slotTooth = slotParts.length > 2 ? slotParts[1] : undefined
-  const slotType = slotParts.length > 2 ? slotParts[0] : slotParts[0]
-  const slotTone = slot.tone
 
-  function cycleClinicianFilter() {
-    const currentIndex = clinicianOptions.indexOf(clinicianFilter)
-    const nextIndex = (currentIndex + 1) % clinicianOptions.length
-    setClinicianFilter(clinicianOptions[nextIndex])
+  function book() {
+    if (!booking.patientName.trim()) return
+    const next = [
+      {
+        id: `APPT-${Date.now()}`,
+        patientName: booking.patientName.trim(),
+        clinician: booking.clinician,
+        date: booking.date,
+        time: booking.time,
+        reason: booking.reason,
+        status: "Scheduled",
+      },
+      ...items,
+    ]
+    persist(next)
+    setBooking({ ...booking, patientName: "", reason: "Examination" })
+    setNotice(true)
+  }
+
+  function toggleStatus(id: string) {
+    const next = items.map((a) =>
+      a.id === id
+        ? { ...a, status: a.status === "Completed" ? "Scheduled" : "Completed" }
+        : a,
+    )
+    persist(next)
+  }
+
+  function remove(id: string) {
+    persist(items.filter((a) => a.id !== id))
   }
 
   return (
     <>
       <PageTitle
         title="Appointments"
-        subtitle="Manage the practice schedule · 12 appointments today"
+        subtitle="Manage the practice schedule"
         action={
           <Button onClick={() => navigate("/appointments/manage")}>
             <Plus size={16} /> New appointment
           </Button>
         }
       />
-      <div className="calendar-tools">
-        <strong>Today</strong>
-        <span>‹</span>
-        <span>›</span>
-        <h2>October 2026</h2>
-        <div />
-        <button type="button" onClick={cycleClinicianFilter}>
-          {clinicianFilter}
-        </button>
-        {(["Day", "Week", "Month"] as const).map((view) => (
-          <button
-            key={view}
-            type="button"
-            className={selectedView === view ? "active" : ""}
-            onClick={() => setSelectedView(view)}
-          >
-            {view}
-          </button>
-        ))}
-      </div>
-      {selectedView !== "Day" && (
-        <Notice tone="info">
-          {selectedView} view is enabled for navigation in this demo while the
-          detailed layout remains focused on the day schedule.
-        </Notice>
-      )}
-      <div className="schedule-layout">
-        <Card className="schedule">
-          <div className="week-strip">
-            {[
-              "Mon 05",
-              "Tue 06",
-              "Wed 07",
-              "Thu 08",
-              "Fri 09",
-              "Sat 10",
-              "Sun 11",
-            ].map((d) => (
-              <span className={d.includes("08") ? "active" : ""} key={d}>
-                {d}
-              </span>
-            ))}
-          </div>
-          <div className="calendar-grid">
-            <div className="time-axis">
-              {[
-                "08:00",
-                "09:00",
-                "10:00",
-                "11:00",
-                "12:00",
-                "13:00",
-                "14:00",
-                "15:00",
-              ].map((t) => (
-                <span key={t}>{t}</span>
+      {notice && <Notice tone="success">Appointment booked.</Notice>}
+      <div className="content-grid wide-left">
+        <Card>
+          <SectionHead title="Book appointment" />
+          <div className="form-grid">
+            <Field
+              label="Patient name *"
+              value={booking.patientName}
+              onChange={(e) =>
+                setBooking((b) => ({ ...b, patientName: e.target.value }))
+              }
+              placeholder="e.g. Ahmed Ali"
+            />
+            <SelectField
+              label="Clinician"
+              value={booking.clinician}
+              onChange={(e) =>
+                setBooking((b) => ({ ...b, clinician: e.target.value }))
+              }
+            >
+              <option>Dr Mohamed Tareq</option>
+              <option>Dr James Patel</option>
+            </SelectField>
+            <Field
+              label="Date *"
+              type="date"
+              value={booking.date}
+              onChange={(e) =>
+                setBooking((b) => ({ ...b, date: e.target.value }))
+              }
+            />
+            <SelectField
+              label="Time"
+              value={booking.time}
+              onChange={(e) =>
+                setBooking((b) => ({ ...b, time: e.target.value }))
+              }
+            >
+              {["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"].map((t) => (
+                <option key={t}>{t}</option>
               ))}
-            </div>
-            {shownClinicians.map((c) => (
-              <div className="clinician-column" key={c.name}>
-                <header>
-                  <strong>{c.name}</strong>
-                  <small>{c.role}</small>
-                </header>
-                {c.appts.map((a, i) => (
-                  <button
-                    key={a[0]}
-                    style={{ top: `${62 + i * 104}px` }}
-                    className={`calendar-appt ${a[3]} ${
-                      selected === a[1] ? "selected" : ""
-                    }`}
-                    onClick={() => {
-                      setSelected(a[1])
-                      setCheckedIn(false)
-                    }}
-                  >
-                    <time>{a[0]}</time> · <strong>{a[1]}</strong>
-                    <small>{a[2]}</small>
-                  </button>
-                ))}
-              </div>
-            ))}
-            <div className="now-line">
-              <span>09:12</span>
-            </div>
+            </SelectField>
+            <SelectField
+              label="Reason"
+              value={booking.reason}
+              onChange={(e) =>
+                setBooking((b) => ({ ...b, reason: e.target.value }))
+              }
+            >
+              <option>Examination</option>
+              <option>Restoration</option>
+              <option>Hygiene</option>
+              <option>Consultation</option>
+              <option>Follow-up</option>
+            </SelectField>
           </div>
-          <div className="appt-legend">
-            <span>
-              <em className="dot green" /> Confirmed
-            </span>
-            <span>
-              <em className="dot blue" /> Scheduled
-            </span>
-            <span>
-              <em className="dot gray" /> Completed
-            </span>
-            <span>
-              <em className="dot amber" /> In progress
-            </span>
-            <span>
-              <em className="now-dot" />— 09:12 now
-            </span>
+          <div className="form-actions">
+            <Button
+              disabled={!booking.patientName.trim()}
+              onClick={book}
+            >
+              <Check size={16} /> Book
+            </Button>
           </div>
         </Card>
-        <Card className="appointment-detail">
-          <SectionHead title="Appointment details" />
-          {checkedIn && (
-            <Notice tone="success">Patient checked in successfully.</Notice>
+        <Card>
+          <SectionHead title="Scheduled appointments" action={`${items.length} total`} />
+          {items.length === 0 ? (
+            <Notice tone="info">No appointments booked yet.</Notice>
+          ) : (
+            <div className="audit-list">
+              {items.map((a) => (
+                <article key={a.id}>
+                  <div className="audit-icon">
+                    <CalendarDays size={17} />
+                  </div>
+                  <div>
+                    <strong>{a.patientName} · {a.reason}</strong>
+                    <span>{a.date} at {a.time} · {a.clinician}</span>
+                    <small>{a.id}</small>
+                  </div>
+                  <div className="form-actions" style={{ marginTop: 0 }}>
+                    <Badge tone={a.status === "Completed" ? "green" : "blue"}>
+                      {a.status}
+                    </Badge>
+                    <Button variant="secondary" onClick={() => toggleStatus(a.id)}>
+                      {a.status === "Completed" ? "Reopen" : "Complete"}
+                    </Button>
+                    <Button variant="ghost" onClick={() => remove(a.id)}>
+                      Remove
+                    </Button>
+                  </div>
+                </article>
+              ))}
+            </div>
           )}
-          <h2>{slot.patientName}</h2>
-          <small>
-            {slotPatient
-              ? `${slotPatient.id} · ${slotPatient.age} years`
-              : "Not yet registered"}
-          </small>
-          <Badge tone={slotTone}>{slotStatus}</Badge>
-          {slotPatient && slotPatient.allergies.length > 0 && (
-            <Notice tone="danger">
-              <strong>ALLERGIES · VERIFY BEFORE CARE</strong>
-              <br />
-              {allergiesText(slotPatient)}
-            </Notice>
-          )}
-          <Info
-            label="Appointment"
-            value={`Thu 08 Oct · ${slot.time}–${addMinutes(slot.time, 45)}`}
-          />
-          <Info
-            label="Type / tooth"
-            value={slotTooth ? `${slotType} · ${slotTooth}` : slotType}
-          />
-          <Info
-            label="Clinician / location"
-            value={`${slot.clinician} · ${slot.location}`}
-          />
-          <Info
-            label="Treatment plan"
-            value={
-              slotPatient?.populated ? "TP-2026-084 · £180.00" : "None on record"
-            }
-          />
-          <p className="body-copy">
-            {slotPatient?.populated
-              ? "Occlusal dentinal caries. Consent recorded 24 Sep. Confirm medical history on arrival."
-              : `${slot.patientName} has no pre-appointment clinical notes recorded. Confirm identity and take a history before treatment.`}
-          </p>
-          {slotPatient && (
-            <Button
-              variant="secondary"
-              className="wide"
-              onClick={() => navigate(`/patients/${slotPatient.slug}`)}
-            >
-              ↗ Open patient record
-            </Button>
-          )}
-          <Button className="wide" onClick={() => setCheckedIn(true)}>
-            <Check size={16} /> Check in patient
-          </Button>
         </Card>
       </div>
     </>

@@ -86,6 +86,25 @@ create policy "Authenticated write patients"
   using (true)
   with check (true);
 
+create table if not exists public.dental_charts (
+  patient_slug text primary key references public.patients (slug) on delete cascade,
+  chart_data jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.dental_charts enable row level security;
+
+create policy "Authenticated read dental_charts"
+  on public.dental_charts for select
+  to authenticated
+  using (true);
+
+create policy "Authenticated write dental_charts"
+  on public.dental_charts for all
+  to authenticated
+  using (true)
+  with check (true);
+
 -- Helpful updated_at trigger
 create or replace function public.touch_updated_at()
 returns trigger as $$
