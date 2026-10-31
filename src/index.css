@@ -1017,6 +1017,28 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
 .empty-state h2 { font-size: 19px; color: var(--ink); margin-bottom: 8px }
 .empty-state p { font-size: 13.5px; line-height: 1.7 }
 .empty-state svg { color: var(--blue); margin-bottom: 10px }
+
+/* ── MOTION & UTILITIES ────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -400px 0 }
+  100% { background-position: 400px 0 }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--raise) 0%, var(--raise-2) 50%, var(--raise) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--r-md);
+  color: transparent;
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px) }
+  to { opacity: 1; transform: none }
+}
+.fade-in { animation: fade-in .22s ease-out both }
+.card, .stat, .patient-row, .note-entry {
+  transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+}
+.card:hover { box-shadow: var(--sh-3) }
 .empty-state .btn { margin: 20px auto 0 }
 
 
