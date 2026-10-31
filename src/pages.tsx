@@ -2684,8 +2684,8 @@ export function BillingPage() {
   const [recorded, setRecorded] = useState(false)
   const [ref, setRef] = useState("")
   const [receiptIssued, setReceiptIssued] = useState(false)
-  const patient = usePatientContext()
-
+  const patient = usePatientContext() ?? portalPatient
+ 
   function previewInvoice() {
     if (!patient) {
       return
