@@ -2934,30 +2934,26 @@ function ImagingLibrary({
   portal?: boolean
 }) {
   const [image, setImage] = useState(0)
-  const [images, setImages] = useState(() =>
-    patient.populated
-      ? [
-          {
-            name: "Right bitewing",
-            date: "24 Sep 2026",
-            file: "xray-right-bitewing.png",
-            region: "Bitewing · Upper right (16)",
-          },
-          {
-            name: "Left bitewing",
-            date: "24 Sep 2026",
-            file: "xray-left-bitewing.png",
-            region: "Bitewing · Upper left",
-          },
-          {
-            name: "Periapical · tooth 36",
-            date: "12 Apr 2024",
-            file: "xray-periapical-36.png",
-            region: "Periapical · Tooth 36",
-          },
-        ]
-      : [],
-  )
+  const [images, setImages] = useState(() => [
+    {
+      name: "Right bitewing",
+      date: "24 Sep 2026",
+      file: "xray-right-bitewing.png",
+      region: "Bitewing · Upper right (16)",
+    },
+    {
+      name: "Left bitewing",
+      date: "24 Sep 2026",
+      file: "xray-left-bitewing.png",
+      region: "Bitewing · Upper left",
+    },
+    {
+      name: "Periapical · tooth 36",
+      date: "12 Apr 2024",
+      file: "xray-periapical-36.png",
+      region: "Periapical · Tooth 36",
+    },
+  ])
   const [zoom, setZoom] = useState(1)
 
   function addImage() {
