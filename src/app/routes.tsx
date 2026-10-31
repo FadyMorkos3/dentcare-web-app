@@ -42,14 +42,15 @@ function AdminOnly({ children }: { children: ReactNode }) {
 }
 
 export const router = createBrowserRouter([
+  { path: "/", Component: Landing },
+  { path: "/landing", Component: Landing },
+  { path: "/welcome", Component: Landing },
   { path: "/login", Component: Login },
   {
     path: "/",
     Component: AppShell,
     children: [
-      { index: true, element: <Navigate to="/login" replace /> },
-      { path: "landing", Component: Landing },
-      { path: "welcome", Component: Landing },
+      { index: true, element: <Navigate to="/dashboard" replace /> },
       { path: "dashboard", Component: Dashboard },
       { path: "patients", Component: Patients },
       { path: "patients/register", Component: RegisterPatient },
