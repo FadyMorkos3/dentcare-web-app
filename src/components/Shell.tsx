@@ -522,7 +522,7 @@ export function AppShell() {
                 }
                 aria-label="Global search"
               />
-              {role !== "patient" && <kbd>Ctrl K</kbd>}
+
               {searchOpen && filteredSearch.length > 0 && (
                 <div className="search-results">
                   {filteredSearch.map((item) => (
