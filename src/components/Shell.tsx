@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { NavLink, Outlet, useNavigate } from "react-router"
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router"
 import {
   CalendarDays,
   ChartNoAxesCombined,
@@ -167,6 +167,44 @@ function ToothIcon() {
   )
 }
 
+function isNavActive(to: string, label: string, pathname: string): boolean {
+  if (label === "Dental Records") {
+    return (
+      pathname.includes("/chart") ||
+      pathname.includes("/notes") ||
+      pathname.includes("/diagnosis")
+    )
+  }
+  if (label === "Patients") {
+    if (pathname === "/patients") return true
+    const isPatientSubPage = pathname.startsWith("/patients/")
+    if (
+      isPatientSubPage &&
+      !pathname.includes("/chart") &&
+      !pathname.includes("/notes") &&
+      !pathname.includes("/diagnosis") &&
+      !pathname.includes("treatment-plan") &&
+      !pathname.includes("imaging") &&
+      !pathname.includes("billing")
+    )
+      return true
+    return false
+  }
+  if (to === "/imaging" && pathname.includes("imaging")) return true
+  if (to === "/billing" && pathname.includes("billing")) return true
+  if (
+    to === "/treatment-plans" &&
+    (pathname.startsWith("/treatment-plans") ||
+      pathname.includes("treatment-plan"))
+  )
+    return true
+  if (to === "/prescriptions" && pathname.includes("prescriptions")) return true
+  if (to === "/appointments" && pathname.includes("appointment")) return true
+  if (to === "/dashboard" && (pathname === "/" || pathname === "/dashboard"))
+    return true
+  return pathname === to
+}
+
 function getInitials(fullName: string) {
   const cleaned = fullName.replace(/\b(Dr|Mr|Mrs|Ms|Prof)\.?\b/gi, "").trim()
   const parts = cleaned.split(/\s+/).filter(Boolean)
@@ -181,6 +219,7 @@ function getInitials(fullName: string) {
 
 export function AppShell() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { isDark, toggleTheme } = useTheme()
   const [role, setRole] = useState<Role>(
     () => localStorage.getItem("dentcare-role") as Role || "dentist",
@@ -395,7 +434,7 @@ export function AppShell() {
               <NavLink
                 key={item.label}
                 to={item.to}
-                className={({ isActive }) => (isActive ? "active" : "")}
+                className={isNavActive(item.to, item.label, location.pathname) ? "active" : ""}
                 onClick={() => setMobileNavOpen(false)}
               >
                 <Icon size={18} />
