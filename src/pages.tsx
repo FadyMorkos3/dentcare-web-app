@@ -393,31 +393,53 @@ export function Login() {
   const [authError, setAuthError] = useState("")
   function logIn() {
     setAuthError("")
-    const finish = () => {
-      localStorage.setItem("dentcare-role", role)
+    const finish = (resolvedRole: string) => {
+      localStorage.setItem("dentcare-role", resolvedRole)
       navigate(
-        role === "patient"
+        resolvedRole === "patient"
           ? "/my/appointments"
-          : role === "admin"
+          : resolvedRole === "admin"
             ? "/admin/users"
             : "/dashboard",
       )
     }
+    const resolveRole = async () => {
+      if (isSupabaseConfigured) {
+        try {
+          const { data } = await supabase
+            .from("admin_users")
+            .select("role")
+            .eq("email", email.trim().toLowerCase())
+            .single()
+          if (data?.role) {
+            const r = String(data.role).toLowerCase()
+            if (r.includes("admin")) return "admin"
+            if (r.includes("reception")) return "receptionist"
+            if (r.includes("patient")) return "patient"
+            return "dentist"
+          }
+        } catch {
+          /* fall back */
+        }
+      }
+      return role
+    }
     if (isSupabaseConfigured) {
       supabase.auth
         .signInWithPassword(email, password)
-        .then(({ error }: { error: any }) => {
+        .then(async ({ error }: { error: any }) => {
           if (error) {
             setAuthError(error.message || "Sign in failed.")
             return
           }
-          finish()
+          const resolvedRole = await resolveRole()
+          finish(resolvedRole)
         })
         .catch((err: any) => {
           setAuthError(err?.message || "Sign in failed.")
         })
     } else {
-      finish()
+      resolveRole().then(finish)
     }
   }
   const demos = [

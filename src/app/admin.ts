@@ -61,7 +61,48 @@ export const roleAccess: Record<AdminRole, AdminAccess> = {
   Patient: "Own information",
 }
 
-const seededUsers: AdminUser[] = []
+const seededUsers: AdminUser[] = [
+  {
+    id: "usr-mohamed-tareq",
+    name: "Dr Mohamed Tareq",
+    email: "mohamed.tareq@practice.example",
+    role: "Dentist",
+    access: "Clinical",
+    status: "Active",
+    secureSignIn: true,
+    lastActive: "Now",
+  },
+  {
+    id: "usr-fady-morkos",
+    name: "Fady Morkos",
+    email: "fady.morkos@practice.example",
+    role: "Receptionist",
+    access: "Operations",
+    status: "Active",
+    secureSignIn: true,
+    lastActive: "Now",
+  },
+  {
+    id: "usr-marwan-morsy",
+    name: "Marwan Morsy",
+    email: "marwan.morsy@practice.example",
+    role: "System admin",
+    access: "Administration",
+    status: "Active",
+    secureSignIn: true,
+    lastActive: "Now",
+  },
+  {
+    id: "usr-ahmed-ali",
+    name: "Ahmed Ali",
+    email: "ahmed.ali@example.com",
+    role: "Patient",
+    access: "Own information",
+    status: "Active",
+    secureSignIn: true,
+    lastActive: "Now",
+  },
+]
 
 const seededAudit: AuditEvent[] = []
 
