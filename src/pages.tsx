@@ -2176,9 +2176,43 @@ export function CreateTreatmentPlan() {
             <option>Insurance</option>
           </SelectField>
           <div className="form-actions">
-            <Button variant="secondary" onClick={() => setSavedDraft(true)}>
-              Save draft
-            </Button>
+            <Button
+             variant="secondary"
+             onClick={() => {
+               setSavedDraft(true)
+               const plan = {
+                 id: `TP-${Date.now()}`,
+                 patient_slug: patient!.slug,
+                 title: "Caries management & preventive care",
+                 total,
+                 status: consent === "Patient accepted" ? "Accepted" : "Draft",
+                 data: { procedures: draftProcedures, fees, consent },
+               }
+               try {
+                 const existing = JSON.parse(
+                   localStorage.getItem("dentcare-treatment-plans") ?? "[]",
+                 )
+                 localStorage.setItem(
+                   "dentcare-treatment-plans",
+                   JSON.stringify([plan, ...existing]),
+                 )
+               } catch {
+                 localStorage.setItem(
+                   "dentcare-treatment-plans",
+                   JSON.stringify([plan]),
+                 )
+               }
+               if (isSupabaseConfigured) {
+                 supabase
+                   .from("treatment_plans")
+                   .insert(plan)
+                   .then(() => undefined)
+                   .catch(() => undefined)
+               }
+             }}
+           >
+             Save draft
+           </Button>
             <Button onClick={() => navigate("/treatment-plans")}>
               Create plan
             </Button>
@@ -3076,7 +3110,38 @@ export function BillingPage() {
             </Button>
             <Button
               disabled={recorded || !ref.trim()}
-              onClick={() => setRecorded(true)}
+              onClick={() => {
+                setRecorded(true)
+                const invoice = {
+                  id: `INV-${Date.now()}`,
+                  patient_slug: patient!.slug,
+                  amount: 180,
+                  status: "Paid",
+                  reference: ref.trim(),
+                  data: { ref: ref.trim() },
+                }
+                try {
+                  const existing = JSON.parse(
+                    localStorage.getItem("dentcare-invoices") ?? "[]",
+                  )
+                  localStorage.setItem(
+                    "dentcare-invoices",
+                    JSON.stringify([invoice, ...existing]),
+                  )
+                } catch {
+                  localStorage.setItem(
+                    "dentcare-invoices",
+                    JSON.stringify([invoice]),
+                  )
+                }
+                if (isSupabaseConfigured) {
+                  supabase
+                    .from("invoices")
+                    .insert(invoice)
+                    .then(() => undefined)
+                    .catch(() => undefined)
+                }
+              }}
             >
               Record payment
             </Button>
