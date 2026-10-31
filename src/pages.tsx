@@ -2035,14 +2035,14 @@ export function RegisterPatient() {
   const [valid, setValid] = useState(false)
   const [registered, setRegistered] = useState<Patient | null>(null)
   const [form, setForm] = useState({
-    firstName: "Ellie",
-    lastName: "Harper",
-    dob: "1995-05-19",
+    firstName: "",
+    lastName: "",
+    dob: "",
     sex: "Female",
-    phone: "07700 900340",
-    email: "ellie.harper@example.com",
-    address: "7 Meadow Close, Ridgeway",
-    postcode: "RG3 3LP",
+    phone: "",
+    email: "",
+    address: "",
+    postcode: "",
   })
   const set = (key: keyof typeof form) => (value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -2095,7 +2095,7 @@ export function RegisterPatient() {
               <option>Male</option>
               <option>Other</option>
             </SelectField>
-            <Field label="Preferred name" defaultValue="Ellie" />
+            <Field label="Preferred name" />
             <Field
               label="Mobile number *"
               value={form.phone}
@@ -2120,14 +2120,14 @@ export function RegisterPatient() {
           </div>
           <h3>Emergency contact</h3>
           <div className="form-grid three">
-            <Field label="Contact name *" defaultValue="Sam Harper" />
+            <Field label="Contact name *" />
             <SelectField label="Relationship">
               <option>Sibling</option>
               <option>Parent</option>
               <option>Spouse</option>
               <option>Friend</option>
             </SelectField>
-            <Field label="Contact phone *" defaultValue="07700 900341" />
+            <Field label="Contact phone *" />
           </div>
           <div className="form-grid">
             <SelectField label="Communication preference">
@@ -2187,11 +2187,11 @@ export function RegisterPatient() {
           <SectionHead title="Medical history & allergies" />
           <label className="field">
             <span>Medical conditions *</span>
-            <textarea defaultValue="No medical conditions reported" />
+            <textarea placeholder="No medical conditions reported" />
           </label>
           <label className="field">
             <span>Current medicines</span>
-            <textarea defaultValue="No regular medicines reported" />
+            <textarea placeholder="No regular medicines reported" />
           </label>
           <SelectField label="Allergies *">
             <option>No known allergies reported</option>
@@ -2199,7 +2199,7 @@ export function RegisterPatient() {
           </SelectField>
           <Field
             label="Allergy / reaction details"
-            defaultValue="Not applicable"
+            placeholder="Not applicable"
           />
           <label className="check">
             <input type="checkbox" defaultChecked /> Medical history provided by
