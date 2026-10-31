@@ -461,6 +461,10 @@ export function AppShell() {
     { label: "Ahmed Ali", value: "patient", desc: "Patient portal" },
   ]
 
+  if (isLanding) {
+    return <Outlet context={{ role }} />
+  }
+
   return (
     <div className="app-shell">
       <style>{`
