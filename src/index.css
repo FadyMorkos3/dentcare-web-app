@@ -353,9 +353,13 @@ input::placeholder, textarea::placeholder { color: var(--faint) }
 
 .card {
   background: var(--panel); border: 1px solid var(--border-soft);
-  border-radius: var(--r-lg); padding: 22px 24px;
+  border-radius: var(--r-lg); padding: 24px 26px;
   box-shadow: var(--sh-2);
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
+.card:hover { box-shadow: var(--sh-3); border-color: var(--border) }
+.card.flat { box-shadow: none }
+.card.flat:hover { box-shadow: var(--sh-1) }
 .section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px }
 .section-head h2 { margin: 0 }
 .section-head button, .text-link {
@@ -542,8 +546,10 @@ input::placeholder, textarea::placeholder { color: var(--faint) }
 .stat {
   display: flex; gap: 15px; align-items: center;
   background: var(--panel); border: 1px solid var(--border-soft);
-  border-radius: var(--r-lg); padding: 18px 20px; box-shadow: var(--sh-2);
+  border-radius: var(--r-lg); padding: 20px 22px; box-shadow: var(--sh-2);
+  transition: box-shadow .2s ease, transform .2s ease;
 }
+.stat:hover { box-shadow: var(--sh-3); transform: translateY(-2px) }
 .stat-icon {
   width: 46px; height: 46px; border-radius: 13px; display: grid;
   place-items: center; background: linear-gradient(150deg, var(--tile-from), var(--tile-to));
@@ -1021,6 +1027,23 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
 .empty-state h2 { font-size: 19px; color: var(--ink); margin-bottom: 8px }
 .empty-state p { font-size: 13.5px; line-height: 1.7 }
 .empty-state svg { color: var(--blue); margin-bottom: 10px }
+
+/* ── TOAST ─────────────────────────────────────────────── */
+.toast-stack {
+  position: fixed; right: 24px; bottom: 24px; z-index: 100;
+  display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+}
+.toast {
+  pointer-events: auto; min-width: 260px; max-width: 360px;
+  padding: 14px 16px; border-radius: var(--r-md);
+  background: var(--panel); border: 1px solid var(--border-soft);
+  box-shadow: var(--sh-3); font-size: 13px; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+  animation: fade-in .22s ease-out both;
+}
+.toast-success { border-left: 3px solid var(--green) }
+.toast-info { border-left: 3px solid var(--blue) }
+.toast-danger { border-left: 3px solid var(--red) }
 
 /* ── MOTION & UTILITIES ────────────────────────────────── */
 @keyframes shimmer {
