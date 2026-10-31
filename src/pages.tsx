@@ -98,20 +98,33 @@ function LoginToothIcon() {
       viewBox="0 0 36 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ borderRadius: 9, flexShrink: 0 }}
+      style={{ flexShrink: 0, filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.25))" }}
     >
-      <rect width="36" height="36" rx="9" fill="rgba(255,255,255,0.18)" />
+      <defs>
+        <linearGradient id="login-tooth-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.28)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
+        </linearGradient>
+        <linearGradient id="login-tooth-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#dbeafe" />
+        </linearGradient>
+      </defs>
+      <rect width="36" height="36" rx="10" fill="url(#login-tooth-bg)" />
       <rect
         width="36"
         height="36"
-        rx="9"
-        stroke="rgba(255,255,255,0.4)"
+        rx="10"
+        stroke="rgba(255,255,255,0.45)"
         strokeWidth="1.5"
       />
       <path
         d="M18 6.5C14.2 6.5 11.5 9 11.5 12.3c0 1.5.5 2.9 1.2 4 .5.9.7 1.8.7 2.7v.6c0 .4.1.7.2 1l.8 3.2c.3 1.2.5 2.4.5 3.6 0 1 .4 1.8 1 1.8s.9-.6 1-1.3l.4-3c.1-.8.7-1.3 1.4-1.3h1c.7 0 1.3.5 1.4 1.3l.4 3c.1.7.5 1.3 1 1.3s1-.8 1-1.8c0-1.2.2-2.4.5-3.6l.8-3.2c.1-.3.2-.6.2-1v-.6c0-.9.2-1.8.7-2.7.7-1.1 1.2-2.5 1.2-4 0-3.3-2.7-5.8-6.5-5.8Z"
-        fill="white"
+        fill="url(#login-tooth-fill)"
+        stroke="rgba(255,255,255,0.5)"
+        strokeWidth="0.6"
       />
+      <circle cx="25" cy="10.5" r="1.8" fill="#93c5fd" opacity="0.9" />
     </svg>
   )
 }
@@ -804,7 +817,7 @@ function PatientTable({ caption }: { caption?: string }) {
         >
           <option>All clinicians</option>
           <option>Dr Mohamed Tareq</option>
-          <option>Dr James Patel</option>
+          <option>Dr Mohamed Tareq</option>
         </SelectField>
       </div>
       <div className="patient-picker">
@@ -1343,7 +1356,7 @@ const mayaNotes: readonly ClinicalNote[] = [
   },
   {
     date: "12 Apr 2024",
-    clinician: "Dr James Patel",
+    clinician: "Dr Mohamed Tareq",
     title: "Endodontic and crown review · tooth 36",
     tag: "Resolved",
     tone: "green",
@@ -1916,8 +1929,7 @@ export function CreateTreatmentPlan() {
               defaultValue={patient.clinician}
             >
               <option>Dr Mohamed Tareq</option>
-              <option>Dr James Patel</option>
-              <option>Nina Brooks</option>
+              <option>Dr Mohamed Tareq</option>
             </SelectField>
           </div>
           <h3>Procedures</h3>
@@ -2312,7 +2324,7 @@ export function Appointments() {
               }
             >
               <option>Dr Mohamed Tareq</option>
-              <option>Dr James Patel</option>
+              <option>Dr Mohamed Tareq</option>
             </SelectField>
             <Field
               label="Date *"
@@ -2454,40 +2466,10 @@ export function ManageAppointment() {
       )}
       {activeTab === "Requested" && (
         <Card>
-          <SectionHead
-            title="Requests awaiting a booking"
-            action="2 pending"
-          />
-          <p className="body-copy">
-            A request reserves nothing. Review each one, then book it against
-            the patient&apos;s own record.
-          </p>
-          <div className="user-table">
-            <div className="table-head">
-              <span>Patient / ID</span>
-              <span>Reason</span>
-              <span>Preference</span>
-              <span>Status</span>
-            </div>
-            <Link className="patient-row" to="/patients/liam-turner">
-              <span>
-                <strong>Liam Turner</strong>
-                <small>DC-001198</small>
-              </span>
-              <span>Post-extraction review</span>
-              <span>09 Oct, morning · Dr James Patel</span>
-              <Badge tone="amber">Awaiting review</Badge>
-            </Link>
-            <Link className="patient-row" to="/patients/isla-hughes">
-              <span>
-                <strong>Isla Hughes</strong>
-                <small>DC-001076</small>
-              </span>
-              <span>Periodontal reassessment</span>
-              <span>12 Oct, afternoon · any clinician</span>
-              <Badge tone="amber">Awaiting review</Badge>
-            </Link>
-          </div>
+          <SectionHead title="Requests awaiting a booking" action="0 pending" />
+          <Notice tone="info">
+            No appointment requests are awaiting review.
+          </Notice>
         </Card>
       )}
       {cancelled && (
@@ -2534,8 +2516,7 @@ export function ManageAppointment() {
               defaultValue={patient.clinician}
             >
               <option>Dr Mohamed Tareq</option>
-              <option>Dr James Patel</option>
-              <option>Nina Brooks</option>
+              <option>Dr Mohamed Tareq</option>
             </SelectField>
             <SelectField label="Location *" defaultValue="Surgery 1">
               <option>Surgery 1</option>
@@ -2614,7 +2595,7 @@ export function ManageAppointment() {
               dc="DC-001198"
               slug="liam-turner"
               reason="Post-extraction review"
-              pref="Prefers 09 Oct, morning · Dr James Patel"
+              pref="Prefers 09 Oct, morning · Dr Mohamed Tareq"
             />
             <RequestMini
               name="Isla Hughes"
@@ -3403,7 +3384,7 @@ export function ManageUsers() {
           <Field
             label="Full name *"
             value={draft.name}
-            placeholder="e.g. Nina Brooks"
+            placeholder="e.g. Ahmed Ali"
             onChange={(event) => {
               setDraft((current) => ({ ...current, name: event.target.value }))
               setNotice(null)
@@ -3687,7 +3668,7 @@ export function RequestAppointment() {
           </SelectField>
           <div className="form-grid">
             <SelectField label="Preferred clinician">
-              <option>Nina Brooks · Dental hygienist</option>
+              <option>Dr Mohamed Tareq · Dentist</option>
             </SelectField>
             <SelectField label="Preferred date *">
               <option>Thursday 15 Oct 2026</option>
@@ -3754,7 +3735,7 @@ export function RequestAppointment() {
             label="First preference"
             value={`15 Oct 2026 · ${selectedTime} BST`}
           />
-          <Info label="Preferred clinician" value="Nina Brooks" />
+          <Info label="Preferred clinician" value="Dr Mohamed Tareq" />
           <Info
             label="Location"
             value="Room assigned on confirmation"
@@ -4402,7 +4383,7 @@ export function Prescriptions() {
               onChange={(e) => setField("clinician")(e.target.value)}
             >
               <option>Dr Mohamed Tareq</option>
-              <option>Dr James Patel</option>
+              <option>Dr Mohamed Tareq</option>
             </SelectField>
           </div>
           <label className="field">
