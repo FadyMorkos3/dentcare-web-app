@@ -53,6 +53,9 @@ import {
 } from "./components/ui"
 import { useTheme } from "./app/theme"
 import { isSupabaseConfigured, supabase } from "./lib/supabase"
+import xrayRight from "./assets/images/xray-right-bitewing.png"
+import xrayLeft from "./assets/images/xray-left-bitewing.png"
+import xrayPeriapical from "./assets/images/xray-periapical-36.png"
 import {
   ADMIN_DATA_EVENT,
   adminRoles,
@@ -3026,19 +3029,19 @@ function ImagingLibrary({
     {
       name: "Right bitewing",
       date: "24 Sep 2026",
-      file: "xray-right-bitewing.png",
+      src: xrayRight,
       region: "Bitewing · Upper right (16)",
     },
     {
       name: "Left bitewing",
       date: "24 Sep 2026",
-      file: "xray-left-bitewing.png",
+      src: xrayLeft,
       region: "Bitewing · Upper left",
     },
     {
       name: "Periapical · tooth 36",
       date: "12 Apr 2024",
-      file: "xray-periapical-36.png",
+      src: xrayPeriapical,
       region: "Periapical · Tooth 36",
     },
   ])
@@ -3085,9 +3088,9 @@ function ImagingLibrary({
             <button
               className={image === i ? "active" : ""}
               onClick={() => setImage(i)}
-              key={`${img.file}-${i}`}
+              key={`${img.src}-${i}`}
             >
-              <img className="xray-thumb" src={`/${img.file}`} alt={img.name} />
+              <img className="xray-thumb" src={img.src} alt={img.name} />
               <strong>{img.name}</strong>
               <small>{img.date} · Fictional image</small>
             </button>
@@ -3126,7 +3129,7 @@ function ImagingLibrary({
             <img
               className="xray-full"
               style={{ transform: `scale(${zoom})` }}
-              src={`/${images[image]?.file}`}
+              src={images[image]?.src}
               alt={`${images[image]?.name} dental image`}
               onError={(e) => {
                 const target = e.currentTarget
