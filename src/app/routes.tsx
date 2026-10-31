@@ -19,6 +19,7 @@ import {
   MyTreatmentPlan,
   PatientOverview,
   Patients,
+  Prescriptions,
   RecordDiagnosis,
   RegisterPatient,
   RequestAppointment,
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
       { path: "appointments/manage", Component: ManageAppointment },
       { path: "billing", Component: BillingPage },
       { path: "imaging", Component: Imaging },
-      { path: "prescriptions", element: <SimplePage title="Prescriptions" /> },
+      { path: "prescriptions", Component: Prescriptions },
       { path: "reports", element: <SimplePage title="Reports" /> },
       {
         path: "admin/users",

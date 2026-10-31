@@ -4158,6 +4158,232 @@ export function AdministratorSettings() {
   )
 }
 
+type Prescription = {
+  id: string
+  patientName: string
+  medication: string
+  dosage: string
+  frequency: string
+  duration: string
+  notes: string
+  clinician: string
+  date: string
+}
+
+const PRESCRIPTIONS_KEY = "dentcare-prescriptions"
+
+function loadPrescriptions(): Prescription[] {
+  try {
+    return JSON.parse(localStorage.getItem(PRESCRIPTIONS_KEY) ?? "[]")
+  } catch {
+    return []
+  }
+}
+
+export function Prescriptions() {
+  const navigate = useNavigate()
+  const [items, setItems] = useState<Prescription[]>(loadPrescriptions)
+  const [form, setForm] = useState({
+    patientName: "",
+    medication: "",
+    dosage: "",
+    frequency: "Once daily",
+    duration: "7 days",
+    notes: "",
+    clinician: "Dr Olivia Chen",
+  })
+  const [saved, setSaved] = useState(false)
+
+  function setField(key: keyof typeof form) {
+    return (value: string) => setForm((prev) => ({ ...prev, [key]: value }))
+  }
+
+  function issue() {
+    if (!form.patientName.trim() || !form.medication.trim() || !form.dosage.trim()) {
+      return
+    }
+    const next: Prescription = {
+      id: `RX-${Date.now()}`,
+      patientName: form.patientName.trim(),
+      medication: form.medication.trim(),
+      dosage: form.dosage.trim(),
+      frequency: form.frequency,
+      duration: form.duration,
+      notes: form.notes.trim(),
+      clinician: form.clinician,
+      date: new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+    }
+    const updated = [next, ...items]
+    setItems(updated)
+    localStorage.setItem(PRESCRIPTIONS_KEY, JSON.stringify(updated))
+    setForm({
+      patientName: "",
+      medication: "",
+      dosage: "",
+      frequency: "Once daily",
+      duration: "7 days",
+      notes: "",
+      clinician: form.clinician,
+    })
+    setSaved(true)
+  }
+
+  function remove(id: string) {
+    const updated = items.filter((item) => item.id !== id)
+    setItems(updated)
+    localStorage.setItem(PRESCRIPTIONS_KEY, JSON.stringify(updated))
+  }
+
+  function download(item: Prescription) {
+    downloadTextFile(
+      `${item.id}.txt`,
+      [
+        "DentCare · Prescription",
+        `Reference: ${item.id}`,
+        `Date: ${item.date}`,
+        `Patient: ${item.patientName}`,
+        `Clinician: ${item.clinician}`,
+        "",
+        `Medication: ${item.medication}`,
+        `Dosage: ${item.dosage}`,
+        `Frequency: ${item.frequency}`,
+        `Duration: ${item.duration}`,
+        "",
+        `Notes: ${item.notes || "None"}`,
+      ].join("\n"),
+    )
+  }
+
+  return (
+    <>
+      <PageTitle
+        title="Prescriptions"
+        subtitle="Prescriptions / Issue and review medication"
+        action={
+          <Button variant="secondary" onClick={() => navigate("/patients")}>
+            <Users size={16} /> Patients
+          </Button>
+        }
+      />
+      {saved && (
+        <Notice tone="success">Prescription issued and saved.</Notice>
+      )}
+      <div className="content-grid wide-left">
+        <Card>
+          <SectionHead title="Issue prescription" />
+          <div className="form-grid">
+            <Field
+              label="Patient name *"
+              value={form.patientName}
+              onChange={(e) => setField("patientName")(e.target.value)}
+              placeholder="e.g. Maya Bennett"
+            />
+            <Field
+              label="Medication *"
+              value={form.medication}
+              onChange={(e) => setField("medication")(e.target.value)}
+              placeholder="e.g. Amoxicillin"
+            />
+            <Field
+              label="Dosage *"
+              value={form.dosage}
+              onChange={(e) => setField("dosage")(e.target.value)}
+              placeholder="e.g. 500 mg"
+            />
+            <SelectField
+              label="Frequency"
+              value={form.frequency}
+              onChange={(e) => setField("frequency")(e.target.value)}
+            >
+              <option>Once daily</option>
+              <option>Twice daily</option>
+              <option>Three times daily</option>
+              <option>As required</option>
+            </SelectField>
+            <SelectField
+              label="Duration"
+              value={form.duration}
+              onChange={(e) => setField("duration")(e.target.value)}
+            >
+              <option>3 days</option>
+              <option>5 days</option>
+              <option>7 days</option>
+              <option>14 days</option>
+              <option>Ongoing</option>
+            </SelectField>
+            <SelectField
+              label="Clinician"
+              value={form.clinician}
+              onChange={(e) => setField("clinician")(e.target.value)}
+            >
+              <option>Dr Olivia Chen</option>
+              <option>Dr James Patel</option>
+            </SelectField>
+          </div>
+          <label className="field">
+            <span>Notes</span>
+            <textarea
+              value={form.notes}
+              onChange={(e) => setField("notes")(e.target.value)}
+              placeholder="Special instructions, allergies, etc."
+            />
+          </label>
+          <div className="form-actions">
+            <Button
+              disabled={!form.patientName.trim() || !form.medication.trim() || !form.dosage.trim()}
+              onClick={issue}
+            >
+              <Check size={16} /> Issue prescription
+            </Button>
+          </div>
+        </Card>
+        <Card>
+          <SectionHead title="Issued prescriptions" action={`${items.length} total`} />
+          {items.length === 0 ? (
+            <Notice tone="info">
+              No prescriptions issued yet. Use the form to create one.
+            </Notice>
+          ) : (
+            <div className="audit-list">
+              {items.map((item) => (
+                <article key={item.id}>
+                  <div className="audit-icon">
+                    <FileText size={17} />
+                  </div>
+                  <div>
+                    <strong>{item.medication} · {item.dosage}</strong>
+                    <span>
+                      {item.patientName} · {item.frequency} · {item.duration}
+                    </span>
+                    <small>
+                      {item.clinician} · {item.date}
+                    </small>
+                    {item.notes && (
+                      <small className="body-copy">{item.notes}</small>
+                    )}
+                  </div>
+                  <div className="form-actions" style={{ marginTop: 0 }}>
+                    <Button variant="secondary" onClick={() => download(item)}>
+                      <Download size={16} /> Download
+                    </Button>
+                    <Button variant="ghost" onClick={() => remove(item.id)}>
+                      Remove
+                    </Button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </Card>
+      </div>
+    </>
+  )
+}
+
 export function SimplePage({
   title,
   backTo = "/dashboard",
