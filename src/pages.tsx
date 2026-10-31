@@ -126,18 +126,38 @@ function HeroTooth() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      style={{ filter: "drop-shadow(0 8px 24px rgba(96,165,250,0.35))" }}
     >
       <defs>
         <linearGradient id="tooth-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.98" />
-          <stop offset="100%" stopColor="#e8f4ff" stopOpacity="0.92" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+          <stop offset="60%" stopColor="#f0f7ff" stopOpacity="0.98" />
+          <stop offset="100%" stopColor="#dbeafe" stopOpacity="0.9" />
         </linearGradient>
+        <linearGradient id="tooth-stroke" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#93c5fd" />
+          <stop offset="100%" stopColor="#3b82f6" />
+        </linearGradient>
+        <radialGradient id="tooth-glow" cx="50%" cy="30%" r="60%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
       </defs>
       <path
         d="M75 18c-17.5 0-30 10.8-30 25.4 0 6.8 2.2 12.8 5.8 17.4 2.7 3.4 4.2 7.8 4.2 12.3v2.1c0 1.2.2 2.4.5 3.5l2.5 9.6c1.1 4.3 1.7 8.7 1.7 13.2 0 4.2 1.9 8.3 4.8 8.3 2.5 0 3.6-2.1 4.2-5.2l1.5-11.4c.5-3.8 2.4-6.2 4.8-6.2 2.4 0 4.3 2.4 4.8 6.2l1.5 11.4c.6 3.1 1.7 5.2 4.2 5.2 2.9 0 4.8-4.1 4.8-8.3 0-4.5.6-8.9 1.7-13.2l2.5-9.6c.3-1.1.5-2.3.5-3.5v-2.1c0-4.5 1.5-8.9 4.2-12.3 3.6-4.6 5.8-10.6 5.8-17.4C105 28.8 92.5 18 75 18Z"
         fill="url(#tooth-fill)"
-        stroke="#6ec1ff"
-        strokeWidth="2.2"
+        stroke="url(#tooth-stroke)"
+        strokeWidth="2"
+      />
+      <path
+        d="M75 18c-17.5 0-30 10.8-30 25.4 0 6.8 2.2 12.8 5.8 17.4 2.7 3.4 4.2 7.8 4.2 12.3v2.1c0 1.2.2 2.4.5 3.5l2.5 9.6c1.1 4.3 1.7 8.7 1.7 13.2 0 4.2 1.9 8.3 4.8 8.3 2.5 0 3.6-2.1 4.2-5.2l1.5-11.4c.5-3.8 2.4-6.2 4.8-6.2 2.4 0 4.3 2.4 4.8 6.2l1.5 11.4c.6 3.1 1.7 5.2 4.2 5.2 2.9 0 4.8-4.1 4.8-8.3 0-4.5.6-8.9 1.7-13.2l2.5-9.6c.3-1.1.5-2.3.5-3.5v-2.1c0-4.5 1.5-8.9 4.2-12.3 3.6-4.6 5.8-10.6 5.8-17.4C105 28.8 92.5 18 75 18Z"
+        fill="url(#tooth-glow)"
+      />
+      {/* sparkle */}
+      <path
+        d="M108 30l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4Z"
+        fill="#93c5fd"
+        opacity="0.9"
       />
     </svg>
   )
