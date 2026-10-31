@@ -1948,7 +1948,30 @@ function ProcedureTable({ patient = false }: { patient?: boolean }) {
 export function TreatmentPlan() {
   const navigate = useNavigate()
   const [saved, setSaved] = useState(false)
+  const [savedPlans, setSavedPlans] = useState<any[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("dentcare-treatment-plans") ?? "[]")
+    } catch {
+      return []
+    }
+  })
   const patient = usePatientContext()
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    let cancelled = false
+    supabase
+      .from("treatment_plans")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: any }) => {
+        if (cancelled || !Array.isArray(data)) return
+        setSavedPlans(data)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   function exportPlan() {
     if (!patient) {
@@ -2009,6 +2032,29 @@ export function TreatmentPlan() {
         <Notice tone="success">Plan export generated successfully.</Notice>
       )}
       <PatientHeader patient={patient} active="Treatment plan" />
+      {savedPlans.length > 0 && (
+        <Card style={{ marginBottom: 16 }}>
+          <SectionHead title="Saved plans" action={`${savedPlans.length} total`} />
+          <div className="audit-list">
+            {savedPlans
+              .filter((p: any) => !patient || p.patient_slug === patient.slug)
+              .map((p: any) => (
+                <article key={p.id}>
+                  <div className="audit-icon">
+                    <ClipboardList size={17} />
+                  </div>
+                  <div>
+                    <strong>{p.title ?? "Treatment plan"}</strong>
+                    <span>
+                      {p.status ?? "Draft"} · £{Number(p.total ?? 0).toFixed(2)}
+                    </span>
+                    <small>{p.created_at ?? p.date ?? ""}</small>
+                  </div>
+                </article>
+              ))}
+          </div>
+        </Card>
+      )}
       <div className="content-grid wide-left" key={patient.slug}>
         <Card>
           <SectionHead
@@ -2951,7 +2997,30 @@ export function BillingPage() {
   const [recorded, setRecorded] = useState(false)
   const [ref, setRef] = useState("")
   const [receiptIssued, setReceiptIssued] = useState(false)
+  const [savedInvoices, setSavedInvoices] = useState<any[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("dentcare-invoices") ?? "[]")
+    } catch {
+      return []
+    }
+  })
   const patient = usePatientContext() ?? portalPatient
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    let cancelled = false
+    supabase
+      .from("invoices")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: any }) => {
+        if (cancelled || !Array.isArray(data)) return
+        setSavedInvoices(data)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
  
   function previewInvoice() {
     if (!patient) {
@@ -3009,6 +3078,11 @@ export function BillingPage() {
 
   return (
     <>
+      {savedInvoices.length > 0 && (
+        <Notice tone="info">
+          {savedInvoices.length} saved invoice(s) on record.
+        </Notice>
+      )}
       <PageTitle
         title="Manage billing"
         subtitle={`Billing / ${patient.name} / Draft invoice INV-2026-1284`}
