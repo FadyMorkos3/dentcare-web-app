@@ -142,7 +142,28 @@ create policy "Authenticated read appointments"
 create policy "Authenticated write appointments"
   on public.appointments for all to authenticated using (true) with check (true);
 
--- Helpful updated_at trigger
+create table if not exists public.prescriptions (
+  id text primary key,
+  patient_name text not null,
+  medication text not null,
+  dosage text not null,
+  frequency text,
+  duration text,
+  notes text,
+  clinician text,
+  date text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.prescriptions enable row level security;
+
+create policy "Authenticated read prescriptions"
+  on public.prescriptions for select to authenticated using (true);
+create policy "Authenticated write prescriptions"
+  on public.prescriptions for all to authenticated using (true) with check (true);
+
+-- Helpful updated_at trigger:
+
 create or replace function public.touch_updated_at()
 returns trigger as $$
 begin

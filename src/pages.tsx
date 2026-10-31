@@ -3147,7 +3147,7 @@ function ImagingLibrary({
       name: `Uploaded image ${nextIndex}`,
       date: "08 Oct 2026",
       // Sample plates only; a real upload would carry its own file name.
-      file: "xray-right-bitewing.png",
+      src: xrayRight,
       region: "Bitewing · Imported",
     }
     setImages((prev) => [...prev, next])
@@ -3244,7 +3244,7 @@ function ImagingLibrary({
             label="Date / uploaded by"
             value={`${images[image]?.date} · ${patient.clinician}`}
           />
-          <Info label="File" value={`${images[image]?.file} · 1600 × 1000`} />
+          <Info label="File" value={`${images[image]?.src?.split("/").pop()} · 1600 × 1000`} />
           <Info label="Source" value="Synthetic educational illustration" />
         </Card>
       </div>
@@ -4450,6 +4450,33 @@ export function Prescriptions() {
   })
   const [saved, setSaved] = useState(false)
 
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    let cancelled = false
+    supabase
+      .from("prescriptions")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: any }) => {
+        if (cancelled || !Array.isArray(data)) return
+        const mapped: Prescription[] = data.map((row: any) => ({
+          id: row.id,
+          patientName: row.patient_name,
+          medication: row.medication,
+          dosage: row.dosage,
+          frequency: row.frequency,
+          duration: row.duration,
+          notes: row.notes,
+          clinician: row.clinician,
+          date: row.date,
+        }))
+        setItems(mapped)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   function setField(key: keyof typeof form) {
     return (value: string) => setForm((prev) => ({ ...prev, [key]: value }))
   }
@@ -4476,6 +4503,23 @@ export function Prescriptions() {
     const updated = [next, ...items]
     setItems(updated)
     localStorage.setItem(PRESCRIPTIONS_KEY, JSON.stringify(updated))
+    if (isSupabaseConfigured) {
+      supabase
+        .from("prescriptions")
+        .insert({
+          id: next.id,
+          patient_name: next.patientName,
+          medication: next.medication,
+          dosage: next.dosage,
+          frequency: next.frequency,
+          duration: next.duration,
+          notes: next.notes,
+          clinician: next.clinician,
+          date: next.date,
+        })
+        .then(() => undefined)
+        .catch(() => undefined)
+    }
     setForm({
       patientName: "",
       medication: "",
@@ -4492,6 +4536,9 @@ export function Prescriptions() {
     const updated = items.filter((item) => item.id !== id)
     setItems(updated)
     localStorage.setItem(PRESCRIPTIONS_KEY, JSON.stringify(updated))
+    if (isSupabaseConfigured) {
+      supabase.from("prescriptions").delete().eq("id", id).then(() => undefined).catch(() => undefined)
+    }
   }
 
   function download(item: Prescription) {
