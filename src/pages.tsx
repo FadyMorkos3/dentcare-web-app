@@ -3132,17 +3132,7 @@ function ImagingLibrary({
               src={images[image]?.src}
               alt={`${images[image]?.name} dental image`}
               onError={(e) => {
-                const target = e.currentTarget
-                target.style.display = "none"
-                const parent = target.parentElement
-                if (parent && !parent.querySelector(".xray-fallback")) {
-                  const div = document.createElement("div")
-                  div.className = "xray-fallback"
-                  div.style.color = "#cbd5e1"
-                  div.style.textAlign = "center"
-                  div.textContent = "Image could not be loaded."
-                  parent.appendChild(div)
-                }
+                console.error("X-ray image failed to load:", e.currentTarget.src)
               }}
             />
           </div>
