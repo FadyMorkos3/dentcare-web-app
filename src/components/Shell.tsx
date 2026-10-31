@@ -665,7 +665,6 @@ export function AppShell() {
         </main>
         <footer>
           <span>DentCare · Dental practice management</span>
-          <span>Fictional records · for educational use only</span>
         </footer>
       </div>
     </div>
