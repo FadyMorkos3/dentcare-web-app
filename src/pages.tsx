@@ -98,19 +98,9 @@ function LoginToothIcon() {
       viewBox="0 0 36 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ flexShrink: 0, filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.25))" }}
+      style={{ flexShrink: 0 }}
     >
-      <defs>
-        <linearGradient id="login-tooth-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="rgba(255,255,255,0.28)" />
-          <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
-        </linearGradient>
-        <linearGradient id="login-tooth-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="100%" stopColor="#dbeafe" />
-        </linearGradient>
-      </defs>
-      <rect width="36" height="36" rx="10" fill="url(#login-tooth-bg)" />
+      <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.18)" />
       <rect
         width="36"
         height="36"
@@ -119,12 +109,17 @@ function LoginToothIcon() {
         strokeWidth="1.5"
       />
       <path
-        d="M18 6.5C14.2 6.5 11.5 9 11.5 12.3c0 1.5.5 2.9 1.2 4 .5.9.7 1.8.7 2.7v.6c0 .4.1.7.2 1l.8 3.2c.3 1.2.5 2.4.5 3.6 0 1 .4 1.8 1 1.8s.9-.6 1-1.3l.4-3c.1-.8.7-1.3 1.4-1.3h1c.7 0 1.3.5 1.4 1.3l.4 3c.1.7.5 1.3 1 1.3s1-.8 1-1.8c0-1.2.2-2.4.5-3.6l.8-3.2c.1-.3.2-.6.2-1v-.6c0-.9.2-1.8.7-2.7.7-1.1 1.2-2.5 1.2-4 0-3.3-2.7-5.8-6.5-5.8Z"
-        fill="url(#login-tooth-fill)"
-        stroke="rgba(255,255,255,0.5)"
-        strokeWidth="0.6"
+        d="M18 7C14.4 7 12 9.3 12 12.4c0 1.6.5 3 1.2 4.1.4.8.7 1.7.7 2.7v.6c0 .3.1.7.2 1l.9 3.2c.3 1.2.5 2.4.5 3.6 0 1 .4 1.9 1.1 1.9s.9-.6 1-1.4l.4-3c.1-.8.7-1.3 1.5-1.3h.9c.8 0 1.4.5 1.5 1.3l.4 3c.1.8.4 1.4 1 1.4s1.1-.9 1.1-1.9c0-1.2.2-2.4.5-3.6l.9-3.2c.1-.3.2-.7.2-1v-.6c0-1 .3-1.9.7-2.7.7-1.1 1.2-2.5 1.2-4.1 0-3.1-2.4-5.4-6-5.4Z"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <circle cx="25" cy="10.5" r="1.8" fill="#93c5fd" opacity="0.9" />
+      <path
+        d="M26.5 10.5l.7 1.4 1.4.7-1.4.7-.7 1.4-.7-1.4-1.4-.7 1.4-.7.7-1.4Z"
+        fill="#93c5fd"
+      />
     </svg>
   )
 }
