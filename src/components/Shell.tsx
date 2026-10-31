@@ -151,34 +151,23 @@ function ToothIcon() {
     <svg
       width="34"
       height="34"
-      viewBox="0 0 34 34"
+      viewBox="0 0 36 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ flexShrink: 0 }}
     >
-      <rect width="34" height="34" rx="12" fill="#2A6DB5" />
-      {/* Modern single-root tooth with rounded cusps */}
+      <rect width="36" height="36" rx="10" fill="#2A6DB5" />
       <path
-        d="M17 6C12.6 6 10 8.4 10 11.6c0 1.7.5 3.1 1.3 4.3.5.8.8 1.7.8 2.7v.6c0 .4.1.7.3 1l1 3.6c.3 1.2.5 2.5.5 3.8 0 1.2.4 2.1 1.1 2.1.7 0 1-.7 1.1-1.5l.5-3c.1-.8.7-1.3 1.5-1.3h.8c.8 0 1.4.5 1.5 1.3l.5 3c.1.8.4 1.5 1.1 1.5.7 0 1.1-.9 1.1-2.1 0-1.3.2-2.6.5-3.8l1-3.6c.2-.3.3-.6.3-1v-.6c0-1 .3-1.9.8-2.7.8-1.2 1.3-2.6 1.3-4.3 0-3.2-2.6-5.6-7-5.6Z"
+        d="M18 6.5C14.2 6.5 11.5 9 11.5 12.3c0 1.5.5 2.9 1.2 4 .5.9.7 1.8.7 2.7v.6c0 .4.1.7.2 1l.8 3.2c.3 1.2.5 2.4.5 3.6 0 1 .4 1.8 1 1.8s.9-.6 1-1.3l.4-3c.1-.8.7-1.3 1.4-1.3h1c.7 0 1.3.5 1.4 1.3l.4 3c.1.7.5 1.3 1 1.3s1-.8 1-1.8c0-1.2.2-2.4.5-3.6l.8-3.2c.1-.3.2-.6.2-1v-.6c0-.9.2-1.8.7-2.7.7-1.1 1.2-2.5 1.2-4 0-3.3-2.7-5.8-6.5-5.8Z"
         fill="none"
         stroke="#ffffff"
-        strokeWidth="1.7"
+        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {/* crown highlight */}
       <path
-        d="M14 10.5c.6-1.4 1.8-2.2 3.2-2.2"
-        fill="none"
-        stroke="#93c5fd"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity="0.85"
-      />
-      {/* sparkle accent */}
-      <path
-        d="M26 9l.7 1.3 1.3.7-1.3.7-.7 1.3-.7-1.3-1.3-.7 1.3-.7.7-1.3Z"
-        fill="#bfdbfe"
+        d="M25 10.5l.6 1.2 1.2.6-1.2.6-.6 1.2-.6-1.2-1.2-.6 1.2-.6.6-1.2Z"
+        fill="#93c5fd"
       />
     </svg>
   )
