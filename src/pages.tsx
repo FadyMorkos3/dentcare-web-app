@@ -348,15 +348,15 @@ function StatCard({
 export function Login() {
   const navigate = useNavigate()
   const { isDark, toggleTheme } = useTheme()
-  const [email, setEmail] = useState("olivia.chen@practice.example")
+  const [email, setEmail] = useState("mohamed.tareq@practice.example")
   const [password, setPassword] = useState("DentCare2026")
   const [show, setShow] = useState(false)
   const [resetSent, setResetSent] = useState(false)
-  const role = email.includes("sophie")
+  const role = email.includes("fady")
     ? "receptionist"
-    : email.includes("ethan")
+    : email.includes("marwan")
       ? "admin"
-      : email.includes("maya")
+      : email.includes("ahmed")
         ? "patient"
         : "dentist"
   function logIn() {
@@ -370,10 +370,10 @@ export function Login() {
     )
   }
   const demos = [
-    ["Dentist", "olivia.chen@practice.example"],
-    ["Receptionist", "sophie.reed@practice.example"],
-    ["System admin", "ethan.morgan@practice.example"],
-    ["Patient", "maya.bennett@example.com"],
+    ["Dentist", "mohamed.tareq@practice.example"],
+    ["Receptionist", "fady.morkos@practice.example"],
+    ["System admin", "marwan.morsy@practice.example"],
+    ["Patient", "ahmed.ali@example.com"],
   ]
   return (
     <div className="login-page">
@@ -557,10 +557,10 @@ export function Dashboard() {
   const navigate = useNavigate()
   const role = localStorage.getItem("dentcare-role") as string || "dentist"
   const greetings: Record<string, string> = {
-    dentist: "Good morning, Olivia",
-    receptionist: "Good morning, Sophie",
-    admin: "Good morning, Ethan",
-    patient: "Good morning, Maya",
+    dentist: "Good morning, Mohamed",
+    receptionist: "Good morning, Fady",
+    admin: "Good morning, Marwan",
+    patient: "Good morning, Ahmed",
   }
   return (
     <>
@@ -664,7 +664,7 @@ export function Dashboard() {
           <SectionHead title="Active treatments" action="View plans" actionTo="/patients" />
           {patients.some((p) => p.populated) ? (
             <Link className="treatment-progress" to="/patients/maya-bennett/treatment-plan">
-              <span>Maya Bennett · Caries management</span>
+              <span>Ahmed Ali · Caries management</span>
               <b>2 of 4 planned</b>
               <i>
                 <em />
@@ -802,7 +802,7 @@ function PatientTable({ caption }: { caption?: string }) {
           onChange={(e) => setClinicianFilter(e.target.value)}
         >
           <option>All clinicians</option>
-          <option>Dr Olivia Chen</option>
+          <option>Dr Mohamed Tareq</option>
           <option>Dr James Patel</option>
         </SelectField>
       </div>
@@ -1029,7 +1029,7 @@ function Info({ label, value }: { label: string; value: string }) {
   )
 }
 
-/** Maya Bennett's findings on record, in the engine's FDI-keyed payload shape. */
+/** Ahmed Ali's findings on record, in the engine's FDI-keyed payload shape. */
 const mayaSeed = {
   version: "2.22",
   globals: { wisdomVisible: true },
@@ -1276,7 +1276,7 @@ type ClinicalNote = {
 const mayaNotes: readonly ClinicalNote[] = [
   {
     date: "24 Sep 2026",
-    clinician: "Dr Olivia Chen",
+    clinician: "Dr Mohamed Tareq",
     title: "Routine examination · caries diagnosis",
     tag: "Active problem",
     tone: "amber",
@@ -1286,7 +1286,7 @@ const mayaNotes: readonly ClinicalNote[] = [
   },
   {
     date: "24 Sep 2026",
-    clinician: "Dr Olivia Chen",
+    clinician: "Dr Mohamed Tareq",
     title: "Bitewing radiograph review",
     tag: "Imaging",
     tone: "blue",
@@ -1306,7 +1306,7 @@ const mayaNotes: readonly ClinicalNote[] = [
   },
   {
     date: "06 Feb 2023",
-    clinician: "Dr Olivia Chen",
+    clinician: "Dr Mohamed Tareq",
     title: "Crown placement · tooth 11",
     tag: "Resolved",
     tone: "green",
@@ -1685,7 +1685,7 @@ export function TreatmentPlan() {
           </div>
           <ProcedureTable />
           <small>
-            Created 24 Sep 2026 · Dr Olivia Chen · Consent recorded · GRP —
+            Created 24 Sep 2026 · Dr Mohamed Tareq · Consent recorded · GRP —
             Clinical fees are VAT exempt.
           </small>
         </Card>
@@ -1708,7 +1708,7 @@ function PlanSummary() {
       <p>
         <CalendarDays size={16} /> <strong>22 Oct 2026 · 09:30–10:00</strong>
       </p>
-      <small>Endodontic review · Dr Olivia Chen</small>
+      <small>Endodontic review · Dr Mohamed Tareq</small>
       <Button
         variant="secondary"
         className="wide"
@@ -1783,7 +1783,7 @@ export function CreateTreatmentPlan() {
               label="Responsible clinician"
               defaultValue={patient.clinician}
             >
-              <option>Dr Olivia Chen</option>
+              <option>Dr Mohamed Tareq</option>
               <option>Dr James Patel</option>
               <option>Nina Brooks</option>
             </SelectField>
@@ -2055,7 +2055,7 @@ export function RegisterPatient() {
           <h3>Record identifier</h3>
           <Info
             label="Assigned on registration"
-            value="Sophie Reed · 08 Oct 2026"
+            value="Fady Morkos · 08 Oct 2026"
           />
           <small>
             Registration does not create an appointment or a treatment plan.
@@ -2093,7 +2093,7 @@ function addMinutes(start: string, mins: number) {
 
 export function Appointments() {
   const navigate = useNavigate()
-  const [selected, setSelected] = useState("Maya Bennett")
+  const [selected, setSelected] = useState("Ahmed Ali")
   const [selectedView, setSelectedView] = useState<"Day" | "Week" | "Month">(
     "Day",
   )
@@ -2452,7 +2452,7 @@ export function ManageAppointment() {
               label="Clinician *"
               defaultValue={patient.clinician}
             >
-              <option>Dr Olivia Chen</option>
+              <option>Dr Mohamed Tareq</option>
               <option>Dr James Patel</option>
               <option>Nina Brooks</option>
             </SelectField>
@@ -3190,7 +3190,7 @@ export function ManageUsers() {
         })
     }
     appendAuditEvent({
-      actor: "Ethan Morgan",
+      actor: "Marwan Morsy",
       action,
       target: savedUser.name,
       detail: `${savedUser.role} · ${savedUser.access} access · secure sign-in ${savedUser.secureSignIn ? "required" : "optional"}.`,
@@ -3204,7 +3204,7 @@ export function ManageUsers() {
 
   function sendPasswordReset() {
     appendAuditEvent({
-      actor: "Ethan Morgan",
+      actor: "Marwan Morsy",
       action: "Password reset sent",
       target: draft.name,
       detail: `Reset instructions queued for ${draft.email}.`,
@@ -3491,7 +3491,7 @@ export function MyAppointments() {
             <>
               <SectionHead title="Past visits" />
               <PortalAppointment
-                date="24 Sep 2026 · Dr Olivia Chen"
+                date="24 Sep 2026 · Dr Mohamed Tareq"
                 time=""
                 name="Dental examination & treatment planning"
                 past
@@ -3515,7 +3515,7 @@ export function MyAppointments() {
           />
           <Info
             label="Clinician / location"
-            value="Dr Olivia Chen · Surgery 1"
+            value="Dr Mohamed Tareq · Surgery 1"
           />
           <Notice tone="info">
             Please arrive 10 minutes early and bring your inhaler. Tell the team
@@ -3553,7 +3553,7 @@ function PortalAppointment({
         <strong>{time}</strong>
         <b>{name}</b>
         <span>
-          {past ? "Appointment completed" : "Dr Olivia Chen · Surgery 1"}
+          {past ? "Appointment completed" : "Dr Mohamed Tareq · Surgery 1"}
         </span>
         <button type="button" className="text-link" onClick={onView}>
           {past ? "View my treatment plan" : "View appointment details"} →
@@ -4037,7 +4037,7 @@ export function AdministratorSettings() {
   function saveSettings() {
     saveAdminSettings(draft)
     appendAuditEvent({
-      actor: "Ethan Morgan",
+      actor: "Marwan Morsy",
       action: "Security settings updated",
       target: "Administration workspace",
       detail: `Session timeout ${draft.sessionTimeout}; secure sign-in ${draft.requireSecureSignIn ? "required" : "optional"}.`,
@@ -4190,7 +4190,7 @@ export function Prescriptions() {
     frequency: "Once daily",
     duration: "7 days",
     notes: "",
-    clinician: "Dr Olivia Chen",
+    clinician: "Dr Mohamed Tareq",
   })
   const [saved, setSaved] = useState(false)
 
@@ -4280,7 +4280,7 @@ export function Prescriptions() {
               label="Patient name *"
               value={form.patientName}
               onChange={(e) => setField("patientName")(e.target.value)}
-              placeholder="e.g. Maya Bennett"
+              placeholder="e.g. Ahmed Ali"
             />
             <Field
               label="Medication *"
@@ -4320,7 +4320,7 @@ export function Prescriptions() {
               value={form.clinician}
               onChange={(e) => setField("clinician")(e.target.value)}
             >
-              <option>Dr Olivia Chen</option>
+              <option>Dr Mohamed Tareq</option>
               <option>Dr James Patel</option>
             </SelectField>
           </div>

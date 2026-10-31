@@ -86,7 +86,7 @@ function build(seed: Seed): Patient {
     age: ageAt(seed.dob),
     populated: false,
     registeredOn: seed.lastVisit === "Not recorded" ? "08 Oct 2026" : seed.lastVisit,
-    registeredBy: "Sophie Reed",
+    registeredBy: "Fady Morkos",
     ...seed,
   }
 }

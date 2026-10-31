@@ -35,26 +35,26 @@ import {
 type Role = "dentist" | "receptionist" | "admin" | "patient"
 const profiles = {
   dentist: {
-    initials: "OC",
-    name: "Dr Olivia Chen",
+    initials: "MT",
+    name: "Dr Mohamed Tareq",
     role: "General dentist",
     section: "Workspace",
   },
   receptionist: {
-    initials: "SR",
-    name: "Sophie Reed",
+    initials: "FM",
+    name: "Fady Morkos",
     role: "Receptionist",
     section: "Workspace",
   },
   admin: {
-    initials: "EM",
-    name: "Ethan Morgan",
+    initials: "MM",
+    name: "Marwan Morsy",
     role: "System Administrator",
     section: "Administration",
   },
   patient: {
-    initials: "MB",
-    name: "Maya Bennett",
+    initials: "AA",
+    name: "Ahmed Ali",
     role: "Patient",
     section: "My care",
   },
@@ -346,13 +346,13 @@ export function AppShell() {
 
   const roleMenu: { label: string; value: Role; desc: string }[] = [
     {
-      label: "Dr Olivia Chen",
+      label: "Dr Mohamed Tareq",
       value: "dentist",
       desc: "General dentist",
     },
-    { label: "Sophie Reed", value: "receptionist", desc: "Receptionist" },
-    { label: "Ethan Morgan", value: "admin", desc: "System admin" },
-    { label: "Maya Bennett", value: "patient", desc: "Patient portal" },
+    { label: "Fady Morkos", value: "receptionist", desc: "Receptionist" },
+    { label: "Marwan Morsy", value: "admin", desc: "System admin" },
+    { label: "Ahmed Ali", value: "patient", desc: "Patient portal" },
   ]
 
   return (
