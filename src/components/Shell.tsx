@@ -239,6 +239,30 @@ export function AppShell() {
     const session = supabase.auth.getSession()
     if (!session && location.pathname !== "/login") {
       navigate("/login")
+      return
+    }
+    if (session?.user?.email) {
+      supabase
+        .from("admin_users")
+        .select("role")
+        .eq("email", session.user.email.toLowerCase())
+        .single()
+        .then(({ data }: { data: any }) => {
+          if (data?.role) {
+            const r = String(data.role).toLowerCase()
+            const mapped: Role =
+              r.includes("admin")
+                ? "admin"
+                : r.includes("reception")
+                  ? "receptionist"
+                  : r.includes("patient")
+                    ? "patient"
+                    : "dentist"
+            setRole(mapped)
+            localStorage.setItem("dentcare-role", mapped)
+          }
+        })
+        .catch(() => undefined)
     }
   }, [location.pathname])
   const [role, setRole] = useState<Role>(
