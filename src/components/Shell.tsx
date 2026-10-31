@@ -22,6 +22,8 @@ import {
   UserRoundPlus,
   Bell,
   LockKeyhole,
+  PanelLeft,
+  PanelLeftClose,
   X,
 } from "lucide-react"
 import { useTheme } from "../app/theme"
@@ -233,6 +235,7 @@ export function AppShell() {
   const navigate = useNavigate()
   const location = useLocation()
   const { isDark, toggleTheme } = useTheme()
+  const isLanding = location.pathname === "/" || location.pathname.startsWith("/landing") || location.pathname.startsWith("/welcome")
 
   useEffect(() => {
     if (!isSupabaseConfigured) return
@@ -270,6 +273,12 @@ export function AppShell() {
   )
   const [menuOpen, setMenuOpen] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [collapsed, setCollapsed] = useState(
+    () => localStorage.getItem("dentcare-sidebar-collapsed") === "true",
+  )
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 780px)").matches,
+  )
   const [searchText, setSearchText] = useState("")
   const [searchOpen, setSearchOpen] = useState(false)
   const [notifications, setNotifications] = useState<AuditEvent[]>(
@@ -278,7 +287,18 @@ export function AppShell() {
   const [notificationsSeen, setNotificationsSeen] = useState(0)
   const [bellOpen, setBellOpen] = useState(false)
   const profile = profiles[role]
+  const sidebarCollapsed = collapsed && !isMobile
 
+  useEffect(() => {
+    localStorage.setItem("dentcare-sidebar-collapsed", String(collapsed))
+  }, [collapsed])
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 780px)")
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mq.addEventListener("change", handler)
+    return () => mq.removeEventListener("change", handler)
+  }, [])
   useEffect(() => {
     const refresh = () => setNotifications(loadAuditEvents())
     window.addEventListener(ADMIN_DATA_EVENT, refresh)
@@ -443,6 +463,23 @@ export function AppShell() {
 
   return (
     <div className="app-shell">
+      <style>{`
+        .sidebar nav a { transition: background 200ms ease, color 200ms ease, transform 200ms ease, box-shadow 200ms ease; }
+        .sidebar nav a:hover { transform: translateX(2px); }
+        .sidebar nav a.active { background: linear-gradient(90deg, rgba(74,154,219,.42), rgba(74,154,219,.14)); box-shadow: inset 0 0 0 1px rgba(146,202,245,.32); }
+        .top-search { transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease, min-width 200ms ease; }
+        .bell-button.has-unread { animation: dentcare-bell-pulse 1.6s ease-in-out infinite; }
+        @keyframes dentcare-bell-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(194,72,63,.45); } 50% { box-shadow: 0 0 0 8px rgba(194,72,63,0); } }
+        .sidebar-toggle { background: none; border: none; color: #dbe8f2; margin-left: auto; display: grid; place-items: center; padding: 4px; border-radius: 8px; }
+        .sidebar-toggle:hover { background: rgba(255,255,255,.08); color: #fff; }
+        .sidebar.collapsed { width: 64px; padding: 22px 8px; }
+        .sidebar.collapsed .brand { justify-content: center; gap: 0; }
+        .sidebar.collapsed .org-card, .sidebar.collapsed .nav-label, .sidebar.collapsed .sidebar-bottom { display: none; }
+        .sidebar.collapsed nav a { justify-content: center; padding: 0; gap: 0; }
+        .sidebar.collapsed nav a span, .sidebar.collapsed nav a small { display: none; }
+        .workspace.sidebar-collapsed { margin-left: 64px; width: calc(100% - 64px); }
+        @media (max-width: 780px) { .sidebar-toggle { display: none; } }
+      `}</style>
       {/* Mobile overlay */}
       {mobileNavOpen && (
         <div
@@ -451,10 +488,20 @@ export function AppShell() {
         />
       )}
 
-      <aside className={`sidebar ${mobileNavOpen ? "mobile-open" : ""}`}>
+      <aside
+        className={`sidebar ${mobileNavOpen ? "mobile-open" : ""} ${sidebarCollapsed ? "collapsed" : ""}`}
+      >
         <div className="brand">
           <ToothIcon />
-          <strong>DentCare</strong>
+          {!sidebarCollapsed && <strong>DentCare</strong>}
+          <button
+            className="sidebar-toggle"
+            onClick={() => setCollapsed((v) => !v)}
+            aria-label="Toggle sidebar"
+            title="Toggle sidebar"
+          >
+            {sidebarCollapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
+          </button>
           <button
             className="mobile-close"
             onClick={() => setMobileNavOpen(false)}
@@ -462,18 +509,20 @@ export function AppShell() {
             <X size={18} />
           </button>
         </div>
-        <div className="org-card">
-          <strong>Dental Practice</strong>
-          <span>
-            {role === "admin"
-              ? "Administration"
-              : role === "patient"
-                ? "Patient portal"
-                : "Clinical workspace"}{" "}
-            · Online
-          </span>
-        </div>
-        <span className="nav-label">{profile.section}</span>
+        {!sidebarCollapsed && (
+          <div className="org-card">
+            <strong>Dental Practice</strong>
+            <span>
+              {role === "admin"
+                ? "Administration"
+                : role === "patient"
+                  ? "Patient portal"
+                  : "Clinical workspace"}{" "}
+              · Online
+            </span>
+          </div>
+        )}
+        {!sidebarCollapsed && <span className="nav-label">{profile.section}</span>}
         <nav>
           {nav[role].map((item) => {
             const Icon = icons[item.icon]
@@ -481,8 +530,10 @@ export function AppShell() {
               <NavLink
                 key={item.label}
                 to={item.to}
+                title={sidebarCollapsed ? item.label : undefined}
                 className={isNavActive(item.to, item.label, location.pathname) ? "active" : ""}
                 onClick={() => setMobileNavOpen(false)}
+                style={{ transition: "all 200ms ease" }}
               >
                 <Icon size={18} />
                 <span>{item.label}</span>
@@ -497,25 +548,27 @@ export function AppShell() {
             )
           })}
         </nav>
-        <div className="sidebar-bottom">
-          <div className="privacy-card">
-            <LockKeyhole size={15} />
-            <div>
-              <strong>
-                {role === "patient"
-                  ? "Your private patient portal"
-                  : "Private clinical workspace"}
-              </strong>
-              <span>Educational project · fictional data</span>
+        {!sidebarCollapsed && (
+          <div className="sidebar-bottom">
+            <div className="privacy-card">
+              <LockKeyhole size={15} />
+              <div>
+                <strong>
+                  {role === "patient"
+                    ? "Your private patient portal"
+                    : "Private clinical workspace"}
+                </strong>
+                <span>Educational project · fictional data</span>
+              </div>
             </div>
+            <a className="help" href="mailto:help@dentcare.example">
+              <CircleHelp size={17} /> Help &amp; support
+            </a>
           </div>
-          <a className="help" href="mailto:help@dentcare.example">
-            <CircleHelp size={17} /> Help &amp; support
-          </a>
-        </div>
+        )}
       </aside>
 
-      <div className="workspace">
+      <div className={`workspace ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
         <header className="topbar">
           <div className="top-left">
             <button
@@ -527,11 +580,14 @@ export function AppShell() {
               <span />
               <span />
             </button>
-            <div className="top-search">
+            <div
+              className="top-search"
+              style={!isMobile ? { minWidth: 480, height: 44, fontSize: 14 } : undefined}
+            >
               {role === "patient" ? (
-                <ShieldCheck size={16} />
+                <ShieldCheck size={18} />
               ) : (
-                <Search size={16} />
+                <Search size={18} />
               )}
               <input
                 value={searchText}
@@ -590,7 +646,9 @@ export function AppShell() {
             {role === "admin" && (
               <div className="notif-wrap">
                 <button
-                  className="bell-button"
+                  className={`bell-button ${
+                    notifications.length - notificationsSeen > 0 ? "has-unread" : ""
+                  }`}
                   onClick={() => {
                     setBellOpen(!bellOpen)
                     setNotificationsSeen(notifications.length)

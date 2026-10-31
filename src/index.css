@@ -72,8 +72,9 @@
   --r-md: 12px;
   --r-lg: 16px;
   --sh-1: 0 1px 2px rgba(19, 44, 70, .05);
-  --sh-2: 0 1px 2px rgba(19, 44, 70, .05), 0 8px 20px -12px rgba(19, 44, 70, .18);
-  --sh-3: 0 18px 44px -18px rgba(19, 44, 70, .3), 0 2px 6px rgba(19, 44, 70, .06);
+  --sh-2: 0 1px 2px rgba(19, 44, 70, .04), 0 4px 10px -2px rgba(19, 44, 70, .06), 0 12px 24px -12px rgba(19, 44, 70, .12);
+  --sh-3: 0 2px 4px rgba(19, 44, 70, .04), 0 8px 18px -4px rgba(19, 44, 70, .08), 0 24px 48px -16px rgba(19, 44, 70, .18);
+  --sh-4: 0 4px 8px rgba(19, 44, 70, .06), 0 16px 32px -8px rgba(19, 44, 70, .12), 0 40px 80px -24px rgba(19, 44, 70, .22);
   --ring: 0 0 0 3px rgba(42, 109, 181, .2);
   --glass: rgba(255, 255, 255, .78);
   --scrim: rgba(10, 28, 46, .48);
@@ -85,7 +86,7 @@
 * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--scroll) transparent }
 body {
   margin: 0; min-width: 320px; background: var(--canvas);
-  font-size: 15px; line-height: 1.5;
+  font-size: 15px; line-height: 1.5; font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
   background-image:
     radial-gradient(1200px 600px at 10% -10%, rgba(42,109,181,.06), transparent 60%),
@@ -98,16 +99,15 @@ button { cursor: pointer }
 button:disabled { cursor: not-allowed; opacity: .5 }
 a { text-decoration: none; color: inherit }
 h1, h2, h3, p { margin-top: 0 }
-h1 { font-size: 28px; line-height: 1.22; font-weight: 650; letter-spacing: -.028em; color: var(--ink) }
-h2 { font-size: 16px; font-weight: 600; letter-spacing: -.014em; color: var(--ink) }
+h1 { font-size: 2.5rem; line-height: 1.1; font-weight: 650; letter-spacing: -.035em; color: var(--ink) }
+h2 { font-size: 1.5rem; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; color: var(--ink) }
 h3 {
-  font-size: 11px; font-weight: 700; margin: 20px 0 10px;
-  letter-spacing: .07em; text-transform: uppercase; color: var(--muted);
+  font-size: .875rem; font-weight: 700; margin: 20px 0 10px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
 }
 hr { border: 0; border-top: 1px solid var(--border); margin: 18px 0 }
-:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px }
-::selection { background: var(--sel) }
-input::placeholder, textarea::placeholder { color: var(--faint) }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; transition: box-shadow .15s ease, outline-color .15s ease }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; transition: box-shadow .15s ease, outline-color .15s ease }
 
 /* ── SHELL ─────────────────────────────────────────────── */
 .app-shell { display: flex; min-height: 100vh }
@@ -348,7 +348,7 @@ input::placeholder, textarea::placeholder { color: var(--faint) }
 .btn-danger { background: transparent; color: var(--red-ink); border-color: var(--red-line) }
 .btn-danger:hover:not(:disabled) { background: var(--red-bg); border-color: var(--red-line) }
 .btn:focus-visible { outline: none; box-shadow: var(--ring) }
-.btn:active:not(:disabled) { transform: translateY(0) }
+.btn:active:not(:disabled) { transform: scale(.97); transition: transform .1s ease }
 .wide { width: 100% }
 
 .card {
@@ -357,7 +357,7 @@ input::placeholder, textarea::placeholder { color: var(--faint) }
   box-shadow: var(--sh-2);
   transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
-.card:hover { box-shadow: var(--sh-3); border-color: var(--border) }
+.card:hover { box-shadow: var(--sh-3); border-color: var(--border); transform: translateY(-2px) }
 .card.flat { box-shadow: none }
 .card.flat:hover { box-shadow: var(--sh-1) }
 .section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px }
@@ -1186,16 +1186,34 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
 
 /* ── MOTION & UTILITIES ────────────────────────────────── */
 @keyframes shimmer {
-  0% { background-position: -400px 0 }
-  100% { background-position: 400px 0 }
+  0% { background-position: 200% 0 }
+  100% { background-position: -200% 0 }
 }
 .skeleton {
-  background: linear-gradient(90deg, var(--raise) 0%, var(--raise-2) 50%, var(--raise) 100%);
-  background-size: 800px 100%;
-  animation: shimmer 1.4s infinite linear;
+  background: linear-gradient(90deg, var(--raise) 25%, var(--raise-2) 50%, var(--raise) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
   border-radius: var(--r-md);
   color: transparent;
 }
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-lg);
+}
+.gradient-text {
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px) }
+  to { opacity: 1; transform: none }
+}
+.fade-in-up { animation: fade-in-up .3s ease-out both }
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(6px) }
   to { opacity: 1; transform: none }
@@ -1433,7 +1451,7 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
 
 
 /* ── DARK THEME ────────────────────────────────────────── */
-html[data-theme="dark"] {
+html[data-theme="dark"], :root[data-theme="dark"] {
   /* Brand reads one step brighter so it holds contrast on ink surfaces. */
   --navy: #d7e6f4;
   --blue: #4f96da;
@@ -1493,8 +1511,9 @@ html[data-theme="dark"] {
   --tile-ink: #8cc2f0;
 
   --sh-1: 0 1px 2px rgba(0, 0, 0, .4);
-  --sh-2: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 20px -12px rgba(0, 0, 0, .7);
-  --sh-3: 0 18px 44px -18px rgba(0, 0, 0, .85), 0 2px 6px rgba(0, 0, 0, .4);
+  --sh-2: 0 1px 2px rgba(0, 0, 0, .35), 0 4px 10px -2px rgba(0, 0, 0, .45), 0 12px 24px -12px rgba(0, 0, 0, .6);
+  --sh-3: 0 2px 4px rgba(0, 0, 0, .35), 0 8px 18px -4px rgba(0, 0, 0, .5), 0 24px 48px -16px rgba(0, 0, 0, .75);
+  --sh-4: 0 4px 8px rgba(0, 0, 0, .4), 0 16px 32px -8px rgba(0, 0, 0, .55), 0 40px 80px -24px rgba(0, 0, 0, .85);
   --ring: 0 0 0 3px rgba(79, 150, 218, .32);
   --glass: rgba(23, 36, 50, .82);
   --scrim: rgba(3, 8, 13, .62);
@@ -1528,6 +1547,25 @@ html[data-theme="dark"] .time-options button.active {
   background: linear-gradient(180deg, #2f76bd, #215c93);
 }
 
+/* ── RESPONSIVE: SMALL MOBILE (768px) ─────────────────── */
+@media (max-width: 768px) {
+  .stats-grid,
+  .dashboard-grid,
+  .content-grid,
+  .content-grid.wide-left {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-grid { display: grid; }
+}
+
 /* The odontogram paints its own light frame; hand it the dark palette. */
 html[data-theme="dark"] .odon-scope { background: linear-gradient(180deg, #14202c, #101a25) }
+
+/* ── PRINT ──────────────────────────────────────────────── */
+@media print {
+  .sidebar, .topbar, .mobile-overlay, .hamburger, .mobile-close { display: none !important; }
+  .workspace { margin: 0 !important; width: 100% !important; background: #fff !important; }
+  body { background: #fff !important; color: #000; }
+  .card, .stat, .empty-state { box-shadow: none !important; }
+}
 

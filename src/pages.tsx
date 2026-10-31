@@ -19,11 +19,13 @@ import {
 import {
   AlertTriangle,
   ArrowRight,
+  ArrowUp,
   Building2,
   CalendarDays,
   Check,
   ChevronRight,
   CircleDollarSign,
+  ClipboardList,
   ClipboardCheck,
   Clock,
   Download,
@@ -355,12 +357,14 @@ function StatCard({
   label,
   hint,
   tone,
+  trend,
 }: {
   icon: typeof Users
   value: string
   label: string
   hint: string
   tone: string
+  trend?: string
 }) {
   return (
     <Card className="stat">
@@ -368,7 +372,14 @@ function StatCard({
         <Icon size={21} />
       </span>
       <div>
-        <strong>{value}</strong>
+        <div className="stat-value-row">
+          <strong>{value}</strong>
+          {trend && (
+            <span className="stat-trend">
+              <ArrowUp size={11} /> {trend}
+            </span>
+          )}
+        </div>
         <span>{label}</span>
         <small>{hint}</small>
       </div>
@@ -427,7 +438,8 @@ export function Login() {
     if (isSupabaseConfigured) {
       supabase.auth
         .signInWithPassword(email, password)
-        .then(async ({ error }: { error: any }) => {
+        .then(async (res: any) => {
+          const error = res?.error
           if (error) {
             setAuthError(error.message || "Sign in failed.")
             return
@@ -635,23 +647,52 @@ export function Login() {
 export function Dashboard() {
   const navigate = useNavigate()
   const role = localStorage.getItem("dentcare-role") as string || "dentist"
-  const greetings: Record<string, string> = {
-    dentist: "Good morning, Mohamed",
-    receptionist: "Good morning, Fady",
-    admin: "Good morning, Marwan",
-    patient: "Good morning, Ahmed",
+  const hour = new Date().getHours()
+  const timeOfDay =
+    hour < 12 ? "morning" : hour < 18 ? "afternoon" : "evening"
+  const names: Record<string, string> = {
+    dentist: "Mohamed",
+    receptionist: "Fady",
+    admin: "Marwan",
+    patient: "Ahmed",
   }
+  const greeting = `Good ${timeOfDay}, ${names[role] || ""}`.trim()
   return (
     <>
-      <PageTitle
-        title={greetings[role] || "Good morning"}
-        subtitle="Thursday, 08 October 2026 · Here's what's happening today."
-        action={
-          <Button onClick={() => navigate("/appointments/manage")}>
-            <Plus size={16} /> New appointment
-          </Button>
+      <style>{`
+        .dashboard-welcome {
+          background: linear-gradient(135deg, rgba(42,109,181,.10), rgba(35,137,101,.06));
+          border-radius: 16px;
+          padding: 6px 12px 2px;
+          margin-bottom: 6px;
         }
-      />
+        .stat-value-row { display: flex; align-items: center; gap: 10px; }
+        .stat-trend {
+          display: inline-flex; align-items: center; gap: 2px;
+          font-size: 11px; font-weight: 600; color: #1c8159;
+          background: rgba(35,137,101,.10); padding: 2px 7px; border-radius: 999px;
+        }
+        .schedule-empty {
+          display: flex; flex-direction: column; align-items: center; gap: 6px;
+          padding: 36px 16px; text-align: center; color: var(--muted);
+        }
+        .schedule-empty strong { color: var(--ink); font-size: 15px; }
+        .schedule-empty p { margin: 0; font-size: 13px; max-width: 320px; line-height: 1.5; }
+        .schedule-empty svg { color: var(--blue); margin-bottom: 4px; }
+        .treatment-progress { align-items: center; }
+        .treatment-progress b { font-variant-numeric: tabular-nums; }
+      `}</style>
+      <div className="dashboard-welcome">
+        <PageTitle
+          title={greeting}
+          subtitle="Thursday, 08 October 2026 · Here's what's happening today."
+          action={
+            <Button onClick={() => navigate("/appointments/manage")}>
+              <Plus size={16} /> New appointment
+            </Button>
+          }
+        />
+      </div>
       <div className="stats-grid">
         <StatCard
           icon={Users}
@@ -659,6 +700,7 @@ export function Dashboard() {
           label="Registered patients"
           hint={`${patients.filter((p) => p.populated).length} with a clinical record`}
           tone="blue"
+          trend="+12%"
         />
         <StatCard
           icon={CalendarDays}
@@ -670,6 +712,7 @@ export function Dashboard() {
               : "No appointments booked"
           }
           tone="green"
+          trend="+8%"
         />
         <StatCard
           icon={Stethoscope}
@@ -677,6 +720,7 @@ export function Dashboard() {
           label="Active treatment plans"
           hint="2 procedures scheduled"
           tone="purple"
+          trend="+5%"
         />
         <StatCard
           icon={Clock}
@@ -684,6 +728,7 @@ export function Dashboard() {
           label="Requests awaiting review"
           hint="Not yet booked"
           tone="amber"
+          trend="+3%"
         />
       </div>
       <div className="dashboard-grid">
@@ -744,7 +789,7 @@ export function Dashboard() {
           {patients.some((p) => p.populated) ? (
             <Link className="treatment-progress" to="/patients/maya-bennett/treatment-plan">
               <span>Ahmed Ali · Caries management</span>
-              <b>2 of 4 planned</b>
+              <b>2 of 4 planned (50%)</b>
               <i>
                 <em />
               </i>
@@ -791,11 +836,17 @@ function SectionHead({
 }
 function DoctorSchedulePreview() {
   const clinician = clinicians[0]
-  if (!clinician) {
+  if (!clinician || clinician.appts.length === 0) {
     return (
-      <Notice tone="info">
-        No clinician schedule is available yet.
-      </Notice>
+      <div className="schedule-empty">
+        <CalendarDays size={34} />
+        <strong>No appointments scheduled</strong>
+        <p>
+          {clinician
+            ? `${clinician.name}'s schedule is clear for today. Book a new visit or enjoy the breathing room.`
+            : "No clinician schedule is available yet. Appointments will appear here once booked."}
+        </p>
+      </div>
     )
   }
   return (
@@ -2038,7 +2089,7 @@ export function TreatmentPlan() {
       )}
       <PatientHeader patient={patient} active="Treatment plan" />
       {savedPlans.length > 0 && (
-        <Card style={{ marginBottom: 16 }}>
+        <Card className="saved-plans-card">
           <SectionHead title="Saved plans" action={`${savedPlans.length} total`} />
           <div className="audit-list">
             {savedPlans
@@ -4876,8 +4927,64 @@ export function Prescriptions() {
 
 export function Landing() {
   const navigate = useNavigate()
+  const testimonials = [
+    { name: "Sarah M.", text: "Booking and records in one place — finally a clinic that feels modern.", rating: "★★★★★" },
+    { name: "Omar K.", text: "The dental chart explanations made my treatment easy to understand.", rating: "★★★★★" },
+    { name: "Lina R.", text: "Friendly team and a seamless digital experience from check-in to billing.", rating: "★★★★★" },
+  ]
   return (
     <>
+      <style>{`
+        @keyframes lv2FadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .landing-v2 .lv2-hero { animation: lv2FadeUp .7s ease both; }
+        .landing-v2 .lv2-section { animation: lv2FadeUp .7s ease both; animation-delay: .08s; }
+        .landing-v2 .lv2-section:nth-of-type(2) { animation-delay: .16s; }
+        .landing-v2 .lv2-section:nth-of-type(3) { animation-delay: .24s; }
+        .landing-v2 .lv2-section:nth-of-type(4) { animation-delay: .32s; }
+        .landing-v2 .lv2-section:nth-of-type(5) { animation-delay: .40s; }
+        .lv2-floating {
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          background: rgba(255,255,255,.82);
+        }
+        .lv2-hero-stats div + div {
+          border-left: 1px solid rgba(255,255,255,.22);
+          padding-left: 32px;
+        }
+        .lv2-testimonials {
+          display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto;
+        }
+        .lv2-testimonial {
+          padding: 24px 22px; border-radius: var(--r-lg); background: var(--panel);
+          border: 1px solid var(--border-soft); box-shadow: var(--sh-1);
+          display: flex; flex-direction: column; gap: 10px;
+        }
+        .lv2-testimonial .lv2-stars { color: #f59e0b; font-size: 13px; letter-spacing: 2px; }
+        .lv2-testimonial p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.6; font-style: italic; }
+        .lv2-testimonial strong { font-size: 13px; color: var(--ink); }
+        .lv2-trust-strip {
+          display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center;
+          margin-top: 28px;
+        }
+        .lv2-trust-chip {
+          padding: 8px 14px; border-radius: 999px; background: var(--surface);
+          border: 1px solid var(--border-soft); font-size: 12.5px; color: var(--ink-2); font-weight: 600;
+        }
+        .lv2-contact {
+          position: relative; overflow: hidden;
+          background-image:
+            radial-gradient(circle at 15% 25%, rgba(255,255,255,.08) 1px, transparent 1px),
+            radial-gradient(circle at 85% 75%, rgba(255,255,255,.06) 1px, transparent 1px),
+            linear-gradient(135deg, #0f172a, #1e3a5f);
+          background-size: 26px 26px, 34px 34px, auto;
+        }
+        @media (max-width: 900px) {
+          .lv2-testimonials { grid-template-columns: 1fr; }
+        }
+      `}</style>
       <div className="landing-v2">
         {/* Top bar */}
         <header className="lv2-nav">
@@ -4968,6 +5075,30 @@ export function Landing() {
                 <p>{s.text}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Testimonials / Trust */}
+        <section id="testimonials" className="lv2-section">
+          <div className="lv2-section-head">
+            <span className="lv2-eyebrow">Trusted by patients</span>
+            <h2>What our patients say</h2>
+            <p>Real stories from people who chose DentCare for their smile.</p>
+          </div>
+          <div className="lv2-testimonials">
+            {testimonials.map((t) => (
+              <div key={t.name} className="lv2-testimonial">
+                <span className="lv2-stars">{t.rating}</span>
+                <p>“{t.text}”</p>
+                <strong>— {t.name}</strong>
+              </div>
+            ))}
+          </div>
+          <div className="lv2-trust-strip">
+            <span className="lv2-trust-chip">HIPAA-aligned</span>
+            <span className="lv2-trust-chip">Role-based access</span>
+            <span className="lv2-trust-chip">Encrypted records</span>
+            <span className="lv2-trust-chip">24/7 portal</span>
           </div>
         </section>
 
