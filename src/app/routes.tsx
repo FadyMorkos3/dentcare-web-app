@@ -47,8 +47,9 @@ export const router = createBrowserRouter([
     path: "/",
     Component: AppShell,
     children: [
-      { index: true, Component: Landing },
+      { index: true, element: <Navigate to="/login" replace /> },
       { path: "landing", Component: Landing },
+      { path: "welcome", Component: Landing },
       { path: "dashboard", Component: Dashboard },
       { path: "patients", Component: Patients },
       { path: "patients/register", Component: RegisterPatient },

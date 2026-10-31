@@ -520,6 +520,11 @@ export function Login() {
       <section className="login-form-wrap">
         <header className="login-side-head">
           <span>
+            <Link to="/landing" className="text-link">
+              ← Back to website
+            </Link>
+          </span>
+          <span>
             Need assistance?{" "}
             <a href="mailto:help@dentcare.example">Contact support</a>
           </span>
