@@ -4878,145 +4878,162 @@ export function Landing() {
   const navigate = useNavigate()
   return (
     <>
-      <div className="landing">
-        <header className="landing-nav">
-          <div className="brand large">
+      <div className="landing-v2">
+        {/* Top bar */}
+        <header className="lv2-nav">
+          <div className="lv2-brand">
             <LoginToothIcon />
-            <strong>DentCare</strong>
+            <span>DentCare</span>
           </div>
-          <nav className="landing-nav-links">
-            <a href="#features">Features</a>
+          <nav className="lv2-nav-links">
             <a href="#services">Services</a>
-            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#doctors">Doctors</a>
+            <a href="#contact">Contact</a>
           </nav>
-          <Button onClick={() => navigate("/login")}>
-            Sign in <ArrowRight size={16} />
-          </Button>
+          <div className="lv2-nav-actions">
+            <Button variant="ghost" onClick={() => navigate("/login")}>
+              Sign in
+            </Button>
+            <Button onClick={() => navigate("/login")}>
+              Book appointment
+            </Button>
+          </div>
         </header>
 
-        <section className="landing-hero">
-          <div className="landing-hero-copy">
-            <span className="eyebrow">A connected clinical workspace</span>
-            <h1>
-              Better records.
-              <br />
-              Better dental care.
-            </h1>
-            <p>
-              Patient history, treatment planning, imaging and billing — together
-              in one clear, secure workspace for your whole practice.
-            </p>
-            <div className="landing-hero-actions">
-              <Button onClick={() => navigate("/login")}>
-                Get started <ArrowRight size={17} />
-              </Button>
-              <Button variant="secondary" onClick={() => navigate("/login")}>
-                Book a demo
-              </Button>
+        {/* Hero */}
+        <section className="lv2-hero">
+          <div className="lv2-hero-bg" />
+          <div className="lv2-hero-inner">
+            <div className="lv2-hero-text">
+              <span className="lv2-pill">Trusted dental care</span>
+              <h1>
+                Your smile,
+                <br />
+                <span className="lv2-gradient">our priority.</span>
+              </h1>
+              <p>
+                Book appointments, manage your dental records and connect with
+                your dentist — all in one modern, secure platform.
+              </p>
+              <div className="lv2-hero-actions">
+                <Button onClick={() => navigate("/login")}>
+                  Book now <ArrowRight size={17} />
+                </Button>
+                <Button variant="secondary" onClick={() => navigate("/login")}>
+                  Explore services
+                </Button>
+              </div>
+              <div className="lv2-hero-stats">
+                <div><strong>12k+</strong><span>Happy patients</span></div>
+                <div><strong>15+</strong><span>Years experience</span></div>
+                <div><strong>4.9★</strong><span>Patient rating</span></div>
+              </div>
+            </div>
+            <div className="lv2-hero-visual">
+              <div className="lv2-hero-card">
+                <HeroTooth />
+              </div>
+              <div className="lv2-floating lv2-f1">
+                <Check size={14} /> Appointment confirmed
+              </div>
+              <div className="lv2-floating lv2-f2">
+                <ShieldCheck size={14} /> Secure records
+              </div>
             </div>
           </div>
-          <div className="landing-hero-art">
-            <HeroTooth />
-          </div>
         </section>
 
-        <section id="features" className="landing-section">
-          <PageTitle
-            title="Everything your practice needs"
-            subtitle="Built for clinicians, reception and patients."
-          />
-          <div className="landing-features">
-            {[
-              {
-                icon: Users,
-                title: "Patient records",
-                text: "Complete digital patient files with history, allergies and demographics.",
-              },
-              {
-                icon: Stethoscope,
-                title: "Dental charting",
-                text: "Interactive odontogram with per-tooth findings, saved per patient.",
-              },
-              {
-                icon: ClipboardCheck,
-                title: "Treatment plans",
-                text: "Build, price and track treatment plans with consent status.",
-              },
-              {
-                icon: ImageIcon,
-                title: "Imaging",
-                text: "Store and review x-rays with zoom and annotation tools.",
-              },
-              {
-                icon: CalendarDays,
-                title: "Appointments",
-                text: "Book, check in and manage the daily schedule.",
-              },
-              {
-                icon: CircleDollarSign,
-                title: "Billing",
-                text: "Invoices, payments and receipts in one place.",
-              },
-              {
-                icon: FileText,
-                title: "Prescriptions",
-                text: "Issue and download prescriptions with dosage and frequency.",
-              },
-              {
-                icon: ShieldCheck,
-                title: "Secure access",
-                text: "Role-based access for dentists, reception, admins and patients.",
-              },
-            ].map((f) => (
-              <Card key={f.title} className="landing-feature">
-                <span className="stat-icon blue">
-                  <f.icon size={20} />
-                </span>
-                <h2>{f.title}</h2>
-                <p className="body-copy">{f.text}</p>
-              </Card>
-            ))}
+        {/* Services */}
+        <section id="services" className="lv2-section">
+          <div className="lv2-section-head">
+            <span className="lv2-eyebrow">What we offer</span>
+            <h2>Comprehensive dental services</h2>
+            <p>From routine check-ups to advanced procedures, all in one place.</p>
           </div>
-        </section>
-
-        <section id="services" className="landing-section">
-          <PageTitle
-            title="Services we support"
-            subtitle="Comprehensive dental care workflows."
-          />
-          <div className="landing-services">
+          <div className="lv2-services">
             {[
-              "General dentistry",
-              "Restorative care",
-              "Endodontics",
-              "Periodontics",
-              "Hygiene & prevention",
-              "Imaging & diagnostics",
+              { icon: Stethoscope, title: "General dentistry", text: "Check-ups, cleanings and preventive care." },
+              { icon: ClipboardCheck, title: "Restorative care", text: "Fillings, crowns and bridges." },
+              { icon: ImageIcon, title: "Digital imaging", text: "Modern x-rays and diagnostics." },
+              { icon: CalendarDays, title: "Orthodontics", text: "Braces and aligners for all ages." },
+              { icon: Users, title: "Pediatric dentistry", text: "Gentle care for children." },
+              { icon: CircleDollarSign, title: "Cosmetic dentistry", text: "Whitening and smile design." },
             ].map((s) => (
-              <div key={s} className="landing-service">
-                <Check size={16} /> <span>{s}</span>
+              <div key={s.title} className="lv2-service-card">
+                <span className="lv2-service-icon">
+                  <s.icon size={22} />
+                </span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section id="about" className="landing-section landing-cta">
-          <Card className="empty-state">
-            <ShieldCheck size={36} />
-            <h2>Ready to transform your practice?</h2>
-            <p>
-              Sign in to explore the DentCare workspace. Demo accounts are
-              available on the login screen.
-            </p>
-            <Button onClick={() => navigate("/login")}>
-              Sign in to DentCare <ArrowRight size={17} />
-            </Button>
-          </Card>
+        {/* Features */}
+        <section id="features" className="lv2-section lv2-features-section">
+          <div className="lv2-section-head">
+            <span className="lv2-eyebrow">Platform features</span>
+            <h2>Built for modern practices</h2>
+          </div>
+          <div className="lv2-features">
+            {[
+              { icon: Users, title: "Patient records", text: "Complete digital files with history and allergies." },
+              { icon: Stethoscope, title: "Dental charting", text: "Interactive odontogram per patient." },
+              { icon: ClipboardCheck, title: "Treatment plans", text: "Build, price and track plans." },
+              { icon: CalendarDays, title: "Appointments", text: "Book, check in, manage schedule." },
+              { icon: FileText, title: "Prescriptions", text: "Issue and download prescriptions." },
+              { icon: ShieldCheck, title: "Secure access", text: "Role-based access for the whole team." },
+            ].map((f) => (
+              <div key={f.title} className="lv2-feature">
+                <f.icon size={18} />
+                <div>
+                  <strong>{f.title}</strong>
+                  <span>{f.text}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
-        <footer className="landing-footer">
+        {/* Doctors */}
+        <section id="doctors" className="lv2-section">
+          <div className="lv2-section-head">
+            <span className="lv2-eyebrow">Our team</span>
+            <h2>Meet our doctors</h2>
+          </div>
+          <div className="lv2-doctors">
+            {[
+              { name: "Dr. Mohamed Tareq", role: "General Dentist", initials: "MT" },
+              { name: "Dr. Mohamed Tareq", role: "Orthodontist", initials: "MT" },
+            ].map((d, i) => (
+              <div key={i} className="lv2-doctor">
+                <div className="lv2-doctor-avatar">{d.initials}</div>
+                <strong>{d.name}</strong>
+                <span>{d.role}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="lv2-section lv2-contact">
+          <div className="lv2-contact-inner">
+            <div>
+              <span className="lv2-eyebrow">Get in touch</span>
+              <h2>Ready to book your visit?</h2>
+              <p>Sign in to access the patient portal or contact reception.</p>
+            </div>
+            <Button onClick={() => navigate("/login")}>
+              Sign in <ArrowRight size={17} />
+            </Button>
+          </div>
+        </section>
+
+        <footer className="lv2-footer">
           <span>DentCare © 2026</span>
-          <span>Privacy · Terms of use</span>
+          <span>Privacy · Terms · Contact</span>
         </footer>
       </div>
     </>
