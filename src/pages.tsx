@@ -2896,7 +2896,7 @@ export function BillingPage() {
 
 export function Imaging({ portal = false }: { portal?: boolean }) {
   const routePatient = usePatientContext()
-  const patient = portal ? portalPatient : routePatient
+  const patient = portal ? portalPatient : routePatient ?? portalPatient
   if (!patient) {
     return <NoPatientSelected purpose="imaging" />
   }
