@@ -91,7 +91,30 @@ function build(seed: Seed): Patient {
   }
 }
 
-const basePatients: Patient[] = []
+const basePatients: Patient[] = [
+  build({
+    id: "DC-001284",
+    name: "Ahmed Ali",
+    fullName: "Ahmed Ali",
+    dob: "14 Feb 1992",
+    gender: "Male",
+    clinician: "Dr Mohamed Tareq",
+    lastVisit: "24 Sep 2026",
+    nextAppointment: "Today, 09:30 · Restoration",
+    status: "Active",
+    address: "18 Willow Close, Ridgeway, RG3 2LP",
+    email: "ahmed.ali@example.com",
+    phone: "07700 900284",
+    nhsNumber: "943 476 5919",
+    registeredOn: "12 Jan 2019",
+    registeredBy: "Fady Morkos",
+    allergies: [
+      { agent: "Penicillin", reaction: "urticaria" },
+      { agent: "Latex", reaction: "contact dermatitis" },
+    ],
+    populated: true,
+  }),
+]
 
 const EXTRA_KEY = "dentcare-registered-patients"
 
@@ -187,32 +210,7 @@ export function dobFromIso(iso: string) {
 }
 
 /** The account the patient portal signs in as. */
-/** Showcase record used only by the patient portal so the portal always has
- *  something to demonstrate, even though the clinician register starts empty. */
-const showcasePatient = build({
-  id: "DC-001284",
-  name: "Ahmed Ali",
-  fullName: "Ahmed Ali",
-  dob: "14 Feb 1992",
-  gender: "Male",
-  clinician: "Dr Mohamed Tareq",
-  lastVisit: "24 Sep 2026",
-  nextAppointment: "Today, 09:30 · Restoration",
-  status: "Active",
-  address: "18 Willow Close, Ridgeway, RG3 2LP",
-  email: "ahmed.ali@example.com",
-  phone: "07700 900284",
-  nhsNumber: "943 476 5919",
-  registeredOn: "12 Jan 2019",
-  registeredBy: "Fady Morkos",
-  allergies: [
-    { agent: "Penicillin", reaction: "urticaria" },
-    { agent: "Latex", reaction: "contact dermatitis" },
-  ],
-  populated: true,
-})
-
-export const portalPatient: Patient | null = showcasePatient
+export const portalPatient: Patient | null = patients[0] ?? null
 
 /** The record a clinician is currently working in. Session-scoped so top-level
  *  nav (Imaging, Billing) can send the user at their chosen patient instead of
