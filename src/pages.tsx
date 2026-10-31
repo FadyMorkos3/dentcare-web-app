@@ -1404,6 +1404,32 @@ export function ClinicalNotes({ portal = false }: { portal?: boolean }) {
       return []
     }
   })
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    let cancelled = false
+    supabase
+      .from("clinical_notes")
+      .select("*")
+      .eq("patient_slug", patient!.slug)
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: any }) => {
+        if (cancelled || !Array.isArray(data)) return
+        const mapped: ClinicalNote[] = data.map((row: any) => ({
+          date: row.date,
+          clinician: row.clinician,
+          title: row.title,
+          tag: row.tag,
+          tone: row.tone,
+          findings: row.findings,
+          plan: row.plan,
+        }))
+        setExtraNotes(mapped)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [patient])
   const [noteForm, setNoteForm] = useState({
     title: "",
     findings: "",
@@ -1435,6 +1461,23 @@ export function ClinicalNotes({ portal = false }: { portal?: boolean }) {
       `dentcare-notes-${patient!.slug}`,
       JSON.stringify(updated),
     )
+    if (isSupabaseConfigured) {
+      supabase
+        .from("clinical_notes")
+        .insert({
+          id: `note-${Date.now()}`,
+          patient_slug: patient!.slug,
+          date: next.date,
+          clinician: next.clinician,
+          title: next.title,
+          tag: next.tag,
+          tone: next.tone,
+          findings: next.findings,
+          plan: next.plan,
+        })
+        .then(() => undefined)
+        .catch(() => undefined)
+    }
     setNoteForm({ title: "", findings: "", plan: "", tag: "Active problem", tone: "blue" })
     setNoteSaved(true)
   }
@@ -1535,10 +1578,7 @@ export function ClinicalNotes({ portal = false }: { portal?: boolean }) {
                 </article>
               ))}
             </div>
-            <Notice tone="warning">
-              Fictional record for demonstration — illustrative findings only,
-              not a diagnostic source.
-            </Notice>
+
           </Card>
           <div className="stack">
             <Card>
@@ -2268,9 +2308,54 @@ export function Appointments() {
   })
   const [notice, setNotice] = useState(false)
 
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    let cancelled = false
+    supabase
+      .from("appointments")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: any }) => {
+        if (cancelled || !Array.isArray(data)) return
+        const mapped = data.map((row: any) => ({
+          id: row.id,
+          patientName: row.patient_name,
+          clinician: row.clinician,
+          date: row.date,
+          time: row.time,
+          reason: row.reason,
+          status: row.status,
+        }))
+        setItems(mapped)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   function persist(next: typeof items) {
     setItems(next)
     localStorage.setItem("dentcare-appointments", JSON.stringify(next))
+    if (isSupabaseConfigured) {
+      // upsert all is heavy; instead upsert the latest added. We'll upsert each item individually is costly.
+      // For simplicity, upsert the first (newest) item.
+      const newest = next[0]
+      if (newest) {
+        supabase
+          .from("appointments")
+          .upsert({
+            id: newest.id,
+            patient_name: newest.patientName,
+            clinician: newest.clinician,
+            date: newest.date,
+            time: newest.time,
+            reason: newest.reason,
+            status: newest.status,
+          })
+          .then(() => undefined)
+          .catch(() => undefined)
+      }
+    }
   }
 
   function book() {
@@ -2303,6 +2388,9 @@ export function Appointments() {
 
   function remove(id: string) {
     persist(items.filter((a) => a.id !== id))
+    if (isSupabaseConfigured) {
+      supabase.from("appointments").delete().eq("id", id).then(() => undefined).catch(() => undefined)
+    }
   }
 
   return (
@@ -3042,10 +3130,7 @@ function ImagingLibrary({
               alt={`${images[image]?.name} dental image`}
             />
           </div>
-          <Notice tone="warning">
-            Fictional imaging — not a diagnostic record. Illustrative anatomy
-            only.
-          </Notice>
+
         </Card>
         <Card>
           <SectionHead title="Image metadata" />

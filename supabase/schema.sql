@@ -105,6 +105,43 @@ create policy "Authenticated write dental_charts"
   using (true)
   with check (true);
 
+create table if not exists public.clinical_notes (
+  id text primary key,
+  patient_slug text not null references public.patients (slug) on delete cascade,
+  date text not null,
+  clinician text not null,
+  title text not null,
+  tag text,
+  tone text,
+  findings text not null,
+  plan text,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.appointments (
+  id text primary key,
+  patient_name text not null,
+  clinician text not null,
+  date text not null,
+  time text not null,
+  reason text,
+  status text not null default 'Scheduled',
+  created_at timestamptz not null default now()
+);
+
+alter table public.clinical_notes enable row level security;
+alter table public.appointments enable row level security;
+
+create policy "Authenticated read clinical_notes"
+  on public.clinical_notes for select to authenticated using (true);
+create policy "Authenticated write clinical_notes"
+  on public.clinical_notes for all to authenticated using (true) with check (true);
+
+create policy "Authenticated read appointments"
+  on public.appointments for select to authenticated using (true);
+create policy "Authenticated write appointments"
+  on public.appointments for all to authenticated using (true) with check (true);
+
 -- Helpful updated_at trigger
 create or replace function public.touch_updated_at()
 returns trigger as $$
