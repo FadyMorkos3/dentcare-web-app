@@ -133,50 +133,54 @@ function HeroTooth() {
   return (
     <svg
       className="hero-tooth"
-      viewBox="0 0 150 170"
+      viewBox="0 0 160 180"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      style={{ filter: "drop-shadow(0 12px 32px rgba(96,165,250,0.4))" }}
+      style={{ filter: "drop-shadow(0 16px 40px rgba(96,165,250,0.45))" }}
     >
       <defs>
-        <linearGradient id="hero-tooth-fill" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="hero-tooth-fill" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="55%" stopColor="#f0f9ff" />
-          <stop offset="100%" stopColor="#bfdbfe" />
+          <stop offset="50%" stopColor="#dbeafe" />
+          <stop offset="100%" stopColor="#93c5fd" />
         </linearGradient>
         <linearGradient id="hero-tooth-stroke" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#60a5fa" />
-          <stop offset="100%" stopColor="#2563eb" />
+          <stop offset="100%" stopColor="#1d4ed8" />
         </linearGradient>
-        <radialGradient id="hero-tooth-glow" cx="40%" cy="25%" r="55%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-        </radialGradient>
       </defs>
+      {/* Modern abstract tooth: smooth single silhouette, no roots */}
       <path
-        d="M75 16c-18.5 0-32 11.5-32 27 0 7.3 2.4 13.6 6.2 18.5 2.9 3.7 4.5 8.3 4.5 13.1v2.3c0 1.3.2 2.6.6 3.8l2.7 10.2c1.2 4.6 1.8 9.3 1.8 14 0 4.5 2 8.9 5.1 8.9 2.7 0 3.8-2.3 4.5-5.5l1.6-12.1c.5-4 2.6-6.6 5.1-6.6s4.6 2.6 5.1 6.6l1.6 12.1c.7 3.2 1.8 5.5 4.5 5.5 3.1 0 5.1-4.4 5.1-8.9 0-4.7.6-9.4 1.8-14l2.7-10.2c.4-1.2.6-2.5.6-3.8v-2.3c0-4.8 1.6-9.4 4.5-13.1 3.8-4.9 6.2-11.2 6.2-18.5 0-15.5-13.5-27-32-27Z"
+        d="M80 20
+           C 52 20, 34 38, 34 62
+           C 34 74, 38 84, 46 92
+           C 50 96, 52 102, 52 108
+           L 52 138
+           C 52 150, 60 160, 72 162
+           C 76 162.5, 84 162.5, 88 162
+           C 100 160, 108 150, 108 138
+           L 108 108
+           C 108 102, 110 96, 114 92
+           C 122 84, 126 74, 126 62
+           C 126 38, 108 20, 80 20 Z"
         fill="url(#hero-tooth-fill)"
         stroke="url(#hero-tooth-stroke)"
-        strokeWidth="2.2"
+        strokeWidth="2.4"
         strokeLinejoin="round"
       />
+      {/* inner highlight */}
       <path
-        d="M75 16c-18.5 0-32 11.5-32 27 0 7.3 2.4 13.6 6.2 18.5 2.9 3.7 4.5 8.3 4.5 13.1v2.3c0 1.3.2 2.6.6 3.8l2.7 10.2c1.2 4.6 1.8 9.3 1.8 14 0 4.5 2 8.9 5.1 8.9 2.7 0 3.8-2.3 4.5-5.5l1.6-12.1c.5-4 2.6-6.6 5.1-6.6s4.6 2.6 5.1 6.6l1.6 12.1c.7 3.2 1.8 5.5 4.5 5.5 3.1 0 5.1-4.4 5.1-8.9 0-4.7.6-9.4 1.8-14l2.7-10.2c.4-1.2.6-2.5.6-3.8v-2.3c0-4.8 1.6-9.4 4.5-13.1 3.8-4.9 6.2-11.2 6.2-18.5 0-15.5-13.5-27-32-27Z"
-        fill="url(#hero-tooth-glow)"
-      />
-      {/* highlight arc on crown */}
-      <path
-        d="M58 30c4-6 10-9 17-9"
+        d="M62 40 C 56 46, 54 56, 56 66"
         fill="none"
         stroke="#ffffff"
-        strokeWidth="2.4"
+        strokeWidth="3"
         strokeLinecap="round"
-        opacity="0.85"
+        opacity="0.7"
       />
-      {/* sparkles */}
-      <path d="M112 26l1.6 3.2 3.2 1.6-3.2 1.6-1.6 3.2-1.6-3.2-3.2-1.6 3.2-1.6 1.6-3.2Z" fill="#93c5fd" opacity="0.95" />
-      <path d="M42 52l1.2 2.4 2.4 1.2-2.4 1.2-1.2 2.4-1.2-2.4-2.4-1.2 2.4-1.2 1.2-2.4Z" fill="#a7f3d0" opacity="0.9" />
+      {/* sparkle */}
+      <path d="M124 30 l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4Z" fill="#93c5fd" opacity="0.95" />
+      <path d="M40 70 l1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5 3-1.5 1.5-3Z" fill="#a7f3d0" opacity="0.9" />
     </svg>
   )
 }
