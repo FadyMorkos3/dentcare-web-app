@@ -1420,9 +1420,6 @@ export function DentalChart({ portal = false }: { portal?: boolean }) {
                   ? "Click a tooth to see what was recorded on it. This chart is read-only."
                   : "Click a tooth to chart it, double-click to add a clinical note."}
               </p>
-              <Button variant="ghost" onClick={() => openPerioOverlay()}>
-                <Stethoscope size={16} /> Periodontal chart
-              </Button>
             </div>
           </div>
           {!patient.populated && (
