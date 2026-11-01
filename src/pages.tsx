@@ -101,15 +101,15 @@ function LoginToothIcon() {
     <svg
       width="36"
       height="36"
-      viewBox="0 0 512 512"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ flexShrink: 0 }}
     >
-      <rect width="512" height="512" rx="120" fill="#2a6db5" />
+      <rect width="24" height="24" rx="6" fill="#2a6db5" />
       <path
         fill="#ffffff"
-        d="M272 0C208.6 0 160 62.8 160 128c0 29.2 10.8 56.7 24.6 78.7c9.1 14.6 14.4 31.4 16.2 48.5l6.1 59.4C209.2 337.9 228.6 352 250 352h44c21.4 0 40.8-14.1 43.1-37.4l6.1-59.4c1.8-17.1 7.1-33.9 16.2-48.5C401.2 184.7 412 157.2 412 128C412 62.8 363.4 0 300 0H272z"
+        d="M7 2C4 2 2 5 2 8c0 2.11 1 5 2 6s2 8 4 8c4.54 0 2-7 4-7s-.54 7 4 7c2 0 3-7 4-8s2-3.89 2-6c0-3-2-6-5-6s-3 1-5 1s-2-1-5-1"
       />
     </svg>
   )
@@ -120,32 +120,33 @@ function HeroTooth() {
   return (
     <svg
       className="hero-tooth"
-      viewBox="0 0 512 512"
+      viewBox="0 0 150 170"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      style={{ filter: "drop-shadow(0 16px 40px rgba(42,109,181,0.4))", width: 180, height: 180 }}
+      style={{ filter: "drop-shadow(0 12px 32px rgba(42,109,181,0.35))" }}
     >
       <defs>
         <linearGradient id="hero-tooth-fill" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="100%" stopColor="#bfdbfe" />
+          <stop offset="100%" stopColor="#dbeafe" />
         </linearGradient>
       </defs>
+      <g transform="translate(39, 25) scale(4.5)">
+        <path
+          fill="url(#hero-tooth-fill)"
+          stroke="#2a6db5"
+          strokeWidth="0.4"
+          d="M7 2C4 2 2 5 2 8c0 2.11 1 5 2 6s2 8 4 8c4.54 0 2-7 4-7s-.54 7 4 7c2 0 3-7 4-8s2-3.89 2-6c0-3-2-6-5-6s-3 1-5 1s-2-1-5-1"
+        />
+      </g>
       <path
-        fill="url(#hero-tooth-fill)"
-        stroke="#2a6db5"
-        strokeWidth="6"
-        strokeLinejoin="round"
-        d="M272 0C208.6 0 160 62.8 160 128c0 29.2 10.8 56.7 24.6 78.7c9.1 14.6 14.4 31.4 16.2 48.5l6.1 59.4C209.2 337.9 228.6 352 250 352h44c21.4 0 40.8-14.1 43.1-37.4l6.1-59.4c1.8-17.1 7.1-33.9 16.2-48.5C401.2 184.7 412 157.2 412 128C412 62.8 363.4 0 300 0H272z"
-      />
-      <path
-        d="M220 80 C 210 95, 205 115, 210 135"
+        d="M60 55 C 60 45, 75 40, 90 55"
         fill="none"
         stroke="#ffffff"
-        strokeWidth="10"
+        strokeWidth="2.5"
         strokeLinecap="round"
-        opacity="0.7"
+        opacity="0.8"
       />
     </svg>
   )
