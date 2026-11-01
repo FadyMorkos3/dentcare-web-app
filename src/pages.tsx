@@ -101,29 +101,16 @@ function LoginToothIcon() {
     <svg
       width="36"
       height="36"
-      viewBox="0 0 34 34"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ flexShrink: 0, filter: "drop-shadow(0 2px 4px rgba(42,109,181,0.35))" }}
+      style={{ flexShrink: 0 }}
     >
-      <defs>
-        <linearGradient id="login-tooth-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#3b82f6" />
-          <stop offset="100%" stopColor="#1d4ed8" />
-        </linearGradient>
-        <linearGradient id="login-tooth-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="100%" stopColor="#e8f1fb" />
-        </linearGradient>
-      </defs>
-      <rect width="34" height="34" rx="10" fill="url(#login-tooth-bg)" />
+      <rect width="24" height="24" rx="6" fill="#2a6db5" />
       <path
-        d="M17 6.5C13.2 6.5 10.6 8.9 10.6 12.2c0 1.6.5 3 1.3 4.2.5.9.8 1.9.8 2.9v.6c0 .4.1.7.2 1l.9 3.4c.3 1.3.5 2.5.5 3.8 0 1.1.4 2 1.1 2s1-.7 1.1-1.5l.4-3.1c.1-.8.7-1.4 1.5-1.4h.8c.8 0 1.4.6 1.5 1.4l.4 3.1c.1.8.5 1.5 1.1 1.5s1.1-.9 1.1-2c0-1.3.2-2.5.5-3.8l.9-3.4c.1-.3.2-.6.2-1v-.6c0-1 .3-2 .8-2.9.8-1.2 1.3-2.6 1.3-4.2 0-3.3-2.6-5.7-6.4-5.7Z"
-        fill="url(#login-tooth-fill)"
-        stroke="rgba(255,255,255,0.6)"
-        strokeWidth="0.6"
+        fill="#ffffff"
+        d="M7 2C4 2 2 5 2 8c0 2.11 1 5 2 6s2 8 4 8c4.54 0 2-7 4-7s-.54 7 4 7c2 0 3-7 4-8s2-3.89 2-6c0-3-2-6-5-6s-3 1-5 1s-2-1-5-1"
       />
-      <circle cx="24" cy="10" r="1.6" fill="#93c5fd" opacity="0.9" />
     </svg>
   )
 }
@@ -133,54 +120,34 @@ function HeroTooth() {
   return (
     <svg
       className="hero-tooth"
-      viewBox="0 0 160 180"
+      viewBox="0 0 150 170"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      style={{ filter: "drop-shadow(0 16px 40px rgba(96,165,250,0.45))" }}
+      style={{ filter: "drop-shadow(0 12px 32px rgba(42,109,181,0.35))" }}
     >
       <defs>
-        <linearGradient id="hero-tooth-fill" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id="hero-tooth-fill" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="50%" stopColor="#dbeafe" />
-          <stop offset="100%" stopColor="#93c5fd" />
-        </linearGradient>
-        <linearGradient id="hero-tooth-stroke" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#60a5fa" />
-          <stop offset="100%" stopColor="#1d4ed8" />
+          <stop offset="100%" stopColor="#dbeafe" />
         </linearGradient>
       </defs>
-      {/* Modern abstract tooth: smooth single silhouette, no roots */}
+      <g transform="translate(39, 25) scale(4.5)">
+        <path
+          fill="url(#hero-tooth-fill)"
+          stroke="#2a6db5"
+          strokeWidth="0.4"
+          d="M7 2C4 2 2 5 2 8c0 2.11 1 5 2 6s2 8 4 8c4.54 0 2-7 4-7s-.54 7 4 7c2 0 3-7 4-8s2-3.89 2-6c0-3-2-6-5-6s-3 1-5 1s-2-1-5-1"
+        />
+      </g>
       <path
-        d="M80 20
-           C 52 20, 34 38, 34 62
-           C 34 74, 38 84, 46 92
-           C 50 96, 52 102, 52 108
-           L 52 138
-           C 52 150, 60 160, 72 162
-           C 76 162.5, 84 162.5, 88 162
-           C 100 160, 108 150, 108 138
-           L 108 108
-           C 108 102, 110 96, 114 92
-           C 122 84, 126 74, 126 62
-           C 126 38, 108 20, 80 20 Z"
-        fill="url(#hero-tooth-fill)"
-        stroke="url(#hero-tooth-stroke)"
-        strokeWidth="2.4"
-        strokeLinejoin="round"
-      />
-      {/* inner highlight */}
-      <path
-        d="M62 40 C 56 46, 54 56, 56 66"
+        d="M60 55 C 60 45, 75 40, 90 55"
         fill="none"
         stroke="#ffffff"
-        strokeWidth="3"
+        strokeWidth="2.5"
         strokeLinecap="round"
-        opacity="0.7"
+        opacity="0.8"
       />
-      {/* sparkle */}
-      <path d="M124 30 l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4Z" fill="#93c5fd" opacity="0.95" />
-      <path d="M40 70 l1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5 3-1.5 1.5-3Z" fill="#a7f3d0" opacity="0.9" />
     </svg>
   )
 }
