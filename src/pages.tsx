@@ -137,39 +137,46 @@ function HeroTooth() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      style={{ filter: "drop-shadow(0 8px 24px rgba(96,165,250,0.35))" }}
+      style={{ filter: "drop-shadow(0 12px 32px rgba(96,165,250,0.4))" }}
     >
       <defs>
-        <linearGradient id="tooth-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-          <stop offset="60%" stopColor="#f0f7ff" stopOpacity="0.98" />
-          <stop offset="100%" stopColor="#dbeafe" stopOpacity="0.9" />
+        <linearGradient id="hero-tooth-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="55%" stopColor="#f0f9ff" />
+          <stop offset="100%" stopColor="#bfdbfe" />
         </linearGradient>
-        <linearGradient id="tooth-stroke" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#93c5fd" />
-          <stop offset="100%" stopColor="#3b82f6" />
+        <linearGradient id="hero-tooth-stroke" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#60a5fa" />
+          <stop offset="100%" stopColor="#2563eb" />
         </linearGradient>
-        <radialGradient id="tooth-glow" cx="50%" cy="30%" r="60%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.6" />
+        <radialGradient id="hero-tooth-glow" cx="40%" cy="25%" r="55%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.75" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </radialGradient>
       </defs>
       <path
-        d="M75 18c-17.5 0-30 10.8-30 25.4 0 6.8 2.2 12.8 5.8 17.4 2.7 3.4 4.2 7.8 4.2 12.3v2.1c0 1.2.2 2.4.5 3.5l2.5 9.6c1.1 4.3 1.7 8.7 1.7 13.2 0 4.2 1.9 8.3 4.8 8.3 2.5 0 3.6-2.1 4.2-5.2l1.5-11.4c.5-3.8 2.4-6.2 4.8-6.2 2.4 0 4.3 2.4 4.8 6.2l1.5 11.4c.6 3.1 1.7 5.2 4.2 5.2 2.9 0 4.8-4.1 4.8-8.3 0-4.5.6-8.9 1.7-13.2l2.5-9.6c.3-1.1.5-2.3.5-3.5v-2.1c0-4.5 1.5-8.9 4.2-12.3 3.6-4.6 5.8-10.6 5.8-17.4C105 28.8 92.5 18 75 18Z"
-        fill="url(#tooth-fill)"
-        stroke="url(#tooth-stroke)"
-        strokeWidth="2"
+        d="M75 16c-18.5 0-32 11.5-32 27 0 7.3 2.4 13.6 6.2 18.5 2.9 3.7 4.5 8.3 4.5 13.1v2.3c0 1.3.2 2.6.6 3.8l2.7 10.2c1.2 4.6 1.8 9.3 1.8 14 0 4.5 2 8.9 5.1 8.9 2.7 0 3.8-2.3 4.5-5.5l1.6-12.1c.5-4 2.6-6.6 5.1-6.6s4.6 2.6 5.1 6.6l1.6 12.1c.7 3.2 1.8 5.5 4.5 5.5 3.1 0 5.1-4.4 5.1-8.9 0-4.7.6-9.4 1.8-14l2.7-10.2c.4-1.2.6-2.5.6-3.8v-2.3c0-4.8 1.6-9.4 4.5-13.1 3.8-4.9 6.2-11.2 6.2-18.5 0-15.5-13.5-27-32-27Z"
+        fill="url(#hero-tooth-fill)"
+        stroke="url(#hero-tooth-stroke)"
+        strokeWidth="2.2"
+        strokeLinejoin="round"
       />
       <path
-        d="M75 18c-17.5 0-30 10.8-30 25.4 0 6.8 2.2 12.8 5.8 17.4 2.7 3.4 4.2 7.8 4.2 12.3v2.1c0 1.2.2 2.4.5 3.5l2.5 9.6c1.1 4.3 1.7 8.7 1.7 13.2 0 4.2 1.9 8.3 4.8 8.3 2.5 0 3.6-2.1 4.2-5.2l1.5-11.4c.5-3.8 2.4-6.2 4.8-6.2 2.4 0 4.3 2.4 4.8 6.2l1.5 11.4c.6 3.1 1.7 5.2 4.2 5.2 2.9 0 4.8-4.1 4.8-8.3 0-4.5.6-8.9 1.7-13.2l2.5-9.6c.3-1.1.5-2.3.5-3.5v-2.1c0-4.5 1.5-8.9 4.2-12.3 3.6-4.6 5.8-10.6 5.8-17.4C105 28.8 92.5 18 75 18Z"
-        fill="url(#tooth-glow)"
+        d="M75 16c-18.5 0-32 11.5-32 27 0 7.3 2.4 13.6 6.2 18.5 2.9 3.7 4.5 8.3 4.5 13.1v2.3c0 1.3.2 2.6.6 3.8l2.7 10.2c1.2 4.6 1.8 9.3 1.8 14 0 4.5 2 8.9 5.1 8.9 2.7 0 3.8-2.3 4.5-5.5l1.6-12.1c.5-4 2.6-6.6 5.1-6.6s4.6 2.6 5.1 6.6l1.6 12.1c.7 3.2 1.8 5.5 4.5 5.5 3.1 0 5.1-4.4 5.1-8.9 0-4.7.6-9.4 1.8-14l2.7-10.2c.4-1.2.6-2.5.6-3.8v-2.3c0-4.8 1.6-9.4 4.5-13.1 3.8-4.9 6.2-11.2 6.2-18.5 0-15.5-13.5-27-32-27Z"
+        fill="url(#hero-tooth-glow)"
       />
-      {/* sparkle */}
+      {/* highlight arc on crown */}
       <path
-        d="M108 30l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4Z"
-        fill="#93c5fd"
-        opacity="0.9"
+        d="M58 30c4-6 10-9 17-9"
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        opacity="0.85"
       />
+      {/* sparkles */}
+      <path d="M112 26l1.6 3.2 3.2 1.6-3.2 1.6-1.6 3.2-1.6-3.2-3.2-1.6 3.2-1.6 1.6-3.2Z" fill="#93c5fd" opacity="0.95" />
+      <path d="M42 52l1.2 2.4 2.4 1.2-2.4 1.2-1.2 2.4-1.2-2.4-2.4-1.2 2.4-1.2 1.2-2.4Z" fill="#a7f3d0" opacity="0.9" />
     </svg>
   )
 }
