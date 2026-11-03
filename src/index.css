@@ -1037,9 +1037,15 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
 }
 .login-art {
   position: relative; overflow: hidden;
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #2a6db5 100%);
+  background: linear-gradient(160deg, #0a0f1e 0%, #1a2744 40%, #1e3a5f 100%);
   color: #fff; padding: 48px 56px;
   display: flex; flex-direction: column; justify-content: space-between;
+}
+.login-art:after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(700px 500px at 70% 30%, rgba(251,191,36,.08), transparent 60%),
+              radial-gradient(500px 400px at 20% 80%, rgba(96,165,250,.12), transparent 60%);
+  pointer-events: none;
 }
 .login-art:before {
   content: ""; position: absolute; inset: 0;
@@ -1092,6 +1098,15 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
   border-radius: var(--r-lg); padding: 36px 32px; box-shadow: var(--sh-3);
 }
 .login-form h2 { font-size: 24px; margin-bottom: 4px; color: var(--ink) }
+.login-form .btn-primary {
+  background: linear-gradient(180deg, #f59e0b, #d97706); color: #1a1200;
+  box-shadow: 0 1px 2px rgba(120, 80, 0, .3), inset 0 1px 0 rgba(255,255,255,.25);
+  font-weight: 700;
+}
+.login-form .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #fbbf24, #f59e0b);
+  transform: translateY(-1px); box-shadow: 0 8px 18px -8px rgba(217,119,6,.6);
+}
 .login-form p { color: var(--muted); font-size: 13.5px; margin: 0 0 24px }
 .mobile-brand { display: none }
 .practice {
