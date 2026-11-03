@@ -5013,14 +5013,37 @@ export function Landing() {
               </div>
             </div>
             <div className="lv2-hero-visual">
-              <div className="lv2-hero-card">
-                <HeroTooth />
-              </div>
-              <div className="lv2-floating lv2-f1">
-                <Check size={14} /> Appointment confirmed
-              </div>
-              <div className="lv2-floating lv2-f2">
-                <ShieldCheck size={14} /> Secure records
+              <div className="lv2-hero-card lv2-hero-card-alt">
+                <div className="lv2-hero-stats-card">
+                  <div className="lv2-stat-row">
+                    <span className="lv2-stat-dot green" />
+                    <div>
+                      <strong>Today's appointments</strong>
+                      <small>8 booked · 3 completed</small>
+                    </div>
+                  </div>
+                  <div className="lv2-stat-row">
+                    <span className="lv2-stat-dot blue" />
+                    <div>
+                      <strong>Active patients</strong>
+                      <small>1,284 registered</small>
+                    </div>
+                  </div>
+                  <div className="lv2-stat-row">
+                    <span className="lv2-stat-dot amber" />
+                    <div>
+                      <strong>Pending treatments</strong>
+                      <small>12 in progress</small>
+                    </div>
+                  </div>
+                  <div className="lv2-stat-row">
+                    <span className="lv2-stat-dot purple" />
+                    <div>
+                      <strong>Revenue this month</strong>
+                      <small>£24,800 collected</small>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
