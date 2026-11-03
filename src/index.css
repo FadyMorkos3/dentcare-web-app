@@ -1074,29 +1074,31 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
 .lv2-hero-actions .btn-primary { background: linear-gradient(180deg, #3b82f6, #2563eb) }
 .lv2-hero-actions .btn-secondary { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.25) }
 .lv2-hero-actions .btn-secondary:hover { background: rgba(255,255,255,.18) }
-.lv2-hero-stats { display: flex; gap: 40px }
-.lv2-hero-stats div { display: flex; flex-direction: column; gap: 2px }
-.lv2-hero-stats strong { font-size: 26px; font-weight: 700; color: #fff }
-.lv2-hero-stats span { font-size: 12px; color: rgba(255,255,255,.6) }
+.lv2-trust { display: flex; flex-direction: column; gap: 10px }
+.lv2-trust span { font-size: 12px; color: rgba(255,255,255,.5) }
+.lv2-trust-logos { display: flex; gap: 16px; flex-wrap: wrap }
+.lv2-trust-logos span {
+  padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7);
+}
 
-.lv2-hero-visual { position: relative; display: grid; place-items: center }
-.lv2-hero-card {
-  width: 300px; min-height: 260px; border-radius: 24px;
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
-  backdrop-filter: blur(20px); padding: 24px;
-  box-shadow: 0 20px 60px -20px rgba(0,0,0,.5);
+.lv2-mock-browser {
+  border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15); box-shadow: 0 20px 60px -20px rgba(0,0,0,.5);
 }
-.lv2-hero-stats-card { display: flex; flex-direction: column; gap: 16px }
-.lv2-stat-row { display: flex; align-items: center; gap: 12px }
-.lv2-stat-dot {
-  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-}
-.lv2-stat-dot.green { background: #34d399; box-shadow: 0 0 8px #34d399 }
-.lv2-stat-dot.blue { background: #60a5fa; box-shadow: 0 0 8px #60a5fa }
-.lv2-stat-dot.amber { background: #fbbf24; box-shadow: 0 0 8px #fbbf24 }
-.lv2-stat-dot.purple { background: #a78bfa; box-shadow: 0 0 8px #a78bfa }
-.lv2-stat-row strong { display: block; font-size: 13px; color: #fff; font-weight: 600 }
-.lv2-stat-row small { font-size: 11.5px; color: rgba(255,255,255,.6) }
+.lv2-mock-bar { display: flex; gap: 6px; padding: 10px 12px; background: rgba(255,255,255,.05) }
+.lv2-mock-bar span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.2) }
+.lv2-mock-body { display: grid; grid-template-columns: 60px 1fr; min-height: 200px }
+.lv2-mock-sidebar { padding: 12px 8px; display: flex; flex-direction: column; gap: 8px; border-right: 1px solid rgba(255,255,255,.08) }
+.lv2-mock-nav-item { height: 8px; border-radius: 4px; background: rgba(255,255,255,.1) }
+.lv2-mock-nav-item.active { background: rgba(124,192,255,.5) }
+.lv2-mock-content { padding: 16px; display: flex; flex-direction: column; gap: 12px }
+.lv2-mock-card { display: flex; gap: 16px }
+.lv2-mock-stat { display: flex; flex-direction: column; gap: 2px }
+.lv2-mock-stat strong { font-size: 16px; color: #fff }
+.lv2-mock-stat small { font-size: 10px; color: rgba(255,255,255,.5) }
+.lv2-mock-row { height: 8px; border-radius: 4px; background: rgba(255,255,255,.08); width: 100% }
+.lv2-mock-row.short { width: 60% }
 
 .lv2-section { padding: 80px 40px; max-width: 1200px; margin: 0 auto }
 .lv2-section-head { text-align: center; margin-bottom: 48px }
@@ -1132,20 +1134,49 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
 .lv2-feature strong { display: block; font-size: 14px; color: var(--ink); margin-bottom: 2px }
 .lv2-feature span { font-size: 12.5px; color: var(--muted); line-height: 1.5 }
 
-.lv2-doctors { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap }
-.lv2-doctor {
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  padding: 24px 32px; border-radius: var(--r-lg); background: var(--panel);
+.lv2-screenshots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px }
+.lv2-screenshot {
+  border-radius: var(--r-lg); overflow: hidden; background: var(--panel);
   border: 1px solid var(--border-soft); box-shadow: var(--sh-1);
 }
-.lv2-doctor-avatar {
-  width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
-  background: linear-gradient(150deg, var(--ava-from), var(--ava-to)); color: var(--ava-ink);
-  font-weight: 700; font-size: 18px; margin-bottom: 8px;
-  box-shadow: inset 0 0 0 1px var(--ava-line);
+.lv2-screenshot-bar { height: 28px; background: var(--surface); border-bottom: 1px solid var(--border-soft) }
+.lv2-screenshot-body { padding: 16px; min-height: 120px; display: flex; flex-direction: column; gap: 8px }
+.lv2-screenshot-body.dark { background: #0f172a }
+.lv2-screenshot span { display: block; padding: 10px 16px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); border-top: 1px solid var(--border-soft) }
+.lv2-mock-chart { height: 80px; border-radius: 8px; background: linear-gradient(135deg, #1e3a5f, #2a6db5) }
+
+.lv2-pricing-section { background: var(--surface) }
+.lv2-pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto }
+.lv2-pricing-card {
+  padding: 32px 24px; border-radius: var(--r-lg); background: var(--panel);
+  border: 1px solid var(--border-soft); box-shadow: var(--sh-1); position: relative;
+  display: flex; flex-direction: column; gap: 12px;
 }
-.lv2-doctor strong { font-size: 15px; color: var(--ink) }
-.lv2-doctor span { font-size: 12.5px; color: var(--muted) }
+.lv2-pricing-card.popular { border-color: var(--blue); box-shadow: var(--sh-3) }
+.lv2-popular-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  padding: 4px 12px; border-radius: 999px; background: var(--blue); color: #fff;
+  font-size: 11px; font-weight: 600;
+}
+.lv2-pricing-card h3 { font-size: 18px; margin: 0 }
+.lv2-pricing-desc { font-size: 13px; color: var(--muted); margin: 0 }
+.lv2-pricing-price { display: flex; align-items: baseline; gap: 4px }
+.lv2-pricing-price strong { font-size: 36px; font-weight: 700; color: var(--ink) }
+.lv2-pricing-price span { font-size: 14px; color: var(--muted) }
+.lv2-pricing-features { list-style: none; padding: 0; margin: 8px 0; display: flex; flex-direction: column; gap: 8px }
+.lv2-pricing-features li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2) }
+.lv2-pricing-features li svg { color: var(--green-ink) }
+
+.lv2-faq { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px }
+.lv2-faq-item { border: 1px solid var(--border-soft); border-radius: var(--r-md); overflow: hidden; background: var(--panel) }
+.lv2-faq-q {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 20px; border: none; background: none; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: var(--ink); text-align: left;
+}
+.lv2-faq-q:hover { background: var(--raise) }
+.lv2-faq-icon { font-size: 18px; color: var(--muted) }
+.lv2-faq-a { padding: 0 20px 16px; font-size: 13.5px; color: var(--ink-2); line-height: 1.6; margin: 0 }
 
 .lv2-contact { background: linear-gradient(135deg, #0f172a, #1e3a5f); color: #fff; border-radius: var(--r-lg); margin: 0 40px 60px; padding: 60px 40px }
 .lv2-contact-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap }
@@ -1164,412 +1195,8 @@ html[data-theme] .odon-scope .perio-summary-card { padding: 14px 16px }
   .lv2-hero h1 { font-size: 42px }
   .lv2-services { grid-template-columns: 1fr }
   .lv2-features { grid-template-columns: 1fr }
+  .lv2-screenshots { grid-template-columns: 1fr }
+  .lv2-pricing { grid-template-columns: 1fr }
   .lv2-nav-links { display: none }
-  .lv2-floating { display: none }
   .lv2-hero-stats { gap: 24px }
 }
-
-/* ── TOAST ─────────────────────────────────────────────── */
-.toast-stack {
-  position: fixed; right: 24px; bottom: 24px; z-index: 100;
-  display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-}
-.toast {
-  pointer-events: auto; min-width: 260px; max-width: 360px;
-  padding: 14px 16px; border-radius: var(--r-md);
-  background: var(--panel); border: 1px solid var(--border-soft);
-  box-shadow: var(--sh-3); font-size: 13px; color: var(--ink);
-  display: flex; align-items: center; gap: 10px;
-  animation: fade-in .22s ease-out both;
-}
-.toast-success { border-left: 3px solid var(--green) }
-.toast-info { border-left: 3px solid var(--blue) }
-.toast-danger { border-left: 3px solid var(--red) }
-
-/* ── MOTION & UTILITIES ────────────────────────────────── */
-@keyframes shimmer {
-  0% { background-position: 200% 0 }
-  100% { background-position: -200% 0 }
-}
-.skeleton {
-  background: linear-gradient(90deg, var(--raise) 25%, var(--raise-2) 50%, var(--raise) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite linear;
-  border-radius: var(--r-md);
-  color: transparent;
-}
-.glass {
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  backdrop-filter: blur(12px) saturate(160%);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--r-lg);
-}
-.gradient-text {
-  background: linear-gradient(90deg, var(--blue), var(--green));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(12px) }
-  to { opacity: 1; transform: none }
-}
-.fade-in-up { animation: fade-in-up .3s ease-out both }
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(6px) }
-  to { opacity: 1; transform: none }
-}
-.fade-in { animation: fade-in .22s ease-out both }
-.card, .stat, .patient-row, .note-entry {
-  transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
-}
-.card:hover { box-shadow: var(--sh-3) }
-.empty-state .btn { margin: 20px auto 0 }
-
-
-/* ── LOGIN ─────────────────────────────────────────────── */
-.login-page {
-  min-height: 100vh; display: grid; grid-template-columns: 1.05fr 1fr;
-  background: var(--canvas);
-}
-.login-art {
-  position: relative; overflow: hidden; color: #d8e5ee; padding: 44px 8% 32px;
-  display: flex; flex-direction: column;
-  background: linear-gradient(178deg, #224560 0%, #1a3550 48%, #13273d 100%);
-}
-.login-art:before {
-  content: ""; position: absolute; width: 620px; height: 620px;
-  border-radius: 50%; background: radial-gradient(circle, #2f6b99, transparent 66%);
-  left: 50%; top: 54%; translate: -50% -50%; opacity: .55;
-}
-.login-art:after {
-  content: ""; position: absolute; width: 420px; height: 420px;
-  border-radius: 50%; background: radial-gradient(circle, rgba(88, 168, 232, .16), transparent 70%);
-  left: -160px; top: -140px;
-}
-.brand.large { padding: 0; position: relative; z-index: 1 }
-.brand.large svg { color: #7cc0ff }
-.login-copy { margin-top: clamp(26px, 8vh, 84px); position: relative; z-index: 1 }
-.eyebrow { text-transform: uppercase; letter-spacing: .17em; color: #6fb0e4; font-size: 11px; font-weight: 600 }
-.login-copy h1 { font-size: 45px; line-height: 1.16; font-weight: 600; letter-spacing: -.028em; color: #e9f1f8; margin: 18px 0 }
-.login-copy p { font-size: 15px; max-width: 420px; line-height: 1.7; color: #a9c2d6 }
-
-/* Orbits and tooth share one box so the chips can overlap the illustration
-   without escaping .login-art's overflow clip. */
-.login-hero {
-  position: relative; z-index: 1; margin-top: auto; align-self: center;
-  flex: 0 1 auto; min-height: 0;
-  width: min(470px, 92%); height: clamp(210px, 33vh, 320px);
-}
-.hero-orbits { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible }
-.hero-tooth {
-  position: absolute; left: 50%; top: 50%; translate: -50% -50%;
-  width: 42%; filter: drop-shadow(0 0 40px rgba(110, 193, 255, .45));
-  transition: transform .3s ease;
-}
-.login-hero:hover .hero-tooth { transform: translate(-50%, -50%) scale(1.03) }
-.hero-chip {
-  position: absolute; z-index: 2; display: flex; align-items: center; gap: 11px;
-  padding: 10px 15px 10px 10px; border-radius: 13px; white-space: nowrap;
-  background: linear-gradient(180deg, #3273b6, #27619c);
-  box-shadow: 0 16px 34px -16px rgba(4, 22, 38, .75), inset 0 1px 0 rgba(255, 255, 255, .14);
-}
-.hero-chip div { display: flex; flex-direction: column; gap: 2px }
-.hero-chip strong { color: #f2f8fd; font-size: 13px; font-weight: 600 }
-.hero-chip small { color: #b7d5ee; font-size: 11px }
-.hero-chip-icon {
-  width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center;
-  border-radius: 9px; background: rgba(255, 255, 255, .15); color: #cfe6fa;
-}
-/* Kept inside the hero box on purpose: the two chips sit in separate vertical
-   bands, so they can never collide at narrow desktop widths nor overhang the
-   panel edge. */
-.chip-one { left: 0; top: 32% }
-.chip-two { right: 0; bottom: 6% }
-
-.login-art-foot { position: relative; z-index: 1; margin-top: 34px; display: flex; flex-direction: column; gap: 5px }
-.login-art-foot .rule { display: block; height: 1px; background: rgba(146, 187, 218, .24); margin-bottom: 15px }
-.login-art-foot strong { color: #dceaf4; font-size: 13px; font-weight: 500 }
-.login-art-foot small { color: #86a6bd; font-size: 11.5px }
-
-.login-form-wrap {
-  display: flex; flex-direction: column; position: relative; min-width: 0;
-  padding: 26px 7% 24px; background: var(--canvas);
-}
-.login-side-head {
-  display: flex; align-items: center; justify-content: flex-end; gap: 14px;
-  font-size: 12.5px; color: var(--muted);
-}
-.login-side-head a { color: var(--blue); font-weight: 600; text-decoration: none }
-.login-side-head a:hover { text-decoration: underline }
-
-/* The form is deliberately cardless: it sits on the canvas so the eye reads
-   one quiet column instead of a panel floating inside a panel. */
-.login-form {
-  width: min(420px, 100%); margin: auto; padding: 0;
-  display: flex; flex-direction: column;
-}
-.practice {
-  display: inline-flex; align-items: center; gap: 7px; font-size: 11px;
-  font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--blue);
-}
-.login-form h2 { font-size: 34px; margin: 12px 0 8px; letter-spacing: -.03em; font-weight: 600 }
-.login-form > p { color: var(--muted); margin: 0 0 30px; font-size: 14px; line-height: 1.6 }
-.login-form .field { margin-bottom: 18px; font-size: 12.5px; color: var(--ink) }
-.login-form .field > span { letter-spacing: 0; font-weight: 500 }
-.with-icon { position: relative; display: block }
-.with-icon > svg {
-  position: absolute; left: 13px; top: 50%; translate: 0 -50%;
-  color: var(--faint); pointer-events: none;
-}
-.login-form .with-icon input { height: 46px; padding: 0 42px 0 40px; background: var(--panel); font-size: 13.5px }
-.login-form .with-icon .reveal {
-  position: absolute; right: 8px; top: 50%; translate: 0 -50%;
-  width: 30px; height: 30px; display: grid; place-items: center;
-  border: 0; background: none; color: var(--muted); border-radius: 8px;
-}
-.login-form .with-icon .reveal:hover { background: var(--raise-2); color: var(--ink-2) }
-.login-form button.wide { height: 47px; font-size: 14px; margin-top: 4px }
-.secure-line {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin: 22px 0 0; font-size: 12px; color: var(--muted);
-}
-.secure-line svg { color: var(--blue); flex-shrink: 0 }
-.demo {
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border-soft);
-}
-.demo > span { font-size: 10.5px; text-transform: uppercase; color: var(--faint); letter-spacing: .1em; font-weight: 600 }
-.demo div { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center }
-.demo button {
-  border: 1px solid var(--border); background: var(--panel); border-radius: 99px;
-  padding: 6px 12px; color: var(--muted); font-size: 11.5px; font-weight: 500;
-}
-.demo button:hover { background: var(--tint-blue); border-color: var(--tint-line); color: var(--blue-dark) }
-.login-side-foot {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  text-align: center; font-size: 11.5px; color: var(--faint); line-height: 1.6;
-}
-.mobile-brand { display: none }
-
-
-/* ── RESPONSIVE: TABLET ────────────────────────────────── */
-@media (max-width: 1100px) {
-  .sidebar { width: 208px }
-  .workspace { margin-left: 208px; width: calc(100% - 208px) }
-  .workspace main { padding: 24px }
-  .workspace footer { padding: 6px 24px 18px }
-  .patient-strip {
-    grid-template-columns: minmax(220px,1.5fr) repeat(2,minmax(120px,1fr)) auto auto;
-  }
-  .patient-strip > div:nth-of-type(4) { display: none }
-  .stats-grid { grid-template-columns: 1fr 1fr }
-  .dashboard-grid { grid-template-columns: 1fr 1fr }
-  .dashboard-grid .span-2 { grid-column: span 2 }
-  .imaging-layout { grid-template-columns: 170px 1fr }
-  .imaging-layout > .card:last-child { grid-column: span 2 }
-  .schedule-layout { grid-template-columns: 1fr }
-  .appointment-detail { display: none }
-}
-
-/* ── RESPONSIVE: MOBILE ────────────────────────────────── */
-@media (max-width: 780px) {
-  body { font-size: 14px }
-  h1 { font-size: 23px }
-  .hamburger { display: flex }
-  .sidebar {
-    position: fixed; width: 248px;
-    transform: translateX(-100%); z-index: 30;
-  }
-  .sidebar.mobile-open { transform: translateX(0) }
-  .mobile-close { display: block }
-  .mobile-overlay {
-    display: block; position: fixed; inset: 0; z-index: 25;
-    background: var(--scrim);
-    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
-  }
-  .workspace { margin: 0; width: 100% }
-  .topbar { height: 58px; padding: 0 14px }
-  .top-search { min-width: 0; width: 100%; height: 36px }
-  .top-search kbd, .top-actions > .top-date, .profile-menu span { display: none }
-  .workspace main { padding: 16px }
-  .workspace footer { display: none }
-  .page-title h1 { font-size: 22px }
-  .page-title .btn { padding: 0 12px }
-  .card { padding: 18px; border-radius: var(--r-md) }
-
-  .patient-strip {
-    grid-template-columns: minmax(0,1fr) auto; gap: 12px; padding: 14px 16px;
-  }
-  /* Keep the initials: they are the only identity cue left once the clinician,
-     visit and status columns are dropped. */
-  .patient-strip > div:not(.patient-id), .patient-strip > .badge { display: none }
-  .patient-row { grid-template-columns: minmax(0,1fr) auto auto; gap: 10px }
-  .patient-row .patient-clinician { display: none }
-  .allergy { height: auto; padding: 10px 12px; align-items: flex-start; flex-wrap: wrap; font-size: 11.5px }
-  .allergy small { margin: 0; width: 100% }
-  .tabs { gap: 18px; overflow: auto }
-
-  .content-grid, .content-grid.wide-left, .chart-layout, .imaging-layout {
-    grid-template-columns: 1fr;
-  }
-  .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px }
-  .schedule-preview-list { grid-template-columns: 1fr }
-  .schedule-preview-appt { grid-template-columns: 50px minmax(0,1fr) 16px }
-  .schedule-preview-status { display: none }
-  .stat { padding: 15px 16px }
-  .stat strong { font-size: 22px }
-  .dashboard-grid { display: flex; flex-direction: column }
-  .schedule-layout { display: block; overflow: auto }
-  .schedule { min-width: 720px }
-  .filter-row { grid-template-columns: 1fr 1fr }
-  .form-grid, .detail-grid, .form-grid.three { grid-template-columns: 1fr }
-  .imaging-layout > .card:last-child { grid-column: auto }
-  .gallery { display: grid; grid-template-columns: repeat(3,1fr) }
-  .gallery .section-head { grid-column: span 3 }
-  .procedure-table { overflow: auto }
-  .table-head, .table-row { min-width: 650px }
-  .odontogram .section-head { flex-direction: column; align-items: flex-start; gap: 10px }
-  .chart-tools { flex-direction: column; align-items: flex-start; gap: 8px }
-  .chart-hint { text-align: left; max-width: none }
-  /* Scroll the chart body, never .odon-scope: the toolbar menus are
-     position:absolute inside the sticky topbar, so a scroll wrapper around the
-     whole widget clips them off-screen. */
-  .odon-scope .layout { overflow-x: auto }
-  .odon-scope .chart-column { min-width: 540px }
-  .invoice-row { min-width: 500px }
-  .login-page { grid-template-columns: 1fr }
-  .login-art { display: none }
-  .login-form-wrap { padding: 20px 22px }
-  .login-side-head { gap: 10px; font-size: 12px }
-  .login-form { margin: auto 0; padding: 26px 0 }
-  .login-form h2 { font-size: 27px }
-  .mobile-brand { display: block; color: var(--blue); font-size: 19px; font-weight: 650; letter-spacing: -.02em; margin-bottom: 22px }
-  .login-side-foot { margin-top: 34px }
-  .calendar-tools { grid-template-columns: repeat(4,auto); overflow: auto }
-  .calendar-tools div { display: none }
-  .span-2 { grid-column: auto }
-  .empty-state { padding: 36px 22px; margin: 40px auto }
-}
-
-
-/* ── DARK THEME ────────────────────────────────────────── */
-html[data-theme="dark"], :root[data-theme="dark"] {
-  /* Brand reads one step brighter so it holds contrast on ink surfaces. */
-  --navy: #d7e6f4;
-  --blue: #4f96da;
-  --blue-dark: #7ab4e8;
-  --blue-bright: #8fc9fb;
-
-  /* Surfaces */
-  --canvas: #0d151e;
-  --surface: #131f2b;
-  --panel: #172432;
-  --panel-2: #1a2836;
-  --panel-3: #121e2a;
-  --sunken: #101a24;
-  --raise: #1d2c3b;
-  --raise-2: #223343;
-  --tint-blue: #17304a;
-  --tint-line: #2a4b6c;
-  --track: #22323f;
-
-  /* Lines */
-  --border: #263746;
-  --border-soft: #1f2e3c;
-  --border-strong: #35506a;
-
-  /* Text */
-  --ink: #e7eff7;
-  --ink-2: #b3c4d3;
-  --muted: #8ba0b3;
-  --faint: #6d8496;
-
-  /* Status: fills are the hue at ~12% so they stay legible without glowing */
-  --red: #e0666d;
-  --red-ink: #f0989e;
-  --red-bg: #2a171b;
-  --red-line: #4d272c;
-  --green: #35b184;
-  --green-ink: #6fd0a8;
-  --green-bg: #12291f;
-  --green-line: #204a39;
-  --amber: #d79a45;
-  --amber-ink: #e5b877;
-  --amber-bg: #2a2013;
-  --amber-line: #4a371d;
-  --blue-ink: #8cc2f0;
-  --blue-bg: #14293d;
-  --blue-line: #24455f;
-  --purple: #a585d8;
-  --gray-ink: #a8b8c6;
-  --gray-bg: #1b2733;
-
-  --ava-from: #1e3a52;
-  --ava-to: #16304a;
-  --ava-ink: #a8cff0;
-  --ava-line: rgba(140, 194, 240, .22);
-  --tile-from: #1c3348;
-  --tile-to: #16304a;
-  --tile-ink: #8cc2f0;
-
-  --sh-1: 0 1px 2px rgba(0, 0, 0, .4);
-  --sh-2: 0 1px 2px rgba(0, 0, 0, .35), 0 4px 10px -2px rgba(0, 0, 0, .45), 0 12px 24px -12px rgba(0, 0, 0, .6);
-  --sh-3: 0 2px 4px rgba(0, 0, 0, .35), 0 8px 18px -4px rgba(0, 0, 0, .5), 0 24px 48px -16px rgba(0, 0, 0, .75);
-  --sh-4: 0 4px 8px rgba(0, 0, 0, .4), 0 16px 32px -8px rgba(0, 0, 0, .55), 0 40px 80px -24px rgba(0, 0, 0, .85);
-  --ring: 0 0 0 3px rgba(79, 150, 218, .32);
-  --glass: rgba(23, 36, 50, .82);
-  --scrim: rgba(3, 8, 13, .62);
-  --scroll: #2b3d4e;
-  --sel: #234a70;
-  --grad-hi: #16222e;
-}
-
-/* Pastel chips are the one thing tokens can't carry: each hue needs a
-   translucent fill plus a light glyph colour once the card goes dark. */
-html[data-theme="dark"] .stat-icon.green { background: linear-gradient(150deg, #12312a, #16403a); color: #6fd0a8; box-shadow: inset 0 0 0 1px #204a39 }
-html[data-theme="dark"] .stat-icon.purple { background: linear-gradient(150deg, #241d38, #2d2446); color: #b79ae4; box-shadow: inset 0 0 0 1px #3b2f57 }
-html[data-theme="dark"] .stat-icon.amber { background: linear-gradient(150deg, #33260f, #40300f); color: #e5b877; box-shadow: inset 0 0 0 1px #4a371d }
-
-html[data-theme="dark"] .mini-avatar.a0 { background: linear-gradient(150deg, #1c3a52, #16304a); color: #8cc2f0; box-shadow: inset 0 0 0 1px #2a4b6c }
-html[data-theme="dark"] .mini-avatar.a1 { background: linear-gradient(150deg, #14332a, #104034); color: #6fd0a8; box-shadow: inset 0 0 0 1px #204a39 }
-html[data-theme="dark"] .mini-avatar.a2 { background: linear-gradient(150deg, #251d3a, #2d2446); color: #b79ae4; box-shadow: inset 0 0 0 1px #3b2f57 }
-html[data-theme="dark"] .mini-avatar.a3 { background: linear-gradient(150deg, #34260f, #40300f); color: #e5b877; box-shadow: inset 0 0 0 1px #4a371d }
-html[data-theme="dark"] .mini-avatar.a4 { background: linear-gradient(150deg, #35191d, #421e23); color: #f0989e; box-shadow: inset 0 0 0 1px #4d272c }
-html[data-theme="dark"] .mini-avatar.a5 { background: linear-gradient(150deg, #1d2833, #22303c); color: #a8b8c6; box-shadow: inset 0 0 0 1px #2c3d4d }
-
-html[data-theme="dark"] .calendar-appt.green,
-html[data-theme="dark"] .schedule-preview-appt.green { background: linear-gradient(180deg, #14332a, #10403a); color: #7fd8b4 }
-html[data-theme="dark"] .calendar-appt.blue,
-html[data-theme="dark"] .schedule-preview-appt.blue { background: linear-gradient(180deg, #2c6cab, #1f5286) }
-html[data-theme="dark"] .calendar-appt.amber,
-html[data-theme="dark"] .schedule-preview-appt.amber { background: linear-gradient(180deg, #34260f, #40300f); color: #e5b877 }
-html[data-theme="dark"] .schedule-preview-appt.gray { background: var(--surface); color: var(--ink-2) }
-html[data-theme="dark"] .btn-primary,
-html[data-theme="dark"] .time-options button.active {
-  background: linear-gradient(180deg, #2f76bd, #215c93);
-}
-
-/* ── RESPONSIVE: SMALL MOBILE (768px) ─────────────────── */
-@media (max-width: 768px) {
-  .stats-grid,
-  .dashboard-grid,
-  .content-grid,
-  .content-grid.wide-left {
-    grid-template-columns: 1fr;
-  }
-  .dashboard-grid { display: grid; }
-}
-
-/* The odontogram paints its own light frame; hand it the dark palette. */
-html[data-theme="dark"] .odon-scope { background: linear-gradient(180deg, #14202c, #101a25) }
-
-/* ── PRINT ──────────────────────────────────────────────── */
-@media print {
-  .sidebar, .topbar, .mobile-overlay, .hamburger, .mobile-close { display: none !important; }
-  .workspace { margin: 0 !important; width: 100% !important; background: #fff !important; }
-  body { background: #fff !important; color: #000; }
-  .card, .stat, .empty-state { box-shadow: none !important; }
-}
-

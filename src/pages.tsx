@@ -95,7 +95,7 @@ function downloadTextFile(fileName: string, content: string) {
   URL.revokeObjectURL(url)
 }
 
-/** Small tooth icon for sidebar brand — white tooth on blue square */
+/** Small tooth icon for sidebar brand â€” white tooth on blue square */
 function LoginToothIcon() {
   return (
     <svg
@@ -188,9 +188,9 @@ function NoPatientSelected({ purpose }: { purpose?: string } = {}) {
         title={patientId ? "Patient not found" : "Choose a patient"}
         subtitle={
           patientId
-            ? `Patients / ${patientId} · no record with that reference`
+            ? `Patients / ${patientId} Â· no record with that reference`
             : purpose
-              ? `Patients / ${purpose} · select a record first`
+              ? `Patients / ${purpose} Â· select a record first`
               : "Patients / select a record to open"
         }
       />
@@ -246,7 +246,7 @@ function PatientHeader({
           <div className="patient-name">
             <strong>{patient.name}</strong>
             <small>
-              {patient.id} · DOB {patient.dob} · {patient.age} years ·{" "}
+              {patient.id} Â· DOB {patient.dob} Â· {patient.age} years Â·{" "}
               {patient.gender}
             </small>
           </div>
@@ -277,7 +277,7 @@ function PatientHeader({
           <AlertTriangle size={17} />
           <strong>ALLERGY ALERT</strong>
           <span>{allergiesText(patient)}</span>
-          <small>Verify before prescribing · use latex-free supplies</small>
+          <small>Verify before prescribing Â· use latex-free supplies</small>
         </div>
       )}
       {showTabs && (
@@ -453,7 +453,7 @@ export function Login() {
             Better dental care.
           </h1>
           <p>
-            Patient history, treatment planning and imaging — together in one
+            Patient history, treatment planning and imaging â€” together in one
             clear, secure workspace.
           </p>
         </div>
@@ -511,7 +511,7 @@ export function Login() {
         <header className="login-side-head">
           <span>
             <Link to="/landing" className="text-link">
-              ← Back to website
+              â† Back to website
             </Link>
           </span>
           <span>
@@ -613,9 +613,9 @@ export function Login() {
         </form>
         <footer className="login-side-foot">
           <span>
-            Educational environment · All patient information is fictional.
+            Educational environment Â· All patient information is fictional.
           </span>
-          <span>DentCare © 2026 · Privacy · Terms of use</span>
+          <span>DentCare Â© 2026 Â· Privacy Â· Terms of use</span>
         </footer>
       </section>
     </div>
@@ -663,7 +663,7 @@ export function Dashboard() {
       <div className="dashboard-welcome">
         <PageTitle
           title={greeting}
-          subtitle="Thursday, 08 October 2026 · Here's what's happening today."
+          subtitle="Thursday, 08 October 2026 Â· Here's what's happening today."
           action={
             <Button onClick={() => navigate("/appointments/manage")}>
               <Plus size={16} /> New appointment
@@ -766,7 +766,7 @@ export function Dashboard() {
           <SectionHead title="Active treatments" action="View plans" actionTo="/patients" />
           {patients.some((p) => p.populated) ? (
             <Link className="treatment-progress" to="/patients/maya-bennett/treatment-plan">
-              <span>Ahmed Ali · Caries management</span>
+              <span>Ahmed Ali Â· Caries management</span>
               <b>2 of 4 planned (50%)</b>
               <i>
                 <em />
@@ -839,9 +839,9 @@ function DoctorSchedulePreview() {
       <div className="schedule-preview-list">
         {clinician.appts.map(([time, patientName, detail, tone]) => {
           const patient = findPatientByName(patientName)
-          const detailParts = detail.split(" · ")
+          const detailParts = detail.split(" Â· ")
           const status = detailParts.at(-1) ?? "Scheduled"
-          const treatment = detailParts.slice(0, -1).join(" · ")
+          const treatment = detailParts.slice(0, -1).join(" Â· ")
           return (
             <Link
               className={`schedule-preview-appt ${tone}`}
@@ -926,7 +926,7 @@ function PatientTable({ caption }: { caption?: string }) {
               <span className="patient-name">
                 <strong>{p.name}</strong>
                 <small>
-                  {p.id} · DOB {p.dob}
+                  {p.id} Â· DOB {p.dob}
                 </small>
               </span>
             </span>
@@ -945,13 +945,13 @@ function PatientTable({ caption }: { caption?: string }) {
       )}
       <small className="table-note">
         {caption ??
-          `Showing ${filtered.length} of ${patients.length} registered patients · Fictional records`}
+          `Showing ${filtered.length} of ${patients.length} registered patients Â· Fictional records`}
       </small>
     </>
   )
 }
 
-/** Patients list page — the entry point every clinician must pass through. */
+/** Patients list page â€” the entry point every clinician must pass through. */
 export function Patients() {
   return (
     <>
@@ -1143,7 +1143,7 @@ export function PatientOverview({ portal = false }: { portal?: boolean }) {
                   <Info label="Last examination" value="24 Sep 2026" />
                   <Info label="Oral hygiene" value="Fair" />
                   <Info label="Recall interval" value="6 months" />
-                  <Info label="Radiographs" value="Bitewings · 24 Sep 2026" />
+                  <Info label="Radiographs" value="Bitewings Â· 24 Sep 2026" />
                 </div>
               </Card>
             </>
@@ -1167,7 +1167,7 @@ export function PatientOverview({ portal = false }: { portal?: boolean }) {
             {patient.allergies.length > 0 ? (
               patient.allergies.map((a) => (
                 <h3 className="red-text" key={a.agent}>
-                  {a.agent} — {a.reaction}
+                  {a.agent} â€” {a.reaction}
                 </h3>
               ))
             ) : (
@@ -1178,7 +1178,7 @@ export function PatientOverview({ portal = false }: { portal?: boolean }) {
                 <hr />
                 <Info
                   label="Current medication"
-                  value="Salbutamol inhaler · as required"
+                  value="Salbutamol inhaler Â· as required"
                 />
               </>
             )}
@@ -1188,7 +1188,7 @@ export function PatientOverview({ portal = false }: { portal?: boolean }) {
               <Card>
                 <SectionHead title="Active diagnoses" />
                 <p>
-                  <Badge tone="red">Active</Badge> Dental caries · tooth 16
+                  <Badge tone="red">Active</Badge> Dental caries Â· tooth 16
                 </p>
                 <p>
                   <Badge tone="amber">Monitor</Badge> Localized gingivitis
@@ -1200,7 +1200,7 @@ export function PatientOverview({ portal = false }: { portal?: boolean }) {
                   action="View all notes"
                   actionTo={`/patients/${patient.slug}/notes`}
                 />
-                <small>24 Sep 2026 · {patient.clinician}</small>
+                <small>24 Sep 2026 Â· {patient.clinician}</small>
                 <p className="body-copy">
                   Routine examination. Bitewings reviewed. Occlusal caries
                   identified on 16; discussed restorative options and
@@ -1413,7 +1413,7 @@ export function DentalChart({ portal = false }: { portal?: boolean }) {
       <div className="chart-layout">
         <Card className="odontogram">
           <div className="section-head">
-            <h2>Adult dentition · {numbering} notation</h2>
+            <h2>Adult dentition Â· {numbering} notation</h2>
             <div className="chart-tools">
               <p className="chart-hint">
                 {portal
@@ -1431,7 +1431,7 @@ export function DentalChart({ portal = false }: { portal?: boolean }) {
           {portal && (
             <Notice tone="info">
               This is your chart as {patient.clinician} recorded it. Only the
-              practice can change it — ask at your next visit if anything looks
+              practice can change it â€” ask at your next visit if anything looks
               wrong.
             </Notice>
           )}
@@ -1455,7 +1455,7 @@ export function DentalChart({ portal = false }: { portal?: boolean }) {
           <SectionHead
             title={
               chart.selected.length
-                ? `Teeth selected · ${chart.selected.length}`
+                ? `Teeth selected Â· ${chart.selected.length}`
                 : "Tooth detail"
             }
           />
@@ -1521,12 +1521,12 @@ const mayaNotes: readonly ClinicalNote[] = [
   {
     date: "24 Sep 2026",
     clinician: "Dr Mohamed Tareq",
-    title: "Routine examination · caries diagnosis",
+    title: "Routine examination Â· caries diagnosis",
     tag: "Active problem",
     tone: "amber",
     findings:
       "Routine examination. Bitewings reviewed. Occlusal caries identified on 16; discussed restorative options and prevention.",
-    plan: "Composite restoration 16 · oral hygiene instruction · 6-month recall",
+    plan: "Composite restoration 16 Â· oral hygiene instruction Â· 6-month recall",
   },
   {
     date: "24 Sep 2026",
@@ -1536,27 +1536,27 @@ const mayaNotes: readonly ClinicalNote[] = [
     tone: "blue",
     findings:
       "Upper right and left bitewings taken. Caries limited to enamel occlusally on 16. Existing margins on 26 sound, no recurrent decay. Bone levels within normal limits.",
-    plan: "Diagnosis recorded as K02.0 · no additional imaging required at this visit",
+    plan: "Diagnosis recorded as K02.0 Â· no additional imaging required at this visit",
   },
   {
     date: "12 Apr 2024",
     clinician: "Dr Mohamed Tareq",
-    title: "Endodontic and crown review · tooth 36",
+    title: "Endodontic and crown review Â· tooth 36",
     tag: "Resolved",
     tone: "green",
     findings:
       "Periapical radiograph of 36. Root filling well condensed to length, no periapical radiolucency. Metal-ceramic crown margins intact, probing depths within healthy range.",
-    plan: "No treatment indicated · review at routine recall",
+    plan: "No treatment indicated Â· review at routine recall",
   },
   {
     date: "06 Feb 2023",
     clinician: "Dr Mohamed Tareq",
-    title: "Crown placement · tooth 11",
+    title: "Crown placement Â· tooth 11",
     tag: "Resolved",
     tone: "green",
     findings:
       "Tooth prepared and zirconia crown cemented. Occlusion checked with articulating foil, patient comfortable on articulation and excursive movements.",
-    plan: "Annual margin check · avoid biting hard foods on the restored incisor",
+    plan: "Annual margin check Â· avoid biting hard foods on the restored incisor",
   },
 ]
 
@@ -1755,7 +1755,7 @@ export function ClinicalNotes({ portal = false }: { portal?: boolean }) {
             <Card>
               <SectionHead title="Active problem list" />
               <p>
-                <Badge tone="red">Active</Badge> Dental caries · tooth 16
+                <Badge tone="red">Active</Badge> Dental caries Â· tooth 16
               </p>
               <p>
                 <Badge tone="amber">Monitor</Badge> Localized gingivitis
@@ -1890,7 +1890,7 @@ export function RecordDiagnosis() {
           <SectionHead title="Patient context" />
           {patient.populated ? (
             <Notice tone="info">
-              Existing diagnosis: Dental caries · tooth 16. Do not create a
+              Existing diagnosis: Dental caries Â· tooth 16. Do not create a
               duplicate active entry.
             </Notice>
           ) : (
@@ -1901,7 +1901,7 @@ export function RecordDiagnosis() {
           <h3>Medical history</h3>
           <p className="body-copy">
             {patient.populated
-              ? "Mild intermittent asthma · salbutamol as required."
+              ? "Mild intermittent asthma Â· salbutamol as required."
               : "Not yet taken."}
           </p>
           <h3 className={patient.allergies.length ? "red-text" : undefined}>
@@ -1909,7 +1909,7 @@ export function RecordDiagnosis() {
           </h3>
           <p>
             {patient.allergies.length > 0
-              ? patient.allergies.map((a) => a.agent).join(" · ")
+              ? patient.allergies.map((a) => a.agent).join(" Â· ")
               : "None recorded"}
           </p>
           <hr />
@@ -1924,16 +1924,16 @@ export function RecordDiagnosis() {
 }
 
 const procedures = [
-  ["Composite restoration", "16", "£180.00", "Scheduled", "08 Oct · 09:30"],
-  ["Restoration polish", "26", "£40.00", "Planned", "15 Oct · proposed"],
+  ["Composite restoration", "16", "Â£180.00", "Scheduled", "08 Oct Â· 09:30"],
+  ["Restoration polish", "26", "Â£40.00", "Planned", "15 Oct Â· proposed"],
   [
     "Scale & oral hygiene instruction",
     "Full mouth",
-    "£90.00",
+    "Â£90.00",
     "Planned",
-    "15 Oct · proposed",
+    "15 Oct Â· proposed",
   ],
-  ["Endodontic review", "36", "£60.00", "Scheduled", "22 Oct · 09:30"],
+  ["Endodontic review", "36", "Â£60.00", "Scheduled", "22 Oct Â· 09:30"],
 ]
 function ProcedureTable({ patient = false }: { patient?: boolean }) {
   return (
@@ -1952,7 +1952,7 @@ function ProcedureTable({ patient = false }: { patient?: boolean }) {
           <span>
             <strong>
               {r[0]}
-              {i === 0 && " · tooth 16"}
+              {i === 0 && " Â· tooth 16"}
             </strong>
             <small>
               {
@@ -2012,11 +2012,11 @@ export function TreatmentPlan() {
       `treatment-plan-${patient.id}.txt`,
       [
         `Treatment plan: ${patient.name} (${patient.id})`,
-        "Composite restoration (tooth 16): £180.00",
-        "Restoration polish (tooth 26): £40.00",
-        "Scale and oral hygiene instruction: £90.00",
-        "Endodontic review (tooth 36): £60.00",
-        "Estimated total: £370.00",
+        "Composite restoration (tooth 16): Â£180.00",
+        "Restoration polish (tooth 26): Â£40.00",
+        "Scale and oral hygiene instruction: Â£90.00",
+        "Endodontic review (tooth 36): Â£60.00",
+        "Estimated total: Â£370.00",
       ].join("\n"),
     )
     setSaved(true)
@@ -2077,7 +2077,7 @@ export function TreatmentPlan() {
                   <div>
                     <strong>{p.title ?? "Treatment plan"}</strong>
                     <span>
-                      {p.status ?? "Draft"} · £{Number(p.total ?? 0).toFixed(2)}
+                      {p.status ?? "Draft"} Â· Â£{Number(p.total ?? 0).toFixed(2)}
                     </span>
                     <small>{p.created_at ?? p.date ?? ""}</small>
                   </div>
@@ -2094,13 +2094,13 @@ export function TreatmentPlan() {
             actionTo="/treatment-plans/new"
           />
           <div className="status-line">
-            <Badge tone="amber">16 · Dental caries</Badge>
+            <Badge tone="amber">16 Â· Dental caries</Badge>
             <Badge tone="amber">Localized gingivitis</Badge>
             <Badge tone="green">Patient accepted</Badge>
           </div>
           <ProcedureTable />
           <small>
-            Created 24 Sep 2026 · Dr Mohamed Tareq · Consent recorded · GRP —
+            Created 24 Sep 2026 Â· Dr Mohamed Tareq Â· Consent recorded Â· GRP â€”
             Clinical fees are VAT exempt.
           </small>
         </Card>
@@ -2115,15 +2115,15 @@ function PlanSummary() {
   return (
     <Card>
       <SectionHead title="Plan summary" />
-      <Info label="Total estimated cost" value="£370.00" />
-      <Info label="Paid to date" value="£0.00" />
-      <Info label="Estimated balance" value="£370.00" />
+      <Info label="Total estimated cost" value="Â£370.00" />
+      <Info label="Paid to date" value="Â£0.00" />
+      <Info label="Estimated balance" value="Â£370.00" />
       <hr />
       <h3>Follow-up scheduling</h3>
       <p>
-        <CalendarDays size={16} /> <strong>22 Oct 2026 · 09:30–10:00</strong>
+        <CalendarDays size={16} /> <strong>22 Oct 2026 Â· 09:30â€“10:00</strong>
       </p>
-      <small>Endodontic review · Dr Mohamed Tareq</small>
+      <small>Endodontic review Â· Dr Mohamed Tareq</small>
       <Button
         variant="secondary"
         className="wide"
@@ -2132,9 +2132,9 @@ function PlanSummary() {
         Schedule planned visits
       </Button>
       <Notice tone="info">
-        <strong>Next session · Today, 09:30</strong>
+        <strong>Next session Â· Today, 09:30</strong>
         <br />
-        Composite restoration · tooth 16
+        Composite restoration Â· tooth 16
       </Notice>
     </Card>
   )
@@ -2219,7 +2219,7 @@ export function CreateTreatmentPlan() {
                 <small>Tooth {p.tooth}</small>
               </span>
               <label>
-                Fee £
+                Fee Â£
                 <input
                   type="number"
                   value={fees[i]}
@@ -2253,7 +2253,7 @@ export function CreateTreatmentPlan() {
           <SectionHead title="Summary" />
           <div className="total">
             <span>Estimated total</span>
-            <strong>£{total.toFixed(2)}</strong>
+            <strong>Â£{total.toFixed(2)}</strong>
           </div>
           <SelectField
             label="Consent status"
@@ -2261,7 +2261,7 @@ export function CreateTreatmentPlan() {
             onChange={(e) => setConsent(e.target.value)}
           >
             <option>Not yet discussed</option>
-            <option>Discussed · pending</option>
+            <option>Discussed Â· pending</option>
             <option>Patient accepted</option>
           </SelectField>
           {consent !== "Patient accepted" && (
@@ -2342,8 +2342,8 @@ export function RegisterPatient() {
     <>
       <PageTitle
         title="Register patient"
-        subtitle="Patients / New registration · Reception workspace"
-        action={<Badge tone="amber">New patient · unsaved</Badge>}
+        subtitle="Patients / New registration Â· Reception workspace"
+        action={<Badge tone="amber">New patient Â· unsaved</Badge>}
       />
       <Notice tone="info">
         Complete required fields (*) and confirm consent before creating the
@@ -2353,7 +2353,7 @@ export function RegisterPatient() {
         <Notice tone="success">
           {registered.name} ({registered.id}) is on the register.{" "}
           <Link className="text-link" to={`/patients/${registered.slug}`}>
-            Open the record →
+            Open the record â†’
           </Link>
         </Notice>
       )}
@@ -2470,7 +2470,7 @@ export function RegisterPatient() {
           </div>
           {valid && (
             <small className="green-text" style={{ marginTop: 8 }}>
-              No duplicate found · Required fields complete
+              No duplicate found Â· Required fields complete
             </small>
           )}
         </Card>
@@ -2486,7 +2486,7 @@ export function RegisterPatient() {
           </label>
           <SelectField label="Allergies *">
             <option>No known allergies reported</option>
-            <option>Yes — details recorded</option>
+            <option>Yes â€” details recorded</option>
           </SelectField>
           <Field
             label="Allergy / reaction details"
@@ -2503,7 +2503,7 @@ export function RegisterPatient() {
           <h3>Record identifier</h3>
           <Info
             label="Assigned on registration"
-            value="Fady Morkos · 08 Oct 2026"
+            value="Fady Morkos Â· 08 Oct 2026"
           />
           <small>
             Registration does not create an appointment or a treatment plan.
@@ -2529,7 +2529,7 @@ const todaysAppointments = clinicians.flatMap((c) =>
     detail,
     tone,
     clinician: c.name,
-    location: c.role.split(" · ")[0],
+    location: c.role.split(" Â· ")[0],
   })),
 )
 
@@ -2732,8 +2732,8 @@ export function Appointments() {
                     <CalendarDays size={17} />
                   </div>
                   <div>
-                    <strong>{a.patientName} · {a.reason}</strong>
-                    <span>{a.date} at {a.time} · {a.clinician}</span>
+                    <strong>{a.patientName} Â· {a.reason}</strong>
+                    <span>{a.date} at {a.time} Â· {a.clinician}</span>
                     <small>{a.id}</small>
                   </div>
                   <div className="form-actions" style={{ marginTop: 0 }}>
@@ -2780,7 +2780,7 @@ export function ManageAppointment() {
         subtitle={`Appointments / ${patient.name} / Booking details`}
         action={
           <Button variant="secondary" onClick={() => navigate("/appointments")}>
-            ← Back to calendar
+            â† Back to calendar
           </Button>
         }
       />
@@ -2838,28 +2838,28 @@ export function ManageAppointment() {
             </Notice>
           ) : (
             <Notice tone="info">
-              Confirmed booking · Thu 08 Oct 2026, 09:30–10:15. Nothing changes
+              Confirmed booking Â· Thu 08 Oct 2026, 09:30â€“10:15. Nothing changes
               until you save.
             </Notice>
           )}
           <div className="form-grid">
             <Field
               label="Patient *"
-              value={`${patient.name} · ${patient.id}`}
+              value={`${patient.name} Â· ${patient.id}`}
               readOnly
             />
             <SelectField
               label="Appointment type *"
               defaultValue={
-                patient.populated ? "Composite restoration · tooth 16" : ""
+                patient.populated ? "Composite restoration Â· tooth 16" : ""
               }
             >
               <option value="" disabled>
                 Select a type
               </option>
-              <option>Composite restoration · tooth 16</option>
-              <option>Examination · new patient</option>
-              <option>Hygiene · scale and polish</option>
+              <option>Composite restoration Â· tooth 16</option>
+              <option>Examination Â· new patient</option>
+              <option>Hygiene Â· scale and polish</option>
               <option>Post-extraction review</option>
               <option>Endodontic review</option>
             </SelectField>
@@ -2895,7 +2895,7 @@ export function ManageAppointment() {
           <Field
             label="Linked plan"
             defaultValue={
-              patient.populated ? "TP-2026-084 · £180.00" : "No plan on record"
+              patient.populated ? "TP-2026-084 Â· Â£180.00" : "No plan on record"
             }
             readOnly
           />
@@ -2915,7 +2915,7 @@ export function ManageAppointment() {
             confirmation to {patient.email}
           </label>
           <small className="green-text">
-            ✓ Clinician and Surgery 1 are available for this booked slot.
+            âœ“ Clinician and Surgery 1 are available for this booked slot.
           </small>
           <div className="form-actions">
             <Button variant="ghost" onClick={() => navigate("/appointments")}>
@@ -2926,7 +2926,7 @@ export function ManageAppointment() {
             </Button>
           </div>
           <small style={{ color: "var(--muted)" }}>
-            09:12 BST · No changes saved
+            09:12 BST Â· No changes saved
           </small>
         </Card>
         <div className="stack">
@@ -2947,14 +2947,14 @@ export function ManageAppointment() {
               dc="DC-001198"
               slug="liam-turner"
               reason="Post-extraction review"
-              pref="Prefers 09 Oct, morning · Dr Mohamed Tareq"
+              pref="Prefers 09 Oct, morning Â· Dr Mohamed Tareq"
             />
             <RequestMini
               name="Isla Hughes"
               dc="DC-001076"
               slug="isla-hughes"
               reason="Periodontal reassessment"
-              pref="Prefers 12 Oct, afternoon · any clinician"
+              pref="Prefers 12 Oct, afternoon Â· any clinician"
             />
           </Card>
           <Card>
@@ -3015,7 +3015,7 @@ function RequestMini({
         <>
           <Badge tone="green">Marked for booking</Badge>
           <Link className="text-link" to={`/patients/${slug}`}>
-            Open {name}&apos;s record to book →
+            Open {name}&apos;s record to book â†’
           </Link>
         </>
       )}
@@ -3063,7 +3063,7 @@ export function BillingPage() {
         "Invoice preview: INV-2026-1284",
         `Patient: ${patient.name} (${patient.id})`,
         "Procedure: Composite restoration (tooth 16)",
-        "Amount: £180.00",
+        "Amount: Â£180.00",
         `Status: ${recorded ? "Payment recorded" : "Draft unpaid"}`,
       ].join("\n"),
     )
@@ -3079,7 +3079,7 @@ export function BillingPage() {
         "Receipt",
         "Invoice: INV-2026-1284",
         `Patient: ${patient.name}`,
-        "Amount received: £180.00",
+        "Amount received: Â£180.00",
         `Reference: ${ref}`,
       ].join("\n"),
     )
@@ -3130,11 +3130,11 @@ export function BillingPage() {
       <div className="content-grid wide-left" key={patient.slug}>
         <Card>
           <div className="section-head">
-            <h2>Patient invoice · INV-2026-1284</h2>
-            <Badge tone="amber">Draft · unpaid</Badge>
+            <h2>Patient invoice Â· INV-2026-1284</h2>
+            <Badge tone="amber">Draft Â· unpaid</Badge>
           </div>
           <div className="detail-grid">
-            <Info label="Bill to" value={`${patient.name} · ${patient.id}`} />
+            <Info label="Bill to" value={`${patient.name} Â· ${patient.id}`} />
             <Info label="Invoice date" value="08 Oct 2026" />
           </div>
           <small
@@ -3144,7 +3144,7 @@ export function BillingPage() {
               marginBottom: 10,
             }}
           >
-            {patient.address} · {patient.email}
+            {patient.address} Â· {patient.email}
           </small>
           <div className="invoice-row head">
             <span>Procedure</span>
@@ -3154,25 +3154,25 @@ export function BillingPage() {
             <span>Line total</span>
           </div>
           <div className="invoice-row">
-            <strong>Composite restoration · scheduled 08 Oct, 09:30</strong>
+            <strong>Composite restoration Â· scheduled 08 Oct, 09:30</strong>
             <span>16</span>
             <span>1</span>
-            <span>£180.00</span>
-            <strong>£180.00</strong>
+            <span>Â£180.00</span>
+            <strong>Â£180.00</strong>
           </div>
           <div className="invoice-total">
-            <Info label="Subtotal / VAT" value="£180.00 / VAT-exempt" />
-            <Info label="Draft invoice total" value="£180.00" />
+            <Info label="Subtotal / VAT" value="Â£180.00 / VAT-exempt" />
+            <Info label="Draft invoice total" value="Â£180.00" />
             <Info
               label="Payment recorded"
-              value={recorded ? "£180.00" : "£0.00"}
+              value={recorded ? "Â£180.00" : "Â£0.00"}
             />
           </div>
           <Notice tone="warning">
             Scheduled procedure only; treatment has not been completed. This
             draft is not an issued invoice or receipt.
           </Notice>
-          <h3>Whole treatment plan estimate · TP-2026-084</h3>
+          <h3>Whole treatment plan estimate Â· TP-2026-084</h3>
           <div
             className="table-head"
             style={{ gridTemplateColumns: "2fr 80px 90px", fontSize: 8 }}
@@ -3184,31 +3184,31 @@ export function BillingPage() {
           {procedures.slice(1).map((p) => (
             <div className="estimate" key={p[0]}>
               <span>
-                {p[0]} · {p[4]}
+                {p[0]} Â· {p[4]}
               </span>
               <span>{p[1]}</span>
               <strong>{p[2]}</strong>
             </div>
           ))}
           <small className="body-copy">
-            Whole plan £370.00 = this visit £180.00 + remaining estimate
-            £190.00. Not all procedures are invoiced.
+            Whole plan Â£370.00 = this visit Â£180.00 + remaining estimate
+            Â£190.00. Not all procedures are invoiced.
           </small>
         </Card>
         <Card>
           <SectionHead title="Payment & receipt" />
-          <Info label="Whole-plan estimated total" value="£370.00" />
+          <Info label="Whole-plan estimated total" value="Â£370.00" />
           <div className="detail-grid">
-            <Info label="Paid to date" value={recorded ? "£180.00" : "£0.00"} />
+            <Info label="Paid to date" value={recorded ? "Â£180.00" : "Â£0.00"} />
             <Info
               label="Estimated balance"
-              value={recorded ? "£190.00" : "£370.00"}
+              value={recorded ? "Â£190.00" : "Â£370.00"}
             />
           </div>
           <small className="body-copy">
-            GBP · Clinical fees are VAT-exempt
+            GBP Â· Clinical fees are VAT-exempt
           </small>
-          <Field label="Payment amount" defaultValue="£180.00" />
+          <Field label="Payment amount" defaultValue="Â£180.00" />
           <SelectField label="Payment method">
             <option>Card</option>
             <option>Cash</option>
@@ -3337,19 +3337,19 @@ function ImagingLibrary({
       name: "Right bitewing",
       date: "24 Sep 2026",
       src: xrayRight,
-      region: "Bitewing · Upper right (16)",
+      region: "Bitewing Â· Upper right (16)",
     },
     {
       name: "Left bitewing",
       date: "24 Sep 2026",
       src: xrayLeft,
-      region: "Bitewing · Upper left",
+      region: "Bitewing Â· Upper left",
     },
     {
-      name: "Periapical · tooth 36",
+      name: "Periapical Â· tooth 36",
       date: "12 Apr 2024",
       src: xrayPeriapical,
-      region: "Periapical · Tooth 36",
+      region: "Periapical Â· Tooth 36",
     },
   ])
   const [zoom, setZoom] = useState(1)
@@ -3361,7 +3361,7 @@ function ImagingLibrary({
       date: "08 Oct 2026",
       // Sample plates only; a real upload would carry its own file name.
       src: xrayRight,
-      region: "Bitewing · Imported",
+      region: "Bitewing Â· Imported",
     }
     setImages((prev) => [...prev, next])
     setImage(images.length)
@@ -3399,7 +3399,7 @@ function ImagingLibrary({
             >
               <img className="xray-thumb" src={img.src} alt={img.name} />
               <strong>{img.name}</strong>
-              <small>{img.date} · Fictional image</small>
+              <small>{img.date} Â· Fictional image</small>
             </button>
           ))}
           {images.length === 0 && (
@@ -3411,7 +3411,7 @@ function ImagingLibrary({
         <Card className="viewer">
           <div className="section-head">
             <h2>
-              {images[image]?.name} · {images[image]?.date}
+              {images[image]?.name} Â· {images[image]?.date}
             </h2>
             <div className="viewer-actions">
               <button
@@ -3432,7 +3432,7 @@ function ImagingLibrary({
             </div>
           </div>
           <div className="xray-main">
-            <small>SYNTHETIC · EDUCATIONAL IMAGE</small>
+            <small>SYNTHETIC Â· EDUCATIONAL IMAGE</small>
             <img
               className="xray-full"
               style={{ transform: `scale(${zoom})` }}
@@ -3448,16 +3448,16 @@ function ImagingLibrary({
         <Card>
           <SectionHead title="Image metadata" />
           <Badge tone="amber">Educational sample</Badge>
-          <Info label="Patient / record" value={`${patient.name} · ${patient.id}`} />
+          <Info label="Patient / record" value={`${patient.name} Â· ${patient.id}`} />
           <Info
             label="Image type / region"
             value={images[image]?.region || "Bitewing"}
           />
           <Info
             label="Date / uploaded by"
-            value={`${images[image]?.date} · ${patient.clinician}`}
+            value={`${images[image]?.date} Â· ${patient.clinician}`}
           />
-          <Info label="File" value={`${images[image]?.src?.split("/").pop()} · 1600 × 1000`} />
+          <Info label="File" value={`${images[image]?.src?.split("/").pop()} Â· 1600 Ã— 1000`} />
           <Info label="Source" value="Synthetic educational illustration" />
         </Card>
       </div>
@@ -3662,7 +3662,7 @@ export function ManageUsers() {
       actor: "Marwan Morsy",
       action,
       target: savedUser.name,
-      detail: `${savedUser.role} · ${savedUser.access} access · secure sign-in ${savedUser.secureSignIn ? "required" : "optional"}.`,
+      detail: `${savedUser.role} Â· ${savedUser.access} access Â· secure sign-in ${savedUser.secureSignIn ? "required" : "optional"}.`,
     })
     setAllUsers(nextUsers)
     setSelectedId(savedUser.id)
@@ -3688,14 +3688,14 @@ export function ManageUsers() {
     <>
       <PageTitle
         title="Manage users"
-        subtitle="Administration / Users · Manage role-based access to this workspace"
+        subtitle="Administration / Users Â· Manage role-based access to this workspace"
         action={
           <Button onClick={createUser}>
             <Plus size={16} /> Create user
           </Button>
         }
       />
-      {loading && <Notice tone="info">Loading users from Supabase…</Notice>}
+      {loading && <Notice tone="info">Loading users from Supabaseâ€¦</Notice>}
       <div className="filter-row">
         <Field
           label="Search users"
@@ -3775,13 +3775,13 @@ export function ManageUsers() {
             <Notice tone="warning">No users match your current filters.</Notice>
           )}
           <p className="user-counts">
-            <span className="green-text">{activeCount} active</span> ·{" "}
+            <span className="green-text">{activeCount} active</span> Â·{" "}
             {disabledCount} disabled
           </p>
         </Card>
         <Card className="user-editor">
           <SectionHead
-            title={isCreating ? "Create user" : `Edit user · ${draft.name}`}
+            title={isCreating ? "Create user" : `Edit user Â· ${draft.name}`}
             action={isDirty ? "Unsaved changes" : "Up to date"}
           />
           {notice && <Notice tone={notice.tone}>{notice.message}</Notice>}
@@ -3842,7 +3842,7 @@ export function ManageUsers() {
           </div>
           <Info
             label="Access granted by role"
-            value={`${draft.role} permissions · ${roleAccess[draft.role] ?? "No access"}`}
+            value={`${draft.role} permissions Â· ${roleAccess[draft.role] ?? "No access"}`}
           />
           <Info label="Last active" value={draft.lastActive} />
           <label className="check">
@@ -3869,7 +3869,7 @@ export function ManageUsers() {
               onClick={sendPasswordReset}
               disabled={draft.status === "Disabled"}
             >
-              Send password reset email →
+              Send password reset email â†’
             </button>
           )}
           <div className="form-actions">
@@ -3899,7 +3899,7 @@ export function MyAppointments() {
     <>
       <PageTitle
         title="My appointments"
-        subtitle={`Your appointments · Thursday, 08 October 2026`}
+        subtitle={`Your appointments Â· Thursday, 08 October 2026`}
         action={
           <Link to="/my/request-appointment">
             <Button>
@@ -3943,15 +3943,15 @@ export function MyAppointments() {
             <>
               <SectionHead title="Upcoming appointments" />
               <PortalAppointment
-                date="Today · Thu 08 Oct 2026"
-                time="09:30–10:15"
-                name="Composite restoration · tooth 16"
+                date="Today Â· Thu 08 Oct 2026"
+                time="09:30â€“10:15"
+                name="Composite restoration Â· tooth 16"
                 onView={() => navigate("/my/appointments")}
               />
               <PortalAppointment
                 date="Thu 22 Oct 2026"
-                time="09:30–10:00"
-                name="Endodontic review · tooth 36"
+                time="09:30â€“10:00"
+                name="Endodontic review Â· tooth 36"
                 onView={() => navigate("/my/appointments")}
               />
             </>
@@ -3960,7 +3960,7 @@ export function MyAppointments() {
             <>
               <SectionHead title="Past visits" />
               <PortalAppointment
-                date="24 Sep 2026 · Dr Mohamed Tareq"
+                date="24 Sep 2026 Â· Dr Mohamed Tareq"
                 time=""
                 name="Dental examination & treatment planning"
                 past
@@ -3977,14 +3977,14 @@ export function MyAppointments() {
         <Card>
           <SectionHead title="Today's appointment" />
           <Badge tone="green">Confirmed booking</Badge>
-          <Info label="Appointment" value="Thu 08 Oct · 09:30–10:15" />
+          <Info label="Appointment" value="Thu 08 Oct Â· 09:30â€“10:15" />
           <Info
             label="Treatment"
-            value="Composite restoration · upper right molar (16)"
+            value="Composite restoration Â· upper right molar (16)"
           />
           <Info
             label="Clinician / location"
-            value="Dr Mohamed Tareq · Surgery 1"
+            value="Dr Mohamed Tareq Â· Surgery 1"
           />
           <Notice tone="info">
             Please arrive 10 minutes early and bring your inhaler. Tell the team
@@ -4022,10 +4022,10 @@ function PortalAppointment({
         <strong>{time}</strong>
         <b>{name}</b>
         <span>
-          {past ? "Appointment completed" : "Dr Mohamed Tareq · Surgery 1"}
+          {past ? "Appointment completed" : "Dr Mohamed Tareq Â· Surgery 1"}
         </span>
         <button type="button" className="text-link" onClick={onView}>
-          {past ? "View my treatment plan" : "View appointment details"} →
+          {past ? "View my treatment plan" : "View appointment details"} â†’
         </button>
       </div>
       <Badge tone={past ? "gray" : "green"}>
@@ -4046,8 +4046,8 @@ export function RequestAppointment() {
     <>
       <PageTitle
         title="Request appointment"
-        subtitle="My appointments / New request · Reception will confirm your booking"
-        action={<Badge tone="amber">Request · not a booking</Badge>}
+        subtitle="My appointments / New request Â· Reception will confirm your booking"
+        action={<Badge tone="amber">Request Â· not a booking</Badge>}
       />
       <PatientHeader
         patient={portalPatient}
@@ -4070,25 +4070,25 @@ export function RequestAppointment() {
           )}
           <SelectField label="Reason for visit *">
             <option>
-              Scale & oral hygiene + restoration polish · TP-2026-084
+              Scale & oral hygiene + restoration polish Â· TP-2026-084
             </option>
           </SelectField>
           <div className="form-grid">
             <SelectField label="Preferred clinician">
-              <option>Dr Mohamed Tareq · Dentist</option>
+              <option>Dr Mohamed Tareq Â· Dentist</option>
             </SelectField>
             <SelectField label="Preferred date *">
               <option>Thursday 15 Oct 2026</option>
             </SelectField>
             <SelectField label="Preferred time *">
-              <option>09:00 · Morning</option>
+              <option>09:00 Â· Morning</option>
             </SelectField>
             <SelectField label="Alternative preference">
-              <option>Any morning · 15–16 Oct</option>
+              <option>Any morning Â· 15â€“16 Oct</option>
             </SelectField>
           </div>
           <label className="field">
-            <span>Indicative times · not reserved</span>
+            <span>Indicative times Â· not reserved</span>
             <div className="time-options">
               {[
                 ["09:00", "selected"],
@@ -4135,12 +4135,12 @@ export function RequestAppointment() {
           <SectionHead title="Request summary" />
           <Info
             label="Requested for"
-            value={`${portalPatient.name} · ${portalPatient.id}`}
+            value={`${portalPatient.name} Â· ${portalPatient.id}`}
           />
           <Info label="Reason" value="Planned hygiene and restoration polish" />
           <Info
             label="First preference"
-            value={`15 Oct 2026 · ${selectedTime} BST`}
+            value={`15 Oct 2026 Â· ${selectedTime} BST`}
           />
           <Info label="Preferred clinician" value="Dr Mohamed Tareq" />
           <Info
@@ -4177,11 +4177,11 @@ export function MyTreatmentPlan() {
       "my-treatment-plan-TP-2026-084.txt",
       [
         "My treatment plan: TP-2026-084",
-        "Composite restoration tooth 16 - £180.00",
-        "Restoration polish tooth 26 - £40.00",
-        "Scale and oral hygiene instruction - £90.00",
-        "Endodontic review tooth 36 - £60.00",
-        "Total estimate: £370.00",
+        "Composite restoration tooth 16 - Â£180.00",
+        "Restoration polish tooth 26 - Â£40.00",
+        "Scale and oral hygiene instruction - Â£90.00",
+        "Endodontic review tooth 36 - Â£60.00",
+        "Total estimate: Â£370.00",
       ].join("\n"),
     )
   }
@@ -4190,7 +4190,7 @@ export function MyTreatmentPlan() {
     <>
       <PageTitle
         title="My treatment plan"
-        subtitle="My care / Plan TP-2026-084 · Created 24 Sep 2026"
+        subtitle="My care / Plan TP-2026-084 Â· Created 24 Sep 2026"
         action={
           <Button variant="secondary" onClick={downloadPlan}>
             <Download size={16} /> Download my plan
@@ -4208,8 +4208,8 @@ export function MyTreatmentPlan() {
           <SectionHead title="Caries management & preventive care" />
           <div className="status-line">
             <Badge tone="green">Patient accepted</Badge>
-            <Badge tone="green">Consent recorded · 24 Sep 2026</Badge>
-            <Badge tone="blue">2 scheduled · 2 planned</Badge>
+            <Badge tone="green">Consent recorded Â· 24 Sep 2026</Badge>
+            <Badge tone="blue">2 scheduled Â· 2 planned</Badge>
           </div>
           <p className="body-copy">
             Your plan treats decay in an upper right molar and inflammation of
@@ -4223,22 +4223,22 @@ export function MyTreatmentPlan() {
         </Card>
         <Card>
           <SectionHead title="Costs & next steps" />
-          <Info label="Total estimated cost" value="£370.00" />
+          <Info label="Total estimated cost" value="Â£370.00" />
           <div className="detail-grid">
-            <Info label="Paid to date" value="£0.00" />
-            <Info label="Estimated balance" value="£370.00" />
+            <Info label="Paid to date" value="Â£0.00" />
+            <Info label="Estimated balance" value="Â£370.00" />
           </div>
-          <h3>Next appointment · today</h3>
-          <strong>Composite restoration · tooth 16</strong>
-          <p>08 Oct 2026 · 09:30–10:15</p>
+          <h3>Next appointment Â· today</h3>
+          <strong>Composite restoration Â· tooth 16</strong>
+          <p>08 Oct 2026 Â· 09:30â€“10:15</p>
           <Link to="/my/appointments">
             <Button variant="secondary" className="wide">
               View my appointment
             </Button>
           </Link>
           <hr />
-          <h3>Next review · tooth 36</h3>
-          <p>22 Oct · 09:30–10:00</p>
+          <h3>Next review Â· tooth 36</h3>
+          <p>22 Oct Â· 09:30â€“10:00</p>
           <Link to="/my/request-appointment">
             <Button variant="secondary" className="wide">
               Request planned visit
@@ -4294,7 +4294,7 @@ export function AccessRoles() {
     <>
       <PageTitle
         title="Access & roles"
-        subtitle="Administration / Access · Review role-based permissions"
+        subtitle="Administration / Access Â· Review role-based permissions"
         action={
           <Link to="/admin/settings">
             <Button variant="secondary">
@@ -4428,7 +4428,7 @@ export function AuditLog() {
     <>
       <PageTitle
         title="Audit log"
-        subtitle="Administration / Audit · Account and security activity"
+        subtitle="Administration / Audit Â· Account and security activity"
         action={
           <Button variant="secondary" onClick={exportAuditLog}>
             <Download size={16} /> Export visible events
@@ -4472,7 +4472,7 @@ export function AuditLog() {
                 <strong>{event.action}</strong>
                 <span>{event.detail}</span>
                 <small>
-                  {event.actor} · {formatAuditDate(event.at)}
+                  {event.actor} Â· {formatAuditDate(event.at)}
                 </small>
               </div>
               <Badge tone={event.action.includes("disabled") ? "amber" : "blue"}>
@@ -4524,7 +4524,7 @@ export function AdministratorSettings() {
     <>
       <PageTitle
         title="Administrator settings"
-        subtitle="Administration / Settings · Sign-in, alerts and portal controls"
+        subtitle="Administration / Settings Â· Sign-in, alerts and portal controls"
       />
       <div className="content-grid wide-left admin-settings">
         <Card>
@@ -4758,7 +4758,7 @@ export function Prescriptions() {
     downloadTextFile(
       `${item.id}.txt`,
       [
-        "DentCare · Prescription",
+        "DentCare Â· Prescription",
         `Reference: ${item.id}`,
         `Date: ${item.date}`,
         `Patient: ${item.patientName}`,
@@ -4871,12 +4871,12 @@ export function Prescriptions() {
                     <FileText size={17} />
                   </div>
                   <div>
-                    <strong>{item.medication} · {item.dosage}</strong>
+                    <strong>{item.medication} Â· {item.dosage}</strong>
                     <span>
-                      {item.patientName} · {item.frequency} · {item.duration}
+                      {item.patientName} Â· {item.frequency} Â· {item.duration}
                     </span>
                     <small>
-                      {item.clinician} · {item.date}
+                      {item.clinician} Â· {item.date}
                     </small>
                     {item.notes && (
                       <small className="body-copy">{item.notes}</small>
@@ -4902,64 +4902,9 @@ export function Prescriptions() {
 
 export function Landing() {
   const navigate = useNavigate()
-  const testimonials = [
-    { name: "Sarah M.", text: "Booking and records in one place — finally a clinic that feels modern.", rating: "★★★★★" },
-    { name: "Omar K.", text: "The dental chart explanations made my treatment easy to understand.", rating: "★★★★★" },
-    { name: "Lina R.", text: "Friendly team and a seamless digital experience from check-in to billing.", rating: "★★★★★" },
-  ]
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
   return (
     <>
-      <style>{`
-        @keyframes lv2FadeUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .landing-v2 .lv2-hero { animation: lv2FadeUp .7s ease both; }
-        .landing-v2 .lv2-section { animation: lv2FadeUp .7s ease both; animation-delay: .08s; }
-        .landing-v2 .lv2-section:nth-of-type(2) { animation-delay: .16s; }
-        .landing-v2 .lv2-section:nth-of-type(3) { animation-delay: .24s; }
-        .landing-v2 .lv2-section:nth-of-type(4) { animation-delay: .32s; }
-        .landing-v2 .lv2-section:nth-of-type(5) { animation-delay: .40s; }
-        .lv2-floating {
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          background: rgba(255,255,255,.82);
-        }
-        .lv2-hero-stats div + div {
-          border-left: 1px solid rgba(255,255,255,.22);
-          padding-left: 32px;
-        }
-        .lv2-testimonials {
-          display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto;
-        }
-        .lv2-testimonial {
-          padding: 24px 22px; border-radius: var(--r-lg); background: var(--panel);
-          border: 1px solid var(--border-soft); box-shadow: var(--sh-1);
-          display: flex; flex-direction: column; gap: 10px;
-        }
-        .lv2-testimonial .lv2-stars { color: #f59e0b; font-size: 13px; letter-spacing: 2px; }
-        .lv2-testimonial p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.6; font-style: italic; }
-        .lv2-testimonial strong { font-size: 13px; color: var(--ink); }
-        .lv2-trust-strip {
-          display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center;
-          margin-top: 28px;
-        }
-        .lv2-trust-chip {
-          padding: 8px 14px; border-radius: 999px; background: var(--surface);
-          border: 1px solid var(--border-soft); font-size: 12.5px; color: var(--ink-2); font-weight: 600;
-        }
-        .lv2-contact {
-          position: relative; overflow: hidden;
-          background-image:
-            radial-gradient(circle at 15% 25%, rgba(255,255,255,.08) 1px, transparent 1px),
-            radial-gradient(circle at 85% 75%, rgba(255,255,255,.06) 1px, transparent 1px),
-            linear-gradient(135deg, #0f172a, #1e3a5f);
-          background-size: 26px 26px, 34px 34px, auto;
-        }
-        @media (max-width: 900px) {
-          .lv2-testimonials { grid-template-columns: 1fr; }
-        }
-      `}</style>
       <div className="landing-v2">
         {/* Top bar */}
         <header className="lv2-nav">
@@ -4970,8 +4915,8 @@ export function Landing() {
           <nav className="lv2-nav-links">
             <a href="#services">Services</a>
             <a href="#features">Features</a>
-            <a href="#doctors">Doctors</a>
-            <a href="#contact">Contact</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
           </nav>
           <div className="lv2-nav-actions">
             <Button variant="ghost" onClick={() => navigate("/login")}>
@@ -4983,7 +4928,7 @@ export function Landing() {
           </div>
         </header>
 
-        {/* Hero */}
+        {/* Hero - split screen */}
         <section className="lv2-hero">
           <div className="lv2-hero-bg" />
           <div className="lv2-hero-inner">
@@ -4996,7 +4941,7 @@ export function Landing() {
               </h1>
               <p>
                 Book appointments, manage your dental records and connect with
-                your dentist — all in one modern, secure platform.
+                your dentist â€” all in one modern, secure platform.
               </p>
               <div className="lv2-hero-actions">
                 <Button onClick={() => navigate("/login")}>
@@ -5006,13 +4951,46 @@ export function Landing() {
                   Explore services
                 </Button>
               </div>
-              <div className="lv2-hero-stats">
-                <div><strong>12k+</strong><span>Happy patients</span></div>
-                <div><strong>15+</strong><span>Years experience</span></div>
-                <div><strong>4.9★</strong><span>Patient rating</span></div>
+              <div className="lv2-trust">
+                <span>Trusted by 500+ practices</span>
+                <div className="lv2-trust-logos">
+                  <span>HIPAA</span>
+                  <span>GDPR</span>
+                  <span>ISO 27001</span>
+                  <span>SOC 2</span>
+                </div>
               </div>
             </div>
-
+            <div className="lv2-hero-visual">
+              <div className="lv2-mock-browser">
+                <div className="lv2-mock-bar">
+                  <span /><span /><span />
+                </div>
+                <div className="lv2-mock-body">
+                  <div className="lv2-mock-sidebar">
+                    <div className="lv2-mock-nav-item active" />
+                    <div className="lv2-mock-nav-item" />
+                    <div className="lv2-mock-nav-item" />
+                    <div className="lv2-mock-nav-item" />
+                  </div>
+                  <div className="lv2-mock-content">
+                    <div className="lv2-mock-card">
+                      <div className="lv2-mock-stat">
+                        <strong>12</strong>
+                        <small>Today's appts</small>
+                      </div>
+                      <div className="lv2-mock-stat">
+                        <strong>1,284</strong>
+                        <small>Patients</small>
+                      </div>
+                    </div>
+                    <div className="lv2-mock-row" />
+                    <div className="lv2-mock-row short" />
+                    <div className="lv2-mock-row" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -5043,30 +5021,6 @@ export function Landing() {
           </div>
         </section>
 
-        {/* Testimonials / Trust */}
-        <section id="testimonials" className="lv2-section">
-          <div className="lv2-section-head">
-            <span className="lv2-eyebrow">Trusted by patients</span>
-            <h2>What our patients say</h2>
-            <p>Real stories from people who chose DentCare for their smile.</p>
-          </div>
-          <div className="lv2-testimonials">
-            {testimonials.map((t) => (
-              <div key={t.name} className="lv2-testimonial">
-                <span className="lv2-stars">{t.rating}</span>
-                <p>“{t.text}”</p>
-                <strong>— {t.name}</strong>
-              </div>
-            ))}
-          </div>
-          <div className="lv2-trust-strip">
-            <span className="lv2-trust-chip">HIPAA-aligned</span>
-            <span className="lv2-trust-chip">Role-based access</span>
-            <span className="lv2-trust-chip">Encrypted records</span>
-            <span className="lv2-trust-chip">24/7 portal</span>
-          </div>
-        </section>
-
         {/* Features */}
         <section id="features" className="lv2-section lv2-features-section">
           <div className="lv2-section-head">
@@ -5093,21 +5047,102 @@ export function Landing() {
           </div>
         </section>
 
-        {/* Doctors */}
-        <section id="doctors" className="lv2-section">
+        {/* Screenshots showcase */}
+        <section className="lv2-section">
           <div className="lv2-section-head">
-            <span className="lv2-eyebrow">Our team</span>
-            <h2>Meet our doctors</h2>
+            <span className="lv2-eyebrow">See it in action</span>
+            <h2>A workspace your team will love</h2>
           </div>
-          <div className="lv2-doctors">
+          <div className="lv2-screenshots">
+            <div className="lv2-screenshot">
+              <div className="lv2-screenshot-bar" />
+              <div className="lv2-screenshot-body">
+                <div className="lv2-mock-row" />
+                <div className="lv2-mock-row short" />
+                <div className="lv2-mock-row" />
+                <div className="lv2-mock-row short" />
+              </div>
+              <span>Patient records</span>
+            </div>
+            <div className="lv2-screenshot">
+              <div className="lv2-screenshot-bar" />
+              <div className="lv2-screenshot-body dark">
+                <div className="lv2-mock-chart" />
+              </div>
+              <span>Dental charting</span>
+            </div>
+            <div className="lv2-screenshot">
+              <div className="lv2-screenshot-bar" />
+              <div className="lv2-screenshot-body">
+                <div className="lv2-mock-row" />
+                <div className="lv2-mock-row" />
+                <div className="lv2-mock-row short" />
+              </div>
+              <span>Billing & invoices</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing */}
+        <section id="pricing" className="lv2-section lv2-pricing-section">
+          <div className="lv2-section-head">
+            <span className="lv2-eyebrow">Pricing</span>
+            <h2>Simple, transparent pricing</h2>
+            <p>No hidden fees. Cancel anytime.</p>
+          </div>
+          <div className="lv2-pricing">
             {[
-              { name: "Dr. Mohamed Tareq", role: "General Dentist", initials: "MT" },
-              { name: "Dr. Mohamed Tareq", role: "Orthodontist", initials: "MT" },
-            ].map((d, i) => (
-              <div key={i} className="lv2-doctor">
-                <div className="lv2-doctor-avatar">{d.initials}</div>
-                <strong>{d.name}</strong>
-                <span>{d.role}</span>
+              { name: "Solo", price: "Â£29", period: "/month", desc: "For single practitioners", features: ["1 clinician", "Up to 500 patients", "Basic charting", "Email support"] },
+              { name: "Practice", price: "Â£79", period: "/month", desc: "For growing practices", features: ["Up to 5 clinicians", "Unlimited patients", "Full charting + imaging", "Priority support", "Treatment plans"], popular: true },
+              { name: "Multi-location", price: "Â£199", period: "/month", desc: "For clinics with multiple sites", features: ["Unlimited clinicians", "Unlimited patients", "All features", "Dedicated support", "Custom branding", "API access"] },
+            ].map((tier) => (
+              <div key={tier.name} className={`lv2-pricing-card ${tier.popular ? "popular" : ""}`}>
+                {tier.popular && <span className="lv2-popular-badge">Most popular</span>}
+                <h3>{tier.name}</h3>
+                <p className="lv2-pricing-desc">{tier.desc}</p>
+                <div className="lv2-pricing-price">
+                  <strong>{tier.price}</strong>
+                  <span>{tier.period}</span>
+                </div>
+                <ul className="lv2-pricing-features">
+                  {tier.features.map((f) => (
+                    <li key={f}>
+                      <Check size={14} /> {f}
+                    </li>
+                  ))}
+                </ul>
+                <Button className="wide" onClick={() => navigate("/login")}>
+                  Get started
+                </Button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="lv2-section">
+          <div className="lv2-section-head">
+            <span className="lv2-eyebrow">FAQ</span>
+            <h2>Frequently asked questions</h2>
+          </div>
+          <div className="lv2-faq">
+            {[
+              { q: "Is my patient data secure?", a: "Yes. All data is encrypted at rest and in transit. We support HIPAA and GDPR compliance." },
+              { q: "Can I migrate from my current system?", a: "Yes. We offer free data migration from most dental software. Contact us to get started." },
+              { q: "Is there a mobile app?", a: "The web app is fully responsive and works on any device. A native mobile app is coming soon." },
+              { q: "What happens after my trial?", a: "You can choose a plan that fits your practice. No data is lost." },
+              { q: "Do you offer training?", a: "Yes. We provide onboarding sessions and video tutorials for your team." },
+            ].map((item, i) => (
+              <div key={i} className="lv2-faq-item">
+                <button
+                  type="button"
+                  className="lv2-faq-q"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <span>{item.q}</span>
+                  <span className="lv2-faq-icon">{openFaq === i ? "âˆ’" : "+"}</span>
+                </button>
+                {openFaq === i && <p className="lv2-faq-a">{item.a}</p>}
               </div>
             ))}
           </div>
@@ -5118,8 +5153,8 @@ export function Landing() {
           <div className="lv2-contact-inner">
             <div>
               <span className="lv2-eyebrow">Get in touch</span>
-              <h2>Ready to book your visit?</h2>
-              <p>Sign in to access the patient portal or contact reception.</p>
+              <h2>Ready to transform your practice?</h2>
+              <p>Sign in to explore the DentCare workspace. Demo accounts are available on the login screen.</p>
             </div>
             <Button onClick={() => navigate("/login")}>
               Sign in <ArrowRight size={17} />
@@ -5128,8 +5163,8 @@ export function Landing() {
         </section>
 
         <footer className="lv2-footer">
-          <span>DentCare © 2026</span>
-          <span>Privacy · Terms · Contact</span>
+          <span>DentCare Â© 2026</span>
+          <span>Privacy Â· Terms Â· Contact</span>
         </footer>
       </div>
     </>
