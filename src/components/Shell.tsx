@@ -234,10 +234,16 @@ export function AppShell() {
     if (session?.user?.email) {
       supabase
         .from("admin_users")
-        .select("role")
+        .select("role,status")
         .eq("email", session.user.email.toLowerCase())
         .single()
         .then(({ data }: { data: any }) => {
+          if (!data || data.status !== "Active") {
+            localStorage.removeItem("dentcare-role")
+            supabase.auth.signOut().catch(() => undefined)
+            if (location.pathname !== "/login") navigate("/login")
+            return
+          }
           if (data?.role) {
             const r = String(data.role).toLowerCase()
             const mapped: Role =

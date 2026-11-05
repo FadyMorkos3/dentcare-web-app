@@ -44,6 +44,7 @@ function AdminOnly({ children }: { children: ReactNode }) {
 
 export const router = createBrowserRouter([
   { path: "/login", Component: Login },
+  { path: "/register", Component: RegisterAccount },
   {
     path: "/",
     Component: AppShell,
@@ -54,7 +55,6 @@ export const router = createBrowserRouter([
       { path: "dashboard", Component: Dashboard },
       { path: "patients", Component: Patients },
       { path: "patients/register", Component: RegisterPatient },
-      { path: "register", Component: RegisterAccount },
       { path: "patients/:patientId", Component: PatientOverview },
       { path: "patients/:patientId/chart", Component: DentalChart },
       { path: "patients/:patientId/notes", Component: ClinicalNotes },
