@@ -7,7 +7,7 @@ create table if not exists public.admin_users (
   email text not null unique,
   role text not null,
   access text not null,
-  status text not null check (status in ('Active', 'Disabled')),
+  status text not null check (status in ('Active', 'Disabled', 'Pending')),
   secure_sign_in boolean not null default true,
   last_active text,
   created_at timestamptz not null default now(),

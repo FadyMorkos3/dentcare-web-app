@@ -23,7 +23,7 @@ export type AdminUser = {
   email: string
   role: AdminRole
   access: AdminAccess
-  status: "Active" | "Disabled"
+  status: "Active" | "Disabled" | "Pending"
   secureSignIn: boolean
   lastActive: string
 }

@@ -593,6 +593,12 @@ export function Login() {
           <p className="secure-line">
             <ShieldCheck size={15} /> Authorized staff and patients only
           </p>
+          <p style={{ textAlign: "center", marginTop: 12, fontSize: 12.5 }}>
+            No account?{" "}
+            <Link to="/register" className="text-link">
+              Create one
+            </Link>
+          </p>
           <div className="demo">
             <span>Demo as</span>
             <div>
@@ -3466,7 +3472,17 @@ function ImagingLibrary({
 }
 
 export function ManageUsers() {
-  const [allUsers, setAllUsers] = useState<AdminUser[]>(() => loadAdminUsers())
+  const [allUsers, setAllUsers] = useState<AdminUser[]>(() => {
+    const base = loadAdminUsers()
+    try {
+      const pending = JSON.parse(
+        localStorage.getItem("dentcare-pending-users") ?? "[]",
+      ) as AdminUser[]
+      return [...base, ...pending]
+    } catch {
+      return base
+    }
+  })
   const [loading, setLoading] = useState(false)
   const [selectedId, setSelectedId] = useState(() => loadAdminUsers()[0]?.id ?? "")
   const [draft, setDraft] = useState<AdminUser>(() =>
@@ -3551,7 +3567,8 @@ export function ManageUsers() {
     const matchesStatus =
       statusFilter === "Active & disabled" ||
       (statusFilter === "Active only" && user.status === "Active") ||
-      (statusFilter === "Disabled only" && user.status === "Disabled")
+      (statusFilter === "Disabled only" && user.status === "Disabled") ||
+      (statusFilter === "Pending only" && user.status === "Pending")
     return matchesQuery && matchesRole && matchesAccess && matchesStatus
   })
   const activeCount = allUsers.filter((user) => user.status === "Active").length
@@ -3637,6 +3654,16 @@ export function ManageUsers() {
         : "Account updated"
 
     saveAdminUsers(nextUsers)
+    // Remove from pending list if approved/rejected.
+    try {
+      const pending = JSON.parse(
+        localStorage.getItem("dentcare-pending-users") ?? "[]",
+      ) as AdminUser[]
+      const stillPending = pending.filter((u) => u.id !== savedUser.id)
+      localStorage.setItem("dentcare-pending-users", JSON.stringify(stillPending))
+    } catch {
+      /* ignore */
+    }
     if (isSupabaseConfigured) {
       supabase
         .from("admin_users")
@@ -3733,6 +3760,7 @@ export function ManageUsers() {
           <option>Active & disabled</option>
           <option>Active only</option>
           <option>Disabled only</option>
+          <option>Pending only</option>
         </SelectField>
       </div>
       <div className="content-grid wide-left">
@@ -5166,6 +5194,146 @@ export function Landing() {
           <span>DentCare Â© 2026</span>
           <span>Privacy Â· Terms Â· Contact</span>
         </footer>
+      </div>
+    </>
+  )
+}
+
+export function RegisterAccount() {
+  const navigate = useNavigate()
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "Patient" as "Dentist" | "Receptionist" | "Patient",
+  })
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  function setField(key: keyof typeof form) {
+    return (value: string) => setForm((prev) => ({ ...prev, [key]: value }))
+  }
+
+  async function submit() {
+    setError("")
+    if (!form.name.trim() || !form.email.trim() || !form.password.trim()) {
+      setError("Please fill in all fields.")
+      return
+    }
+    if (!form.email.includes("@")) {
+      setError("Enter a valid email address.")
+      return
+    }
+    if (form.password.length < 6) {
+      setError("Password must be at least 6 characters.")
+      return
+    }
+    setSubmitting(true)
+    try {
+      if (isSupabaseConfigured) {
+        await supabase.auth.signUp(form.email.trim(), form.password)
+        await supabase.from("admin_users").insert({
+          id: `usr-${Date.now()}`,
+          name: form.name.trim(),
+          email: form.email.trim().toLowerCase(),
+          role: form.role,
+          access:
+            form.role === "Dentist"
+              ? "Clinical"
+              : form.role === "Receptionist"
+                ? "Operations"
+                : "Own information",
+          status: "Pending",
+          secure_sign_in: true,
+          last_active: "Not signed in yet",
+        })
+      } else {
+        const pending = JSON.parse(
+          localStorage.getItem("dentcare-pending-users") ?? "[]",
+        )
+        pending.push({
+          id: `usr-${Date.now()}`,
+          name: form.name.trim(),
+          email: form.email.trim().toLowerCase(),
+          role: form.role,
+          access:
+            form.role === "Dentist"
+              ? "Clinical"
+              : form.role === "Receptionist"
+                ? "Operations"
+                : "Own information",
+          status: "Pending",
+          secureSignIn: true,
+          lastActive: "Not signed in yet",
+          password: form.password,
+        })
+        localStorage.setItem("dentcare-pending-users", JSON.stringify(pending))
+      }
+      setSuccess(true)
+    } catch (err: any) {
+      setError(err?.message || "Registration failed.")
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <>
+      <PageTitle
+        title="Create account"
+        subtitle="Register for access to the DentCare workspace"
+      />
+      <div style={{ maxWidth: 480, margin: "0 auto" }}>
+        <Card>
+        {success ? (
+          <Notice tone="success">
+            Your account has been created and is pending administrator approval.
+            You'll be able to sign in once an admin admits your account.
+          </Notice>
+        ) : (
+          <>
+            {error && <Notice tone="danger">{error}</Notice>}
+            <Field
+              label="Full name *"
+              value={form.name}
+              onChange={(e) => setField("name")(e.target.value)}
+              placeholder="e.g. Ahmed Ali"
+            />
+            <Field
+              label="Email address *"
+              type="email"
+              value={form.email}
+              onChange={(e) => setField("email")(e.target.value)}
+              placeholder="you@example.com"
+            />
+            <Field
+              label="Password *"
+              type="password"
+              value={form.password}
+              onChange={(e) => setField("password")(e.target.value)}
+              placeholder="At least 6 characters"
+            />
+            <SelectField
+              label="Role *"
+              value={form.role}
+              onChange={(e) => setField("role")(e.target.value)}
+            >
+              <option>Patient</option>
+              <option>Dentist</option>
+              <option>Receptionist</option>
+            </SelectField>
+            <div className="form-actions">
+              <Button variant="ghost" onClick={() => navigate("/login")}>
+                Back to sign in
+              </Button>
+              <Button disabled={submitting} onClick={submit}>
+                <Check size={16} /> {submitting ? "Creating..." : "Create account"}
+              </Button>
+            </div>
+          </>
+        )}
+      </Card>
       </div>
     </>
   )
